@@ -1,29 +1,40 @@
-import { View, Text, SafeAreaView, Image,TextInput,Alert,ScrollView, findNodeHandle } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  TextInput,
+  Alert,
+  ScrollView,
+  findNodeHandle,
+} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
 
-import styles from './Login.style'
-import TextInputWithLabel from '../../Components/Common/TextInputCustom/TextInputCustom'
-import ButtonWithLoader from '../../Components/Common/ButtonWithLoader/ButtonWithLoader'
+import styles from './Login.style';
+import TextInputWithLabel from '../../Components/Common/TextInputCustom/TextInputCustom';
+import ButtonWithLoader from '../../Components/Common/ButtonWithLoader/ButtonWithLoader';
 
-import validator from '../../utils/validations'
-import { showError } from '../../utils/helperFunction'
-import actions from '../../redux/actions'
-import HeaderAuth from '../../Components/HearderAuth/HeaderAuth'
-import { COLORS, images } from '../../constants'
-import SocialIcon from '../../Components/SocialIcon/SocialIcon'
+import validator from '../../utils/validations';
+import {showError} from '../../utils/helperFunction';
+import actions from '../../redux/actions';
+import HeaderAuth from '../../Components/HearderAuth/HeaderAuth';
+import {COLORS, images} from '../../constants';
+import SocialIcon from '../../Components/SocialIcon/SocialIcon';
 import icons from '../../constants/icons';
 
-import { Modal} from 'react-native-paper';
+import {Modal} from 'react-native-paper';
 // import { Feather,Ionicons } from '@expo/vector-icons';
+// Import vector icons
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-import { useSelector, useDispatch } from 'react-redux';
-import { authSelector } from '../../redux/selectors';
+import {useSelector, useDispatch} from 'react-redux';
+import {authSelector} from '../../redux/selectors';
 import authApi from '../../api/authApi';
-import { changeStatusActived } from '../../redux/actions/auth'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useTranslation } from 'react-i18next';
-import LanguageChangeHandler from '../../locales/LanguageChangeHandler'
+import {changeStatusActived} from '../../redux/actions/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useTranslation} from 'react-i18next';
+import LanguageChangeHandler from '../../locales/LanguageChangeHandler';
 
 const Login = ({navigation}) => {
   const [t, i18n] = useTranslation();
@@ -34,94 +45,100 @@ const Login = ({navigation}) => {
     isModal: false,
     isEventFogot: false,
     isEventActive: false,
-  
+
     //info
     email: '',
-    password:'',
+    password: '',
     titleModal: '',
-  })
+  });
 
-  const { 
+  const {
     //info
-    email, 
-    password, 
+    email,
+    password,
     titleModal,
-    
+
     //setting
-    isSecure, 
-    isModal, 
+    isSecure,
+    isModal,
     isSending,
     isEventFogot,
   } = state;
 
-  const { isLoading, message, isAlertActived, } = useSelector(authSelector);
+  const {isLoading, message, isAlertActived} = useSelector(authSelector);
 
-  const updateState = (data) => setState(()=>({...state, ...data}))
+  const updateState = data => setState(() => ({...state, ...data}));
 
   const dispatch = useDispatch();
 
-  const isValidData =() => {
+  const isValidData = () => {
     const error = validator({
       email,
       password,
-    })
+    });
 
-    if(error){
+    if (error) {
       showError(error);
       return false;
     }
     return true;
-  }
+  };
 
   const checkValidmail = () => {
     const error = validator({
-      email
-    })
+      email,
+    });
 
-    if(error){
+    if (error) {
       dispatch(actions.registerFailed());
       showError(error);
       return false;
     }
     return true;
-  }
+  };
 
-  const onActiveAlert = (message) => {
+  const onActiveAlert = message => {
     updateState({isEventFogot: false});
     Alert.alert(
       t('notification'),
       message,
-      [{text: t('activated'), onPress: ()=>{
-        
-        updateState({ 
-          isModal: !isModal,
-          isEventFogot: false,
-          titleModal: t('account_activated'),
-        });
+      [
+        {
+          text: t('activated'),
+          onPress: () => {
+            updateState({
+              isModal: !isModal,
+              isEventFogot: false,
+              titleModal: t('account_activated'),
+            });
 
-        dispatch(changeStatusActived(''));
-      }},{text: t('continue'), onPress: ()=>{
-        dispatch(changeStatusActived(''));
-      }}],
+            dispatch(changeStatusActived(''));
+          },
+        },
+        {
+          text: t('continue'),
+          onPress: () => {
+            dispatch(changeStatusActived(''));
+          },
+        },
+      ],
       {cancelable: true},
     );
   };
 
+  useEffect(() => {
+    if (isAlertActived) onActiveAlert(t('message_active'));
+  }, [isAlertActived]);
 
-  useEffect(()=>{
-    if(isAlertActived)onActiveAlert(t('message_active'));
-  },[isAlertActived])
-
-  
   //event login
   const onLogin = async () => {
-  
-    dispatch(actions.login({
-      email,
-      password,
-    }));
-
-  }
+    dispatch(
+      actions.login({
+        email,
+        password,
+      }),
+    );
+  };
   //cleanUp
 
   const cleanUp = () => {
@@ -131,181 +148,174 @@ const Login = ({navigation}) => {
       isModal: false,
       isEventFogot: false,
       isEventActive: false,
-      
+
       //info
       message: '',
       email: '',
-      password:'',
+      password: '',
       titleModal: '',
-    
     });
-  }
+  };
   //event show modal
 
-  const onShowModal = () =>{
+  const onShowModal = () => {
     updateState({
       isModal: !isModal,
-    })
-  }
+    });
+  };
 
   //event show modal forgot password
   const onForgotPassword = () => {
-      updateState({
-        isModal: !isModal, 
-        isEventFogot: true,
-        titleModal: t('forgot_password'),
-      })
-  }
+    updateState({
+      isModal: !isModal,
+      isEventFogot: true,
+      titleModal: t('forgot_password'),
+    });
+  };
 
   // event redirect to register screen
-  const onRegister = async () =>{
-      navigation.navigate('Register');
-  }
+  const onRegister = async () => {
+    navigation.navigate('Register');
+  };
 
   //event send mail forgot password to server
-  const onSendForGot = async() => {
+  const onSendForGot = async () => {
     const checkValidmail1 = checkValidmail();
-    
+
     updateState({isSending: true});
-   
-    if (checkValidmail1){
-        await authApi.forgotPassword({email: email})
-          .then(res =>{
-            Alert.alert(t('notification'), res.message, [{text: t('continue')}],{cancelable: true},)
-          })
-          .catch(error => 
-            {
-              showError(error.message ? error.message : error) 
-            }
-          )
-          .finally(()=>{
-            updateState({
-              isEventFogot: !isEventFogot,
-              isModal: false,
-              isSending: false, 
-              email: '',
-              password: '',
-            });
+
+    if (checkValidmail1) {
+      await authApi
+        .forgotPassword({email: email})
+        .then(res => {
+          Alert.alert(t('notification'), res.message, [{text: t('continue')}], {
+            cancelable: true,
+          });
         })
-    }else{
+        .catch(error => {
+          showError(error.message ? error.message : error);
+        })
+        .finally(() => {
+          updateState({
+            isEventFogot: !isEventFogot,
+            isModal: false,
+            isSending: false,
+            email: '',
+            password: '',
+          });
+        });
+    } else {
       cleanUp();
     }
-  }
+  };
 
   const onActive = async () => {
     const checkValidmail1 = checkValidmail();
-    
+
     updateState({isSending: true});
-   
-    if (checkValidmail1){
-        await authApi.sendMailActive({email: email})
-          .then(res =>{
-            Alert.alert(t('notification'), res.message, [{text: t('continue')}],{cancelable: true},)
-          })
-          .catch(error => 
-            {
-              showError( error.message ? error.message : error);
-              
-            }
-          )
-          .finally(()=>{
-            updateState({
-              isEventFogot: !isEventFogot,
-              isModal: false,
-              isSending: false, 
-              email: '',
-              password: '',
-            });
+
+    if (checkValidmail1) {
+      await authApi
+        .sendMailActive({email: email})
+        .then(res => {
+          Alert.alert(t('notification'), res.message, [{text: t('continue')}], {
+            cancelable: true,
+          });
         })
-    }else{
+        .catch(error => {
+          showError(error.message ? error.message : error);
+        })
+        .finally(() => {
+          updateState({
+            isEventFogot: !isEventFogot,
+            isModal: false,
+            isSending: false,
+            email: '',
+            password: '',
+          });
+        });
+    } else {
       cleanUp();
     }
-  }
-  
-  const scrollRef = useRef();
-  
+  };
 
-  const _scrollToInput = (reactNode) =>{
+  const scrollRef = useRef();
+
+  const _scrollToInput = reactNode => {
     //scrollRef.current.memoizedProps.scrollToFocusedInput(reactNode)
-  
-  }
-  
+  };
+
   return (
     <>
-    <View style={styles.container}>
-    <LanguageChangeHandler/>
+      <View style={styles.container}>
+        <LanguageChangeHandler />
 
-      <KeyboardAwareScrollView
-         bounces={false}
-         showsVerticalScrollIndicator={false}
-        
-         enableOnAndroid={true}
-         scrollEnabled={true}
-         extraScrollHeight={9}
-        //  extraHeight={120}
-         keyboardShouldPersistTaps='handled'
-         scrollToOverflowEnabled={true}
-         enableAutomaticScroll={true}
-      >
-      <HeaderAuth
-        urlBackground={images.acva_header}
-        urlLogo = {images.acva_logo}
-        titleHeader={t('login')}
-        iconHeader={'user'}
-        textWelcome={t('welcome')}
-      >
-      </HeaderAuth>
+        <KeyboardAwareScrollView
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          enableOnAndroid={true}
+          scrollEnabled={true}
+          extraScrollHeight={9}
+          //  extraHeight={120}
+          keyboardShouldPersistTaps="handled"
+          scrollToOverflowEnabled={true}
+          enableAutomaticScroll={true}>
+          <HeaderAuth
+            urlBackground={images.acva_header}
+            urlLogo={images.acva_logo}
+            titleHeader={t('login')}
+            iconHeader={'user'}
+            textWelcome={t('welcome')}></HeaderAuth>
 
-      <View style={styles.bodyLogin}>
-        
-        <TextInputWithLabel
-          placeHolder={t('type_email')}
-          onChangeText={(email)=> updateState({email})}
-          value={email}
-          onFocus={(event) => {
-            _scrollToInput(findNodeHandle(event.target))
-          }}
+          <View style={styles.bodyLogin}>
+            <TextInputWithLabel
+              placeHolder={t('type_email')}
+              onChangeText={email => updateState({email})}
+              value={email}
+              onFocus={event => {
+                _scrollToInput(findNodeHandle(event.target));
+              }}
+              iconRight={
+                email
+                  ? {
+                      icon: <Feather name="x" size={24} color="gray" />,
+                    }
+                  : ''
+              }
+              iconRightOnPress={() => updateState({email: ''})}
+            />
 
-          // iconRight= {
-          //   email ? 
-          //   {
-          //     icon: <Feather name="x" size={24} color="gray" />,
-          //   } : ''
-          // }
-          iconRightOnPress={()=> updateState({email:''})}
-        
-        />
-          
-        <TextInputWithLabel
-          placeHolder={t('type_password')}
-          secureTextEntry={isSecure}
-          value={password}
-          onChangeText={(password)=> updateState({password})}
-          // iconRight={
-          //   {
-          //     icon2: <Ionicons name="eye-outline" size={24} color="gray" />,
-          //     icon: <Ionicons name="eye-off-outline" size={24} color="gray" />,
-          //     hide: true
-          //   }
-          // }
-          onFocus={(event) => {
-            _scrollToInput(findNodeHandle(event.target))
-          }}
-        />
-         
-        <View style={styles.textForgot}>
-          <Text onPress={()=>onForgotPassword()} style={styles.textStyle} >{t('forgot_password')}!</Text>
-        </View>
-        <ButtonWithLoader
-          text={t('login')}
-          onPress={onLogin}
-          isLoading={isLoading}
-        />
-      </View>
+            <TextInputWithLabel
+              placeHolder={t('type_password')}
+              secureTextEntry={isSecure}
+              value={password}
+              onChangeText={password => updateState({password})}
+              iconRight={{
+                icon2: <Ionicons name="eye-outline" size={24} color="gray" />,
+                icon: (
+                  <Ionicons name="eye-off-outline" size={24} color="gray" />
+                ),
+                hide: true,
+              }}
+              onFocus={event => {
+                _scrollToInput(findNodeHandle(event.target));
+              }}
+            />
 
-    
-      <View style={styles.footerLogin}>
-        {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={styles.textForgot}>
+              <Text onPress={() => onForgotPassword()} style={styles.textStyle}>
+                {t('forgot_password')}!
+              </Text>
+            </View>
+            <ButtonWithLoader
+              text={t('login')}
+              onPress={onLogin}
+              isLoading={isLoading}
+            />
+          </View>
+
+          <View style={styles.footerLogin}>
+            {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
             <View>
               <Text style={{width: 150, textAlign: 'center'}}>Hoặc đăng ký với</Text>
@@ -319,56 +329,59 @@ const Login = ({navigation}) => {
             <SocialIcon source={icons.social_apple}/>
         </View> */}
 
-        <View style={styles.footerRegister}>
-          <Text onPress={onRegister}>
-              {t('not_have_account')} <Text style={styles.textgRegister}>{t('register')}</Text> 
-          </Text>
+            <View style={styles.footerRegister}>
+              <Text onPress={onRegister}>
+                {t('not_have_account')}{' '}
+                <Text style={styles.textgRegister}>{t('register')}</Text>
+              </Text>
+            </View>
+          </View>
+        </KeyboardAwareScrollView>
+      </View>
+
+      {/*====================================== Modal  =================================================*/}
+
+      <Modal
+        visible={isModal}
+        onDismiss={onShowModal}
+        contentContainerStyle={styles.modalContainer}>
+        <Feather
+          onPress={onShowModal}
+          style={styles.headerModal}
+          name="x"
+          size={24}
+          color="gray"
+        />
+        <Image source={images.acva_logo} />
+
+        <View
+          style={{flexDirection: 'row', alignItems: 'center', width: '90%'}}>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+          <View>
+            <Text style={{width: 130, textAlign: 'center', fontWeight: '500'}}>
+              {titleModal}
+            </Text>
+          </View>
+          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
         </View>
 
-      </View>
-      </KeyboardAwareScrollView>
-    </View>
-   
-    {/*====================================== Modal  =================================================*/}
-  
-    <Modal visible={isModal} onDismiss={onShowModal} contentContainerStyle={styles.modalContainer}>
-          {/* <Feather onPress={onShowModal} style={styles.headerModal} name="x" size={24} color="gray" /> */}
-          <Image source={images.acva_logo}/>
-          
-          
-          <View style={{flexDirection: 'row', alignItems: 'center', width: '90%'}}>
-            <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-              <View>
-                <Text style={{width: 130, textAlign: 'center', fontWeight: '500'}}>{titleModal}</Text>
-              </View>
-            <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          
-          </View>
-         
-          <View style={{width: '100%', alignItems: 'center'}}>
-
-            <TextInput
-              style={styles.textInputModal}
-              placeholder={t('type_email')}
-              onChangeText={(email)=> updateState({email})}
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <TextInput
+            style={styles.textInputModal}
+            placeholder={t('type_email')}
+            onChangeText={email => updateState({email})}
+          />
+          <View style={styles.btnSend}>
+            <ButtonWithLoader
+              text={t('send')}
+              isLoading={isSending}
+              onPress={isEventFogot ? onSendForGot : onActive}
             />
-            <View style={styles.btnSend}>
-              <ButtonWithLoader
-                text={t('send')}
-                isLoading={isSending}
-                onPress={isEventFogot ? onSendForGot : onActive}
-                />
-            </View>
-    
           </View>
-       
-            
+        </View>
       </Modal>
-
-     
     </>
-    
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
