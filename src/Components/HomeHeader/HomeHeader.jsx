@@ -9,7 +9,12 @@ import {
 import {images} from '../../constants';
 import styles from './HomeHeader.style';
 
-// import {Feather, FontAwesome, Foundation} from '@expo/vector-icons';
+
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Foundation from 'react-native-vector-icons/Foundation';
+import Entypo from 'react-native-vector-icons/Entypo';
+
 import {Avatar} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
@@ -17,9 +22,6 @@ import icons from '../../constants/icons';
 import {authSelector} from '../../redux/selectors';
 import {useTranslation} from 'react-i18next';
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
-// import { Entypo } from '@expo/vector-icons'; 
-
-
 
 const HomeHeader = ({navigation}) => {
   const [t, i18n] = useTranslation();
@@ -51,8 +53,13 @@ const HomeHeader = ({navigation}) => {
 
   const fomatDate = dates => {
     const dateFormat = new Date(dates);
-    const newCurrentdate = 
-      `${String(dateFormat.getDate()).padStart(2,'0',)}/${String(dateFormat.getMonth() + 1).padStart(2,'0',)}/${dateFormat.getFullYear()}`;
+    const newCurrentdate = `${String(dateFormat.getDate()).padStart(
+      2,
+      '0',
+    )}/${String(dateFormat.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}/${dateFormat.getFullYear()}`;
     return newCurrentdate;
   };
   return (
@@ -71,7 +78,9 @@ const HomeHeader = ({navigation}) => {
           />
         </SafeAreaView>
 
-        <Text style={styles.textHeaderWelcome}>{t('hi')} {userFullName}</Text>
+        <Text style={styles.textHeaderWelcome}>
+          {t('hi')} {userFullName}
+        </Text>
 
         <View style={styles.editInfoContainer}>
           <TouchableOpacity
@@ -87,30 +96,36 @@ const HomeHeader = ({navigation}) => {
         <View style={styles.headerInfoContainer}>
           <View style={styles.textInfoContainer}>
             <View style={styles.infoItem}>
-              {/* <Feather name="mail" size={16} color="gray" /> */}
+              <Feather name="mail" size={16} color="gray" />
               <Text style={styles.textItem}>{userEmail}</Text>
             </View>
 
             <View style={styles.infoItem}>
-              {/* <FontAwesome name="calendar-o" size={16} color="gray" /> */}
+              <FontAwesome name="calendar-o" size={16} color="gray" />
               <Text style={styles.textItem}>{fomatDate(userBirthday)}</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.testScheduleHeader}>
-          <View style={{flexDirection: 'row', justifyContent: 'center', gap:3, marginBottom: 6,}}>
-            {/* <Entypo name="graduation-cap" size={20} color="#333" /> */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              gap: 3,
+              marginBottom: 6,
+            }}>
+            <Entypo name="graduation-cap" size={16} color="#333" />
             <Text style={styles.textTestSchedule}>{t('course')}</Text>
           </View>
-          
+
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
               marginBottom: 6,
             }}>
-            {/* <Foundation name="clipboard-pencil" size={20} color="#333" /> */}
+            <Foundation name="clipboard-pencil" size={16} color="#3491DB" />
             <Text
               style={styles.textShowAll}
               onPress={() => navigation.navigate('RegisterExam')}>

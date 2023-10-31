@@ -1,4 +1,6 @@
-// import {AntDesign, Ionicons} from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
@@ -7,7 +9,7 @@ import {
   RefreshControl,
   TextInput,
   View,
-  Appearance
+  Appearance,
 } from 'react-native';
 import {
   Button,
@@ -25,9 +27,9 @@ import qaApi from '../../api/qaApi';
 import questionApi from '../../api/questionApi';
 import {COLORS} from '../../constants';
 import {showError, showSuccess} from '../../utils/helperFunction';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 const QA = () => {
-  const [t,i18n]=useTranslation();
+  const [t, i18n] = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadingButton, setLoadingButton] = useState(false);
@@ -55,7 +57,7 @@ const QA = () => {
     width: '90%',
     borderRadius: 20,
   };
-  const theme=Appearance.getColorScheme();
+  const theme = Appearance.getColorScheme();
   useEffect(() => {
     getAllQuestion();
   }, []);
@@ -124,25 +126,26 @@ const QA = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{width: '85%'}}>
+            <View style={{width: '80%'}}>
               <SearchBar data={questions} callback={filterArray} />
             </View>
             <View
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: 30,
+                width: 50,
+                height: 50,
+                borderRadius: 50,
                 borderWidth: 1,
                 borderColor: '#eee',
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginRight: 30,
               }}>
               <Text onPress={() => showModal()}>
-                {/* <Ionicons
+                <Ionicons
                   name="add-outline"
-                  size={24}
+                  size={32}
                   color={COLORS.secondary}
-                /> */}
+                />
               </Text>
             </View>
           </View>
@@ -220,22 +223,30 @@ const QA = () => {
               keyExtractor={(item, index) => item.id}
               renderItem={({item, index}) => (
                 <List.Accordion
-                  style={{borderTopColor: '#cdd6da', borderTopWidth: 2,backgroundColor:'white'}}
+                  style={{
+                    borderTopColor: '#cdd6da',
+                    borderTopWidth: 2,
+                    backgroundColor: 'white',
+                  }}
                   title={item.title}
                   titleNumberOfLines={5}
-                  titleStyle={{fontSize: 18, fontWeight: 'bold',color:'black'}}
-                  // right={props => (
-                  //   <AntDesign
-                  //     {...props}
-                  //     name={
-                  //       expandedItems.includes(index)
-                  //         ? 'upcircleo'
-                  //         : 'circledowno'
-                  //     }
-                  //     size={18}
-                  //     color={props.color}
-                  //   />
-                  // )}
+                  titleStyle={{
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    color: 'black',
+                  }}
+                  right={props => (
+                    <Entypo
+                      {...props}
+                      name={
+                        expandedItems.includes(index)
+                          ? 'chevron-up'
+                          : 'chevron-down'
+                      }
+                      size={18}
+                      color={props.color}
+                    />
+                  )}
                   theme={{colors: {primary: COLORS.primary}}}
                   expanded={expandedItems.includes(index)}
                   onPress={() => handlePress(index)}

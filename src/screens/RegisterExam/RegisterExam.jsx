@@ -1,6 +1,12 @@
-
 import React, {useEffect, useState} from 'react';
-import {Alert, Image, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import {
+  Alert,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from 'react-native';
 import ButtonWithLoader from '../../Components/Common/ButtonWithLoader/ButtonWithLoader';
 import examApi from '../../api/examApi';
 import {images} from '../../constants';
@@ -9,12 +15,14 @@ import styles from './RegisterExam.style';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {formatDate} from '../../utils/helperFunction';
 
-// import {MaterialCommunityIcons, FontAwesome5, AntDesign,} from '@expo/vector-icons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 // import * as ImagePicker from 'expo-image-picker';
 import {useDispatch} from 'react-redux';
 import actions from '../../redux/actions';
 import {useTranslation} from 'react-i18next';
-
 
 const RegisterExam = ({navigation}) => {
   const {t} = useTranslation();
@@ -37,7 +45,6 @@ const RegisterExam = ({navigation}) => {
   // const [imageGCN, setImageGCN] = useState(null);
   const [nameImageCmnd, setNameImageCmnd] = useState('');
   const [base64ImageCmnd, setBase64ImageCmnd] = useState('');
- 
 
   const dispatch = useDispatch();
 
@@ -107,9 +114,9 @@ const RegisterExam = ({navigation}) => {
               data.push({
                 label: `[${item.code}] ${item.name} - ${t('from')} ${formatDate(
                   item.date_start,
-                )} ${t('to')} ${formatDate(item.date_end)} - ${t('regis_deadline')}: ${formatDate(
-                  item.expired_time,
-                )} `,
+                )} ${t('to')} ${formatDate(item.date_end)} - ${t(
+                  'regis_deadline',
+                )}: ${formatDate(item.expired_time)} `,
                 value: item.id,
               });
             }
@@ -137,9 +144,8 @@ const RegisterExam = ({navigation}) => {
   };
 
   return (
-   
     <View style={styles.container}>
-       <ScrollView></ScrollView>
+      <ScrollView></ScrollView>
       <Image style={{alignSelf: 'center'}} source={images.acva_logo} />
 
       <DropDownPicker
@@ -149,20 +155,20 @@ const RegisterExam = ({navigation}) => {
         value={level}
         setValue={setLevel}
         disableBorderRadius={false}
-        // ArrowDownIconComponent={() => (
-        //   <AntDesign name="caretdown" size={12} color="#333" />
-        // )}
-        // ArrowUpIconComponent={() => (
-        //   <AntDesign name="caretup" size={12} color="#333" />
-        // )}
-        // TickIconComponent={({style}) => (
-        //   <AntDesign
-        //     style={style}
-        //     name="checkcircle"
-        //     size={16}
-        //     color="#ee463b"
-        //   />
-        // )}
+        ArrowDownIconComponent={() => (
+          <AntDesign name="caretdown" size={12} color="#333" />
+        )}
+        ArrowUpIconComponent={() => (
+          <AntDesign name="caretup" size={12} color="#333" />
+        )}
+        TickIconComponent={({style}) => (
+          <AntDesign
+            style={style}
+            name="checkcircle"
+            size={16}
+            color="#ee463b"
+          />
+        )}
         style={styles.levelDropDownPicker}
         dropDownContainerStyle={styles.levelDropDownContainerStyle}
         listItemContainerStyle={styles.levelListItemContainerStyle}
@@ -215,12 +221,12 @@ const RegisterExam = ({navigation}) => {
         labelProps={{
           numberOfLines: 1,
         }}
-        // ArrowDownIconComponent={() => (
-        //   <AntDesign name="caretdown" size={12} color="#333" />
-        // )}
-        // ArrowUpIconComponent={() => (
-        //   <AntDesign name="caretup" size={12} color="#333" />
-        // )}
+        ArrowDownIconComponent={() => (
+          <AntDesign name="caretdown" size={12} color="#333" />
+        )}
+        ArrowUpIconComponent={() => (
+          <AntDesign name="caretup" size={12} color="#333" />
+        )}
         renderListItem={props => {
           return (
             <View
@@ -261,46 +267,42 @@ const RegisterExam = ({navigation}) => {
         listMode="SCROLLVIEW"
       />
 
-     
-        <View style={styles.upLoadContainer}>
-
-          <View style={styles.updLoadItem}>
-              <View style={styles.labelUploadItem}>
-                {/* <MaterialCommunityIcons
-                    name="card-account-details-outline"
-                    size={24}
-                    color="#333"
-                  /> */}
-                <Text style={{fontWeight:"500", color:'#333',marginLeft:6}}>{t('upload_cccd')}</Text>
-              </View>
-
-              <View style={styles.btnUpLoadCCCDContainer}>
-
-                  <TouchableOpacity 
-                  // onPress={pickImageCCCD} 
-                  style={styles.btnUpLoadCCCD}
-                  >
-                   {/* <FontAwesome5 name="upload" size={18} color="#333" />  */}
-                  </TouchableOpacity>
-
-              </View>
-             
+      <View style={styles.upLoadContainer}>
+        <View style={styles.updLoadItem}>
+          <View style={styles.labelUploadItem}>
+            <MaterialCommunityIcons
+              name="card-account-details-outline"
+              size={24}
+              color="#333"
+            />
+            <Text style={{fontWeight: '500', color: '#333', marginLeft: 6}}>
+              {t('upload_cccd')}
+            </Text>
           </View>
 
-
-          <View
-            style={styles.reviewImageCCCD}
-          >
-            {/* {imageCCCD? imageCCCD &&<Image source={{uri : imageCCCD}} resizeMode='contain' style={{width: '100%',height: 150}}/>
-            : <AntDesign name="picture" size={30} color="gray" />} */}
-
+          <View style={styles.btnUpLoadCCCDContainer}>
+            <TouchableOpacity
+              // onPress={pickImageCCCD}
+              style={styles.btnUpLoadCCCD}>
+              <FontAwesome5 name="upload" size={18} color="#333" />
+            </TouchableOpacity>
           </View>
-
-      
         </View>
 
-        
-     
+        <View style={styles.reviewImageCCCD}>
+          {imageCCCD ? (
+            imageCCCD && (
+              <Image
+                source={{uri: imageCCCD}}
+                resizeMode="contain"
+                style={{width: '100%', height: 150}}
+              />
+            )
+          ) : (
+            <AntDesign name="picture" size={30} color="gray" />
+          )}
+        </View>
+      </View>
 
       <View
         style={{

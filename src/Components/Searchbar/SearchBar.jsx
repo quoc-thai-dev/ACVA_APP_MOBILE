@@ -1,8 +1,8 @@
-// import {Ionicons} from '@expo/vector-icons';
+import Feather from 'react-native-vector-icons/Feather';
 import React, {useRef, useState} from 'react';
-import {StyleSheet, TextInput, View,Appearance} from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { COLORS } from '../../constants';
+import {StyleSheet, TextInput, View, Appearance} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {COLORS} from '../../constants';
 const SearchBar = props => {
   const {t} = useTranslation();
   const [search, setSearch] = useState(null);
@@ -13,13 +13,13 @@ const SearchBar = props => {
   const theme = Appearance.getColorScheme();
   return (
     <View style={styles.searchSection}>
-      {/* <Ionicons
+      <Feather
         style={styles.searchIcon}
         name={true ? 'search' : 'search-outline'}
         size={24}
         color={COLORS.primary}
         // color={props.color}
-      /> */}
+      />
       <TextInput
         style={styles.input}
         ref={inputSearch}
@@ -42,14 +42,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     top: 12,
-    left: 45,
-    opacity: 0.3,
+    left: 35,
+    opacity: 0.5,
   },
   input: {
     fontFamily: 'Roboto',
     height: 50,
     paddingHorizontal: 20,
-    paddingLeft: 60,
+    paddingLeft: 45,
     backgroundColor: 'white',
     color: '#424242',
     borderRadius: 15,
@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     height: 50,
     paddingHorizontal: 20,
-    paddingLeft: 60,
-    backgroundColor: "#1c1c1c",
+    paddingLeft: 45,
+    backgroundColor: '#1c1c1c',
     color: '#424242',
     borderRadius: 15,
     borderColor: '#e9e9e9',

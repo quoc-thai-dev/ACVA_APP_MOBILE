@@ -13,16 +13,19 @@ import Router from './src/navigations/Router';
 import store from './src/redux/store';
 import {I18nextProvider} from 'react-i18next';
 import {Provider as PaperProvider} from 'react-native-paper';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 function App() {
   return (
-    <Provider store={store}>
-      <PaperProvider>
-        <I18nextProvider i18n={i18n}>
-          <Router />
-          <FlashMessage position={'top'} />
-        </I18nextProvider>
-      </PaperProvider>
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Provider store={store}>
+        <PaperProvider>
+          <I18nextProvider i18n={i18n}>
+            <Router />
+            <FlashMessage position={'top'} />
+          </I18nextProvider>
+        </PaperProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
 

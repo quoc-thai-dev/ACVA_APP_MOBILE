@@ -2,12 +2,16 @@ import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home, Profile, QA, QRCode, Video} from '../screens/index';
-// import {Ionicons, AntDesign, Feather} from '@expo/vector-icons';
 import {COLORS} from '../constants/index';
 import {ScreenContainer} from 'react-native-screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BlurView} from 'expo-blur';
-// import {MaterialIcons} from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
 const Tab = createBottomTabNavigator();
 const VideoStack = createNativeStackNavigator();
@@ -42,19 +46,11 @@ const BottomTabNavigation = () => {
             tabBarIcon: ({focused}) => {
               return (
                 <>
-                {/* {
-                  focused?(
-                    <Feather
-                    size={24}
-                    name="home"
+                  <MaterialCommunityIcons
+                    size={26}
+                    name={focused ? 'home' : 'home-outline'}
                     color={focused ? COLORS.primary : 'black'}
                   />
-                  ):<Feather
-                  size={24}
-                  name="home"
-                  color={focused ? COLORS.primary : 'black'}
-                />
-                } */}
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
@@ -75,11 +71,11 @@ const BottomTabNavigation = () => {
             tabBarIcon: ({focused}) => {
               return (
                 <>
-                  {/* <Ionicons
-                    name="md-videocam-outline"
+                  <Ionicons
+                    name={focused ? 'videocam' : 'videocam-outline'}
                     size={24}
                     color={focused ? COLORS.primary : 'black'}
-                  /> */}
+                  />
 
                   <Text
                     style={{
@@ -108,11 +104,11 @@ const BottomTabNavigation = () => {
             tabBarIcon: ({focused}) => {
               return (
                 <>
-                  {/* <MaterialIcons
-                    name="qr-code-scanner"
+                  <Ionicons
+                    name={focused ? 'qr-code' : 'qr-code-outline'}
                     size={24}
-                    color={focused ? COLORS.primary :'black'}
-                  /> */}
+                    color={focused ? COLORS.primary : 'black'}
+                  />
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
@@ -132,14 +128,14 @@ const BottomTabNavigation = () => {
             tabBarIcon: ({focused}) => {
               return (
                 <>
-                  {/* <Feather
-                    name="help-circle"
+                  <FontAwesome
+                    name={focused ? 'question-circle' : 'question-circle-o'}
                     size={24}
                     color={focused ? COLORS.primary : 'black'}
-                  /> */}
+                  />
                   <Text
                     style={{
-                      color: `${focused ? COLORS.primary :'black'}`,
+                      color: `${focused ? COLORS.primary : 'black'}`,
                     }}>
                     {t('Q&A')}
                   </Text>
@@ -165,11 +161,11 @@ const BottomTabNavigation = () => {
             tabBarIcon: ({focused}) => {
               return (
                 <>
-                  {/* <Ionicons
-                    name="person-outline"
+                  <FontAwesome
+                    name={focused ? 'user' : 'user-o'}
                     size={24}
-                    color={focused ? COLORS.primary :'black'}
-                  /> */}
+                    color={focused ? COLORS.primary : 'black'}
+                  />
 
                   <Text
                     style={{

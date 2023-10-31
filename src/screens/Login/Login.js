@@ -23,7 +23,7 @@ import SocialIcon from '../../Components/SocialIcon/SocialIcon';
 import icons from '../../constants/icons';
 
 import {Modal} from 'react-native-paper';
-// import { Feather,Ionicons } from '@expo/vector-icons';
+
 // Import vector icons
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -38,7 +38,6 @@ import LanguageChangeHandler from '../../locales/LanguageChangeHandler';
 
 const Login = ({navigation}) => {
   const [t, i18n] = useTranslation();
-
   const [state, setState] = useState({
     //Setting
     isSending: false,
@@ -284,7 +283,6 @@ const Login = ({navigation}) => {
               }
               iconRightOnPress={() => updateState({email: ''})}
             />
-
             <TextInputWithLabel
               placeHolder={t('type_password')}
               secureTextEntry={isSecure}
@@ -332,7 +330,7 @@ const Login = ({navigation}) => {
             <View style={styles.footerRegister}>
               <Text onPress={onRegister}>
                 {t('not_have_account')}{' '}
-                <Text style={styles.textgRegister}>{t('register')}</Text>
+                <Text style={styles.textRegister}>{t('register')}</Text>
               </Text>
             </View>
           </View>
@@ -355,10 +353,19 @@ const Login = ({navigation}) => {
         <Image source={images.acva_logo} />
 
         <View
-          style={{flexDirection: 'row', alignItems: 'center', width: '90%'}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '90%',
+          }}>
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
           <View>
-            <Text style={{width: 130, textAlign: 'center', fontWeight: '500'}}>
+            <Text
+              style={{
+                width: 130,
+                textAlign: 'center',
+                fontWeight: '500',
+              }}>
               {titleModal}
             </Text>
           </View>

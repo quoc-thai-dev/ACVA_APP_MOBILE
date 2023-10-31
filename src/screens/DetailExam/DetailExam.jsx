@@ -1,4 +1,7 @@
-// import {Entypo, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
@@ -15,9 +18,9 @@ import {COLORS, images} from '../../constants';
 import actions from '../../redux/actions';
 import {examSelector} from '../../redux/selectors';
 import styles from './DetailExam.style';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 const DetailExam = () => {
-    const {t}=useTranslation();
+  const {t} = useTranslation();
   const {exam, attendance} = useSelector(examSelector);
   const [state, setState] = useState({
     //exam
@@ -77,7 +80,7 @@ const DetailExam = () => {
         codeExam: exam[0].code ? exam[0].code : '',
         nameExam: exam[0].name ? exam[0].name : '',
         dateExam: formatDate(exam[0].date_exam),
-        level: exam[0].level === 0 ? t('standard'): t('career'),
+        level: exam[0].level === 0 ? t('standard') : t('career'),
         type: exam[0].type === 1 ? t('online') : t('offline'),
         numberOfExam: String(
           exam[0].number_of_sessions ? exam[0].number_of_sessions : '',
@@ -122,11 +125,11 @@ const DetailExam = () => {
       <SafeAreaView style={styles.wrapper}>
         <View style={styles.userInfo}>
           <View style={styles.txtTitlesContainer}>
-            {/* <MaterialCommunityIcons
+            <MaterialCommunityIcons
               name="card-account-details-outline"
               size={24}
               color={COLORS.secondary}
-            /> */}
+            />
             <Text style={styles.txtTitles}>{t('student_info')}</Text>
           </View>
 
@@ -157,11 +160,11 @@ const DetailExam = () => {
 
           <View style={styles.examInfoContainer}>
             <View style={styles.txtTitlesContainer}>
-              {/* <FontAwesome
+              <FontAwesome
                 name="newspaper-o"
                 size={24}
                 color={COLORS.secondary}
-              /> */}
+              />
               <Text style={styles.txtTitles}>{t('ExamInfo')}</Text>
             </View>
 
@@ -239,11 +242,11 @@ const DetailExam = () => {
             </View>
           </View>
           <View style={styles.txtTitlesContainer}>
-            {/* <Entypo
+            <Entypo
               name="creative-commons-attribution"
               size={24}
               color={COLORS.secondary}
-            /> */}
+            />
             <Text style={styles.txtTitles}>{t('attendance_info')}</Text>
           </View>
           <View style={styles.txtInputGroupContainer}>

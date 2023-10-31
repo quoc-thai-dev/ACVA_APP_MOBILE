@@ -11,13 +11,12 @@ import {
   View,
 } from 'react-native';
 
-// import {MaterialCommunityIcons} from '@expo/vector-icons';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import examApi from '../api/examApi';
 import styles from './QRCode.style';
 
 import {COLORS, images} from '../constants';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 const QRCode = ({navigation}) => {
   const {t} = useTranslation();
   const [hasPermission, setHasPermission] = useState();
@@ -63,7 +62,7 @@ const QRCode = ({navigation}) => {
       setScanned(false);
       setHasPermission(false);
       askForCameraPermisstion();
-  });
+    });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
@@ -101,9 +100,7 @@ const QRCode = ({navigation}) => {
         .then(res => res && onAlert(res.message))
         .catch(error => error && onAlert(error.message));
     } else if (isLink === 'http') {
-      Linking.openURL(data).catch(err =>
-        console.error(t('occured'), err),
-      );
+      Linking.openURL(data).catch(err => console.error(t('occured'), err));
     } else {
       onAlert(data);
     }
@@ -117,36 +114,34 @@ const QRCode = ({navigation}) => {
     );
   }
 
-  setTimeout(()=>{
-     if (hasPermission === false) {
+  setTimeout(() => {
+    if (hasPermission === false) {
       return (
-      <View style={styles.noAccessContainer}>
-        <View style={styles.noAccessIcon}>
-          {/* <MaterialCommunityIcons name="camera-off" size={60} color="black" /> */}
-        </View>
-
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'gray'}} />
-          <View>
-            <Text style={{width: 150, textAlign: 'center'}}>
-              {t('no_camera_access')}
-            </Text>
+        <View style={styles.noAccessContainer}>
+          <View style={styles.noAccessIcon}>
+            <MaterialCommunityIcons name="camera-off" size={60} color="black" />
           </View>
-          <View style={{flex: 1, height: 1, backgroundColor: 'gray'}} />
-        </View>
-        <Button
-          title="Allow Cammera"
-          color={COLORS.secondary}
-          onPress={() => {
-            askForCameraPermisstion();
-          }}
-        />
-      </View>
-    );
-    }
-  },3000)
 
- 
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{flex: 1, height: 1, backgroundColor: 'gray'}} />
+            <View>
+              <Text style={{width: 150, textAlign: 'center'}}>
+                {t('no_camera_access')}
+              </Text>
+            </View>
+            <View style={{flex: 1, height: 1, backgroundColor: 'gray'}} />
+          </View>
+          <Button
+            title="Allow Cammera"
+            color={COLORS.secondary}
+            onPress={() => {
+              askForCameraPermisstion();
+            }}
+          />
+        </View>
+      );
+    }
+  }, 3000);
 
   return (
     <View style={styles.main}>

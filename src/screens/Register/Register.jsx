@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
   findNodeHandle,
+  Dimensions,
 } from 'react-native';
 
 import ButtonWithLoader from '../../Components/Common/ButtonWithLoader/ButtonWithLoader';
@@ -21,7 +22,8 @@ import validator from '../../utils/validations';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-// import {AntDesign, Ionicons} from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import universityApi from '../../api/universityApi';
@@ -30,7 +32,8 @@ import {registerFailed} from '../../redux/actions/auth';
 import {authSelector} from '../../redux/selectors';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useTranslation} from 'react-i18next'
+import {useTranslation} from 'react-i18next';
+import {Button} from 'react-native-paper';
 
 const Register = ({navigation}) => {
   //const { universities } = useSelector(universitiesSelector);
@@ -47,7 +50,7 @@ const Register = ({navigation}) => {
       label: t('female'),
     },
   ];
-  
+
   const [state, setState] = useState({
     //Setting
     isSecure: true,
@@ -228,15 +231,6 @@ const Register = ({navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {showDate && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          display="spinner"
-          value={date}
-          mode={'date'}
-          onChange={onChange}
-        />
-      )}
       <HeaderAuth
         urlBackground={images.acva_header}
         urlLogo={images.acva_logo}
@@ -281,7 +275,7 @@ const Register = ({navigation}) => {
                   loading,
                   message,
                 }) => (
-                  <View style={listMessageContainerStyle}>
+                  <View style={{...listMessageContainerStyle, zIndex: 0}}>
                     {loading ? (
                       <ActivityIndicatorComponent />
                     ) : (
@@ -295,20 +289,20 @@ const Register = ({navigation}) => {
                     )}
                   </View>
                 )}
-                // ArrowDownIconComponent={() => (
-                //   <AntDesign name="caretdown" size={12} color="#333" />
-                // )}
-                // ArrowUpIconComponent={() => (
-                //   <AntDesign name="caretup" size={12} color="#333" />
-                // )}
-                // TickIconComponent={({style}) => (
-                //   <AntDesign
-                //     style={style}
-                //     name="checkcircle"
-                //     size={16}
-                //     color="#ee463b"
-                //   />
-                // )}
+                ArrowDownIconComponent={() => (
+                  <AntDesign name="caretdown" size={12} color="#333" />
+                )}
+                ArrowUpIconComponent={() => (
+                  <AntDesign name="caretup" size={12} color="#333" />
+                )}
+                TickIconComponent={({style}) => (
+                  <AntDesign
+                    style={style}
+                    name="checkcircle"
+                    size={16}
+                    color="#ee463b"
+                  />
+                )}
                 style={styles.unvDropdownPicker}
                 dropDownContainerStyle={styles.unvDropDownContainerStyle}
                 searchContainerStyle={styles.unvsearchContainerStyle}
@@ -351,15 +345,15 @@ const Register = ({navigation}) => {
                   secureTextEntry={isSecure}
                   onChangeText={password => updateState({password})}
                   value={password}
-                  // iconRight={{
-                  //   icon2: (
-                  //     <Ionicons name="eye-outline" size={20} color="gray" />
-                  //   ),
-                  //   icon: (
-                  //     <Ionicons name="eye-off-outline" size={20} color="gray" />
-                  //   ),
-                  //   hide: true,
-                  // }}
+                  iconRight={{
+                    icon2: (
+                      <Ionicons name="eye-outline" size={20} color="gray" />
+                    ),
+                    icon: (
+                      <Ionicons name="eye-off-outline" size={20} color="gray" />
+                    ),
+                    hide: true,
+                  }}
                   onFocus={event => {
                     _scrollToInput(findNodeHandle(event.target));
                   }}
@@ -374,15 +368,15 @@ const Register = ({navigation}) => {
                     updateState({confirm_password})
                   }
                   value={confirm_password}
-                  // iconRight={{
-                  //   icon2: (
-                  //     <Ionicons name="eye-outline" size={20} color="gray" />
-                  //   ),
-                  //   icon: (
-                  //     <Ionicons name="eye-off-outline" size={20} color="gray" />
-                  //   ),
-                  //   hide: true,
-                  // }}
+                  iconRight={{
+                    icon2: (
+                      <Ionicons name="eye-outline" size={20} color="gray" />
+                    ),
+                    icon: (
+                      <Ionicons name="eye-off-outline" size={20} color="gray" />
+                    ),
+                    hide: true,
+                  }}
                   onFocus={event => {
                     _scrollToInput(findNodeHandle(event.target));
                   }}
@@ -405,11 +399,23 @@ const Register = ({navigation}) => {
                   <TextInput
                     style={styles.inputStyle}
                     placeholder={t('birthday')}
-                    onBlur={() => updateState({showDatePicker: true})}
+                    onBlur={() => updateState({showDatePicker: false})}
+                    onPressIn={() => updateState({showDatePicker: true})}
                     editable={false}
                     value={birthday ? birthday : ''}
                   />
                 </Pressable>
+                {showDate ? (
+                  <DateTimePicker
+                    display="spinner"
+                    mode="date"
+                    value={new Date()}
+                    style={{width: Dimensions.get('window').width}}
+                  />
+                ) : (
+                  <></>
+                )}
+                <Button title="Pick a Date" onPress={showPicker} />
               </View>
 
               <View style={[styles.inputGroup, styles.selectListContainer]}>
@@ -426,20 +432,20 @@ const Register = ({navigation}) => {
                   setValue={setgender}
                   disableBorderRadius={false}
                   dropDownDirection="BOTTOM"
-                  // ArrowDownIconComponent={() => (
-                  //   <AntDesign name="caretdown" size={12} color="#333" />
-                  // )}
-                  // ArrowUpIconComponent={() => (
-                  //   <AntDesign name="caretup" size={12} color="#333" />
-                  // )}
-                  // TickIconComponent={({style}) => (
-                  //   <AntDesign
-                  //     style={style}
-                  //     name="checkcircle"
-                  //     size={16}
-                  //     color="#ee463b"
-                  //   />
-                  // )}
+                  ArrowDownIconComponent={() => (
+                    <AntDesign name="caretdown" size={12} color="#333" />
+                  )}
+                  ArrowUpIconComponent={() => (
+                    <AntDesign name="caretup" size={12} color="#333" />
+                  )}
+                  TickIconComponent={({style}) => (
+                    <AntDesign
+                      style={style}
+                      name="checkcircle"
+                      size={16}
+                      color="#ee463b"
+                    />
+                  )}
                   style={styles.genderDropDownPicker}
                   dropDownContainerStyle={styles.genderDropDownContainerStyle}
                   listItemContainerStyle={styles.genderListItemContainerStyle}
@@ -459,7 +465,6 @@ const Register = ({navigation}) => {
                 _scrollToInput(findNodeHandle(event.target));
               }}
             />
-
             <TextInputCustom
               placeHolder={t('tel')}
               onChangeText={phone => updateState({phone})}
@@ -479,7 +484,8 @@ const Register = ({navigation}) => {
           <Text
             onPress={() => navigation.navigate('Login')}
             style={styles.textFooter}>
-            {t('have_account')} <Text style={styles.textLogin}>{t('login')}</Text>
+            {t('have_account')}{' '}
+            <Text style={styles.textLogin}>{t('login')}</Text>
           </Text>
         </View>
       </SafeAreaView>
