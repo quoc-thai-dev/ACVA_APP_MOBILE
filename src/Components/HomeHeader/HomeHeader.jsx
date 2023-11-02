@@ -9,7 +9,6 @@ import {
 import {images} from '../../constants';
 import styles from './HomeHeader.style';
 
-
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Foundation from 'react-native-vector-icons/Foundation';

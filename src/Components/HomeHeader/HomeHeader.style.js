@@ -1,11 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Platform} from 'react-native';
 import React from 'react';
 import {COLORS, SIZES} from '../../constants';
 
 const styles = StyleSheet.create({
   homeContainer: {
     width: '100%',
-    // position: 'absolute',
     zIndex: 1,
     backgroundColor: '#fff',
   },

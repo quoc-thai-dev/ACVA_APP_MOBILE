@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {HomeHeader} from '../../Components';
@@ -16,7 +16,8 @@ import {images} from '../../constants';
 import actions from '../../redux/actions';
 import {examSelector} from '../../redux/selectors';
 import styles from './Home.style';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+
 const Home = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [state, setState] = useState({
@@ -24,7 +25,6 @@ const Home = ({navigation}) => {
     refreshing: false,
     checkId: '',
   });
-
 
   const [selectedId, setSelectedId] = useState();
   const dispatch = useDispatch();
@@ -34,15 +34,13 @@ const Home = ({navigation}) => {
 
   const {isSuccess, exams, isLoading} = useSelector(examSelector);
 
-
-
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(actions.getAllExam());
-  },[])
-  
+  }, []);
+
   useEffect(() => {
     if (exams.length) {
-      updateState({ isDontHaveData: false})
+      updateState({isDontHaveData: false});
     } else {
       updateState({isDontHaveData: true});
     }
@@ -76,11 +74,10 @@ const Home = ({navigation}) => {
 
   return (
     <ScrollView
-      showsVerticalScrollIndicator = {false}
+      showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+      }>
       <HomeHeader navigation={navigation} />
       <SafeAreaView style={styles.bodyContainer}>
         {isLoading && (
@@ -89,20 +86,20 @@ const Home = ({navigation}) => {
           </View>
         )}
 
-        {exams.length > 0 && exams.map((item,index)=> {
-          const isLoading = item.id === selectedId;
-          return (
-            <View key={index}>
+        {exams.length > 0 &&
+          exams.map((item, index) => {
+            const isLoading = item.id === selectedId;
+            return (
+              <View key={index}>
                 <Item
                   item={item}
                   onPress={() => onShowDetailExam(item.id)}
                   isLoading={isLoading}
                   language={t}
                 />
-            </View>
-            
-          )
-        })}
+              </View>
+            );
+          })}
 
         {isDontHaveData && (
           <View style={styles.noTestContainer}>
@@ -117,7 +114,7 @@ const Home = ({navigation}) => {
   );
 };
 
-const Item = memo(({item, onPress, isLoading,key,language}) => {
+const Item = memo(({item, onPress, isLoading, key, language}) => {
   const formatDate = date => {
     const dateFormat = new Date(date);
     const newDate = `${String(dateFormat.getDate()).padStart(2, '0')}/${String(
@@ -138,16 +135,20 @@ const Item = memo(({item, onPress, isLoading,key,language}) => {
 
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-      <View  style={styles.wrapper}>
+      <View style={styles.wrapper}>
         <View style={styles.headerCard}>
-          <View style={{ alignItems: 'stretch',  padding: .5,}}>
-            <BGText 
-                background={item.type === 1 ? '#ECFDF5' : '#FDF2F8'} 
-                style={styles.statusText(item.type === 1 ? '#059669' : '#EB4898')} >
-                 {item.type === 1 ? language('online') : language('offline')} 
+          <View style={{alignItems: 'stretch', padding: 0.5}}>
+            <BGText
+              background={item.type === 1 ? '#ECFDF5' : '#FDF2F8'}
+              style={styles.statusText(
+                item.type === 1 ? '#059669' : '#EB4898',
+              )}>
+              {item.type === 1 ? language('online') : language('offline')}
             </BGText>
           </View>
-          <Text style={styles.textExamCode}>{language('exam_code')}: {item.code}</Text>
+          <Text style={styles.textExamCode}>
+            {language('exam_code')}: {item.code}
+          </Text>
           <View style={styles.line}></View>
         </View>
 
@@ -163,11 +164,11 @@ const Item = memo(({item, onPress, isLoading,key,language}) => {
             </Text>
           </Text>
           <Text style={styles.textLeft}>
-          {language('test_date')}:{' '}
+            {language('test_date')}:{' '}
             <Text style={styles.textRight}>{formatDate(item.date_exam)}</Text>
           </Text>
           <Text style={styles.textLeft}>
-          {language('exam_time')}:{' '}
+            {language('exam_time')}:{' '}
             <Text style={styles.textRight}>
               {item.time_exam} - {item.time_exam_end}
             </Text>
@@ -187,7 +188,11 @@ const Item = memo(({item, onPress, isLoading,key,language}) => {
 });
 
 const BGText = props => {
-  const { background } = props;
-  return <Text style={{backgroundColor: background, ...props.style}}>{props.children}</Text>;
-}
+  const {background} = props;
+  return (
+    <Text style={{backgroundColor: background, ...props.style}}>
+      {props.children}
+    </Text>
+  );
+};
 export default Home;

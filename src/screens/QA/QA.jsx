@@ -10,9 +10,11 @@ import {
   TextInput,
   View,
   Appearance,
+  Dimensions,
 } from 'react-native';
 import {
   Button,
+  Divider,
   List,
   Modal,
   PaperProvider,
@@ -37,6 +39,7 @@ const QA = () => {
   const [refreshing, setRefreshing] = useState(false);
   const inputSearch = useRef(null);
   const [questions, setQuestion] = useState([]);
+  const [idExpand, setidExpand] = useState(null);
   const onRefresh = useCallback(() => {
     setLoading(true);
     setRefreshing(true);
@@ -86,8 +89,10 @@ const QA = () => {
     LayoutAnimation.easeInEaseOut();
     if (expandedItems.includes(id)) {
       setExpandedItems(expandedItems.filter(i => i !== id));
+      setidExpand(null);
     } else {
       setExpandedItems([id]);
+      setidExpand(id);
     }
   };
   const handleQuestion = (f, v) => {
@@ -126,7 +131,7 @@ const QA = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{width: '80%'}}>
+            <View style={{width: '83%'}}>
               <SearchBar data={questions} callback={filterArray} />
             </View>
             <View
@@ -211,29 +216,33 @@ const QA = () => {
           </Portal>
           <List.Section
             title=""
-            style={{paddingBottom: 20, paddingHorizontal: 20, height: 500}}>
+            style={{
+              height: Dimensions.get('screen').height - 250,
+              paddingBottom: 10,
+              paddingHorizontal: 10,
+            }}>
             <FlatList
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               iniinitialNumToRender={2}
               showsVerticalScrollIndicator={false}
-              scrollEnabled={true}
               data={questionsFilter}
               keyExtractor={(item, index) => item.id}
               renderItem={({item, index}) => (
                 <List.Accordion
                   style={{
-                    borderTopColor: '#cdd6da',
+                    borderTopColor: '#D42E2E',
                     borderTopWidth: 2,
-                    backgroundColor: 'white',
+                    borderRadius: 20,
+                    backgroundColor: idExpand === index ? '#D42E2E' : 'white',
                   }}
                   title={item.title}
                   titleNumberOfLines={5}
                   titleStyle={{
                     fontSize: 18,
                     fontWeight: 'bold',
-                    color: 'black',
+                    color: idExpand === index ? 'white' : 'black',
                   }}
                   right={props => (
                     <Entypo
@@ -244,7 +253,7 @@ const QA = () => {
                           : 'chevron-down'
                       }
                       size={18}
-                      color={props.color}
+                      color={idExpand === index ? 'white' : 'black'}
                     />
                   )}
                   theme={{colors: {primary: COLORS.primary}}}

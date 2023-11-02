@@ -1,11 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, RefreshControl} from 'react-native';
-import {Appbar, Card,Text} from 'react-native-paper';
+import {Dimensions, FlatList, RefreshControl} from 'react-native';
+import {Appbar, Card, Text} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AppLoader from '../../Components/AppLoader';
 import videoStudyApi from '../../api/videoStudyApi';
 import styles from './Video.style';
 import {useTranslation} from 'react-i18next';
+import {FONT, SIZES} from '../../constants';
 const Video = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [playing, setPlaying] = useState(false);
@@ -32,7 +33,6 @@ const Video = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-   
     getAllVideos();
   }, [i18n.language]);
   const getAllVideos = async () => {
@@ -64,19 +64,27 @@ const Video = ({navigation}) => {
           }
           columnWrapperStyle={{
             flex: 1,
-            justifyContent: 'space-around',
-            marginVertical: 5,
+            justifyContent: 'flex-start',
+            alignContent: 'center',
+            // marginVertical: 5,
+            gap: 7,
           }}
+          // scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
           numColumns={2}
           data={videos}
           keyExtractor={(item, index) => item.id}
           renderItem={({item}) => (
             <Card onPress={() => showModalYoutube(item)} style={styles.card}>
               <Card.Cover
-                style={{height: 100}}
+                style={{height: 110}}
+                // style={{
+                //   height: 200,
+                //   width: Dimensions.get('screen').width - 30,
+                // }}
                 source={require('../../assets/images/ACVA/ACVA_Video_Image.jpg')}></Card.Cover>
               <Card.Title
-                titleNumberOfLines={2}
+                titleNumberOfLines={5}
                 title={
                   i18n.language == 'vi'
                     ? item.title_viet
@@ -84,7 +92,12 @@ const Video = ({navigation}) => {
                     ? item.title_eng
                     : item.title_kor
                 }
-                titleStyle={{color:'black'}}
+                titleStyle={{
+                  color: 'black',
+                  fontSize: SIZES.xSmall,
+                  lineHeight: 14,
+                  textAlign: 'center',
+                }}
               />
             </Card>
           )}

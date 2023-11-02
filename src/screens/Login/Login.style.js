@@ -33,10 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   footerLogin: {
-    paddingLeft: 24,
-    paddingRight: 24,
-    paddingBottom: 21,
-    paddingTop: 18,
+    paddingVertical: 20,
   },
   social_icon: {
     flexDirection: 'row',
@@ -48,7 +45,6 @@ const styles = StyleSheet.create({
   footerRegister: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
   },
   textRegister: {
     fontWeight: 'bold',

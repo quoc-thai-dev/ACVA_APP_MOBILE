@@ -248,7 +248,6 @@ const Login = ({navigation}) => {
     <>
       <View style={styles.container}>
         <LanguageChangeHandler />
-
         <KeyboardAwareScrollView
           bounces={false}
           showsVerticalScrollIndicator={false}
@@ -309,6 +308,7 @@ const Login = ({navigation}) => {
               text={t('login')}
               onPress={onLogin}
               isLoading={isLoading}
+              style={{marginTop: 10}}
             />
           </View>
 

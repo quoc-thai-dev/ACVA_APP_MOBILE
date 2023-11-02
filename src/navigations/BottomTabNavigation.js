@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home, Profile, QA, QRCode, Video} from '../screens/index';
@@ -25,11 +25,24 @@ const screenOptions = {
     bottom: 5,
     left: 10,
     right: 10,
-    backgroundColor: '#F3F4F5',
+    // backgroundColor: '#F3F4F5',
     borderRadius: 20,
     height: 70,
+    // Add shadow based on the platform
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: {width: 0, height: 3},
+        shadowRadius: 5,
+        shadowOpacity: 0.2,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
-  barStyleL: {zIndex: 0},
+  tabStyle: {width: 200},
+  barStyle: {zIndex: 0},
 };
 
 const BottomTabNavigation = () => {
@@ -90,7 +103,9 @@ const BottomTabNavigation = () => {
             headerTitle: t('video'),
             title: 'Aligned Center',
             headerTitleAlign: 'center',
+
             headerStyle: {
+              height: Platform.OS === 'ios' ? 70 : 0,
               borderBottomWidth: 1,
               borderBottomColor: '#eee',
             },
@@ -148,6 +163,7 @@ const BottomTabNavigation = () => {
             title: 'Aligned Center',
             headerTitleAlign: 'center',
             headerStyle: {
+              height: Platform.OS === 'ios' ? 70 : 0,
               borderBottomWidth: 1,
               borderBottomColor: '#eee',
             },

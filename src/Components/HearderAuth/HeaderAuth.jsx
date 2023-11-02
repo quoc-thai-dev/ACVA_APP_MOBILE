@@ -29,7 +29,15 @@ const HeaderAuth = ({
       </ImageBackground>
 
       <View style={styles.imageLogo}>
-        <Image source={urlLogo} resizeMode="cover" />
+        {urlLogo ? (
+          <Image
+            source={require('../../assets/ACVA.png')}
+            style={{width: '80%', height: 150}}
+            resizeMode="cover"
+          />
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );

@@ -2,7 +2,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, ScrollView, View, Image, TouchableOpacity,Appearance} from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  View,
+  Image,
+  TouchableOpacity,
+  Appearance,
+} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {
   Modal,
@@ -18,7 +25,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {COLORS} from '../../constants/index';
 import actions from '../../redux/actions';
 import styles from './Profile.style.js';
-import { HeaderAuth } from '../../Components';
+import {HeaderAuth} from '../../Components';
 import {images} from '../../constants';
 const Profile = ({navigation}) => {
   const [t, i18n] = useTranslation();
@@ -34,7 +41,7 @@ const Profile = ({navigation}) => {
     borderRadius: 30,
     alignSelf: 'center',
     width: '90%',
-    backgroundColor:'white'
+    backgroundColor: 'white',
   };
   const theme = Appearance.getColorScheme();
   const userData = useSelector(state => state.auth.userData);
@@ -134,7 +141,9 @@ const Profile = ({navigation}) => {
           contentContainerStyle={containerStyle}>
           <View>
             <List.Section>
-              <List.Subheader style={{color:'black'}}>{t('choose_language')}</List.Subheader>
+              <List.Subheader style={{color: 'black'}}>
+                {t('choose_language')}
+              </List.Subheader>
               {languages.map(language => (
                 <List.Item
                   key={language.code}
@@ -149,7 +158,7 @@ const Profile = ({navigation}) => {
                         style={{width: 32, height: 32, marginRight: 30}}
                         source={language.flag}
                       />
-                      <Text style={{color:'black'}}>{language.label}</Text>
+                      <Text style={{color: 'black'}}>{language.label}</Text>
                     </View>
                   )}
                   onPress={() => handleLanguageSelection(language.code)}
@@ -183,7 +192,7 @@ const Profile = ({navigation}) => {
         // textWelcome={t('welcome')}
       />
       <View style={styles.container}>
-      {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}> */}
+        {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}> */}
         <View style={styles.blockAvatar}>
           <Text style={styles.title}>{t('setting')}</Text>
           {userData.user.image46 != '' ? (
@@ -223,7 +232,7 @@ const Profile = ({navigation}) => {
               titleStyle={
                 index == 5
                   ? {color: COLORS.primary, fontWeight: 'bold'}
-                  :{color:'black'}
+                  : {color: 'black'}
               }
               left={props => (
                 <List.Icon
@@ -234,7 +243,9 @@ const Profile = ({navigation}) => {
               )}
               right={props =>
                 index == 4 ? (
-                  <Text style={{fontWeight: 'bold',color:'black'}}>{item[2]}</Text>
+                  <Text style={{fontWeight: 'bold', color: 'black'}}>
+                    {item[2]}
+                  </Text>
                 ) : index == 3 ? (
                   <View
                     style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -248,8 +259,7 @@ const Profile = ({navigation}) => {
                         source={require('../../assets/images/flags/en.png')}
                         style={{width: 32, height: 25}}
                       />
-                    ) : 
-                    (
+                    ) : (
                       <Image
                         source={require('../../assets/images/flags/ko.png')}
                         style={{width: 32, height: 25}}
@@ -257,13 +267,13 @@ const Profile = ({navigation}) => {
                     )}
                   </View>
                 ) : (
-                  <List.Icon {...props} color='black' icon={item[2]} />
+                  <List.Icon {...props} color="black" icon={item[2]} />
                 )
               }
             />
           ))}
         </ScrollView>
-        <View style={{height:75}}></View>
+        <View style={{height: 75}}></View>
       </View>
     </>
   );
