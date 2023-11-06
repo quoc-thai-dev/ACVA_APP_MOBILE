@@ -22,9 +22,11 @@ const styles = StyleSheet.create({
   inputContainer: focus => ({
     borderWidth: 1, // Create border
     borderRadius: 8, // Not needed. Just make it look nicer.
-    padding: 8, // Also used to make it look nicer
+    // padding: 8, // Also used to make it look nicer
     zIndex: 0, // Ensure border has z-index of 0
     borderColor: focus ? '#1b1c1b' : '#e5e2e2',
+    // backgroundColor: 'red',
+    padding: 15,
   }),
 
   textInput: focus => ({

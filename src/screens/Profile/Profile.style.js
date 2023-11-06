@@ -1,18 +1,25 @@
 import {StyleSheet} from 'react-native';
+import {SIZES} from '../../constants';
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    paddingHorizontal: 20,
+    padding: 10,
+    // backgroundColor: 'red',
+    position: 'absolute',
+    top: 30,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color:'black'
+    color: 'black',
   },
   blockList: {
-    width:'100%',
+    // width: '100%',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   blockAvatar: {
     alignItems: 'center',
@@ -21,8 +28,9 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    marginVertical:20,
-    color:'black'
+    marginVertical: 20,
+    color: 'black',
+    fontWeight: 'bold',
   },
   menuItem: {
     paddingHorizontal: 30,

@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
   },
 
   cardContainer: {
-    backgroundColor: '#F5F5F5',
+    // backgroundColor: '#F5F5F5',
+    backgroundColor: 'white',
     borderRadius: 16,
     width: '95%',
     alignSelf: 'center',

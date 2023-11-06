@@ -88,7 +88,11 @@ const HomeHeader = ({navigation}) => {
               height: 30,
               width: 30,
             }}>
-            <Image resizeMode="contain" source={icons.notification_icon} />
+            <Image
+              resizeMode="contain"
+              style={{width: 36, height: 36}}
+              source={icons.notification_icon}
+            />
           </TouchableOpacity>
         </View>
 

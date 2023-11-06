@@ -27,7 +27,7 @@ import AppLoader from '../../Components/AppLoader';
 import SearchBar from '../../Components/Searchbar/SearchBar';
 import qaApi from '../../api/qaApi';
 import questionApi from '../../api/questionApi';
-import {COLORS} from '../../constants';
+import {COLORS, SIZES} from '../../constants';
 import {showError, showSuccess} from '../../utils/helperFunction';
 import {useTranslation} from 'react-i18next';
 const QA = () => {
@@ -54,7 +54,7 @@ const QA = () => {
   const hideModal = () => setVisible(false);
   const containerStyle = {
     backgroundColor: 'white',
-    height: 400,
+    height: Dimensions.get('screen').height - 350,
     padding: 20,
     alignSelf: 'center',
     width: '90%',
@@ -160,10 +160,10 @@ const QA = () => {
               visible={visible}
               onDismiss={hideModal}
               contentContainerStyle={containerStyle}>
-              <View style={{flex: 1, justifyContent: 'space-evenly'}}>
+              <View style={{flex: 1, justifyContent: 'space-around'}}>
                 <Text
                   style={{
-                    fontSize: 23,
+                    fontSize: SIZES.large,
                     fontWeight: 'bold',
                     textAlign: 'center',
                   }}>
@@ -176,7 +176,7 @@ const QA = () => {
                   placeholder={t('type_full_name')}
                   placeholderTextColor={'#C5C5C5'}
                   style={{
-                    padding: 15,
+                    padding: 10,
                     borderWidth: 1,
                     borderColor: '#E9EAEC',
                     borderRadius: 10,
@@ -187,16 +187,16 @@ const QA = () => {
                   editable
                   multiline
                   numberOfLines={6}
-                  maxLength={40}
+                  maxLength={200}
                   onChangeText={t => handleQuestion('question', t)}
                   placeholder={t('type_question')}
                   placeholderTextColor={'#C5C5C5'}
                   style={{
+                    padding: 10,
                     borderWidth: 1,
                     borderColor: '#E9EAEC',
                     borderRadius: 10,
-                    padding: 10,
-                    textAlignVertical: 'top',
+                    height: 90,
                   }}
                 />
               </View>
@@ -207,7 +207,7 @@ const QA = () => {
                   color: 'white',
                   fontWeight: 'bold',
                   fontSize: 15,
-                  padding: 6,
+                  // padding: 6,
                 }}
                 loading={loadingButton}>
                 {t('send')}

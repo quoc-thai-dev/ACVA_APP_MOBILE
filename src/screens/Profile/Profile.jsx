@@ -9,6 +9,8 @@ import {
   Image,
   TouchableOpacity,
   Appearance,
+  Platform,
+  Dimensions,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {
@@ -22,7 +24,7 @@ import {
 } from 'react-native-paper';
 import {ImageBackground} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {COLORS} from '../../constants/index';
+import {COLORS, SIZES} from '../../constants/index';
 import actions from '../../redux/actions';
 import styles from './Profile.style.js';
 import {HeaderAuth} from '../../Components';
@@ -141,7 +143,12 @@ const Profile = ({navigation}) => {
           contentContainerStyle={containerStyle}>
           <View>
             <List.Section>
-              <List.Subheader style={{color: 'black'}}>
+              <List.Subheader
+                style={{
+                  color: 'black',
+                  fontSize: SIZES.medium,
+                  fontWeight: 'bold',
+                }}>
                 {t('choose_language')}
               </List.Subheader>
               {languages.map(language => (
@@ -197,7 +204,7 @@ const Profile = ({navigation}) => {
           <Text style={styles.title}>{t('setting')}</Text>
           {userData.user.image46 != '' ? (
             <Avatar.Image
-              size={100}
+              size={72}
               source={{
                 uri: avatarUrl.replace(/['"]+/g, ''),
               }}
@@ -205,7 +212,7 @@ const Profile = ({navigation}) => {
             />
           ) : (
             <Avatar.Image
-              size={100}
+              size={75}
               source={{
                 uri:
                   'https://ui-avatars.com/api/?name=' +
@@ -218,21 +225,43 @@ const Profile = ({navigation}) => {
           <Text style={styles.name}>{userData.user.full_name}</Text>
         </View>
         {/* </ImageBackground> */}
-        <ScrollView style={styles.blockList}>
+        <ScrollView
+          style={styles.blockList}
+          scrollEnabled={false}
+          showsVerticalScrollIndicator={false}>
           {menuItems.map((item, index) => (
             <List.Item
               style={{
-                backgroundColor: '#f3f4f5',
-                borderRadius: 20,
-                marginBottom: 10,
+                alignSelf: 'center',
+                // width: Dimensions.get('screen').width - 30,
+                width: (Dimensions.get('screen').width * 90) / 100,
+                backgroundColor: 'white',
+                borderRadius: 16,
+                marginBottom: 7,
+                // Add shadow based on the platform
+                ...Platform.select({
+                  ios: {
+                    shadowColor: 'black',
+                    shadowOffset: {width: 1, height: 3},
+                    shadowRadius: 5,
+                    shadowOpacity: 0.2,
+                  },
+                  android: {
+                    elevation: 2,
+                  },
+                }),
               }}
               key={index}
               onPress={() => SelectAction(index)}
               title={item[0]}
               titleStyle={
                 index == 5
-                  ? {color: COLORS.primary, fontWeight: 'bold'}
-                  : {color: 'black'}
+                  ? {
+                      color: COLORS.primary,
+                      fontWeight: 'bold',
+                      fontSize: SIZES.medium - 2,
+                    }
+                  : {color: 'black', fontSize: SIZES.medium - 2}
               }
               left={props => (
                 <List.Icon
@@ -243,7 +272,12 @@ const Profile = ({navigation}) => {
               )}
               right={props =>
                 index == 4 ? (
-                  <Text style={{fontWeight: 'bold', color: 'black'}}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: SIZES.small,
+                    }}>
                     {item[2]}
                   </Text>
                 ) : index == 3 ? (
@@ -273,7 +307,7 @@ const Profile = ({navigation}) => {
             />
           ))}
         </ScrollView>
-        <View style={{height: 75}}></View>
+        {/* <View style={{height: 75}}></View> */}
       </View>
     </>
   );

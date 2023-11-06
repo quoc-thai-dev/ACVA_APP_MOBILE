@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, Platform} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home, Profile, QA, QRCode, Video} from '../screens/index';
-import {COLORS} from '../constants/index';
+import {COLORS, SIZES} from '../constants/index';
 import {ScreenContainer} from 'react-native-screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BlurView} from 'expo-blur';
@@ -17,17 +17,18 @@ const Tab = createBottomTabNavigator();
 const VideoStack = createNativeStackNavigator();
 const screenOptions = {
   tabBarShowLabel: false,
-  tabBarHideOnKeyboard: true,
+  // tabBarHideOnKeyboard: true,
   headerShown: false,
   tabBarStyle: {
     display: 'flex',
     position: 'absolute',
-    bottom: 5,
+    bottom: Platform.OS === 'ios' ? 25 : 5,
+    padding: 25,
     left: 10,
     right: 10,
     // backgroundColor: '#F3F4F5',
-    borderRadius: 20,
-    height: 70,
+    borderRadius: 30,
+    height: Platform.OS === 'ios' ? 75 : 70,
     // Add shadow based on the platform
     ...Platform.select({
       ios: {
@@ -41,8 +42,7 @@ const screenOptions = {
       },
     }),
   },
-  tabStyle: {width: 200},
-  barStyle: {zIndex: 0},
+  // barStyle: {zIndex: 0},
 };
 
 const BottomTabNavigation = () => {
@@ -55,19 +55,19 @@ const BottomTabNavigation = () => {
           component={Home}
           options={{
             cardStyle: {backgroundColor: '#fff'},
-            // tabBarBadge: 3,
             tabBarIcon: ({focused}) => {
               return (
                 <>
                   <MaterialCommunityIcons
-                    size={26}
+                    size={20}
                     name={focused ? 'home' : 'home-outline'}
                     color={focused ? COLORS.primary : 'black'}
                   />
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
-                      // fontWeight: `${focused ? 'bold' : '300'}`,
+                      fontWeight: `${focused ? 'bold' : '300'}`,
+                      fontSize: SIZES.small,
                     }}>
                     {t('home')}
                   </Text>
@@ -86,13 +86,15 @@ const BottomTabNavigation = () => {
                 <>
                   <Ionicons
                     name={focused ? 'videocam' : 'videocam-outline'}
-                    size={24}
+                    size={20}
                     color={focused ? COLORS.primary : 'black'}
                   />
 
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
+                      fontWeight: `${focused ? 'bold' : '300'}`,
+                      fontSize: SIZES.small,
                     }}>
                     {t('video')}
                   </Text>
@@ -103,7 +105,6 @@ const BottomTabNavigation = () => {
             headerTitle: t('video'),
             title: 'Aligned Center',
             headerTitleAlign: 'center',
-
             headerStyle: {
               height: Platform.OS === 'ios' ? 70 : 0,
               borderBottomWidth: 1,
@@ -121,12 +122,14 @@ const BottomTabNavigation = () => {
                 <>
                   <Ionicons
                     name={focused ? 'qr-code' : 'qr-code-outline'}
-                    size={24}
+                    size={20}
                     color={focused ? COLORS.primary : 'black'}
                   />
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
+                      fontWeight: `${focused ? 'bold' : '300'}`,
+                      fontSize: SIZES.small,
                     }}>
                     {t('QrCode')}
                   </Text>
@@ -145,12 +148,14 @@ const BottomTabNavigation = () => {
                 <>
                   <FontAwesome
                     name={focused ? 'question-circle' : 'question-circle-o'}
-                    size={24}
+                    size={20}
                     color={focused ? COLORS.primary : 'black'}
                   />
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
+                      fontWeight: `${focused ? 'bold' : '300'}`,
+                      fontSize: SIZES.small,
                     }}>
                     {t('Q&A')}
                   </Text>
@@ -179,13 +184,15 @@ const BottomTabNavigation = () => {
                 <>
                   <FontAwesome
                     name={focused ? 'user' : 'user-o'}
-                    size={24}
+                    size={20}
                     color={focused ? COLORS.primary : 'black'}
                   />
 
                   <Text
                     style={{
                       color: `${focused ? COLORS.primary : 'black'}`,
+                      fontWeight: `${focused ? 'bold' : '300'}`,
+                      fontSize: SIZES.small,
                     }}>
                     {t('Profile')}
                   </Text>
