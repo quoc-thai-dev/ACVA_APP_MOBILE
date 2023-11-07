@@ -240,7 +240,7 @@ const QA = () => {
                   title={item.title}
                   titleNumberOfLines={5}
                   titleStyle={{
-                    fontSize: 18,
+                    fontSize: SIZES.medium,
                     fontWeight: 'bold',
                     color: idExpand === index ? 'white' : 'black',
                   }}
@@ -266,6 +266,7 @@ const QA = () => {
                       item.content ? (
                         <RenderHTML
                           contentWidth={500}
+                          baseStyle={{fontSize:SIZES.small}}
                           source={{html: item.content}}
                         />
                       ) : (

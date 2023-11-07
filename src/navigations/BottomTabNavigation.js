@@ -17,17 +17,17 @@ const Tab = createBottomTabNavigator();
 const VideoStack = createNativeStackNavigator();
 const screenOptions = {
   tabBarShowLabel: false,
-  // tabBarHideOnKeyboard: true,
+  tabBarHideOnKeyboard: true,
   headerShown: false,
   tabBarStyle: {
     display: 'flex',
     position: 'absolute',
     bottom: Platform.OS === 'ios' ? 25 : 5,
-    padding: 25,
+    padding: Platform.OS==="ios"?30:0,
     left: 10,
     right: 10,
     // backgroundColor: '#F3F4F5',
-    borderRadius: 30,
+    borderRadius: 20,
     height: Platform.OS === 'ios' ? 75 : 70,
     // Add shadow based on the platform
     ...Platform.select({

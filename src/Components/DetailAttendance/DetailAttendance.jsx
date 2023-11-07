@@ -89,6 +89,7 @@ const DetailAttendance = ({status, dateLearn, timeStart, timeEnd, index}) => {
         </View>
       </View>
     </View>
+
   );
 };
 

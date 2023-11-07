@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../../../constants';
+import { Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   inputWrapper: {
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     zIndex: 0, // Ensure border has z-index of 0
     borderColor: focus ? '#1b1c1b' : '#e5e2e2',
     // backgroundColor: 'red',
-    padding: 15,
+    padding: Platform.OS==='ios'?15:5,
   }),
 
   textInput: focus => ({
