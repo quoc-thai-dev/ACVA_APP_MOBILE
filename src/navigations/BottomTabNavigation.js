@@ -21,14 +21,14 @@ const screenOptions = {
   headerShown: false,
   tabBarStyle: {
     display: 'flex',
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 25 : 5,
-    padding: Platform.OS==="ios"?30:0,
-    left: 10,
-    right: 10,
+    // position: 'absolute',
+    // bottom: Platform.OS === 'ios' ? 25 : 5,
+    // padding: Platform.OS === 'ios' ? 30 : 0,
+    // left: 10,
+    // right: 10,
     // backgroundColor: '#F3F4F5',
-    borderRadius: 20,
-    height: Platform.OS === 'ios' ? 75 : 70,
+    // borderRadius: 20,
+    height: Platform.OS === 'ios' ? 70 : 70,
     // Add shadow based on the platform
     ...Platform.select({
       ios: {
