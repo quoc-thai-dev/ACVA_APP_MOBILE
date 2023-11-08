@@ -66,7 +66,7 @@ const Login = ({navigation}) => {
 
   const {isLoading, message, isAlertActived} = useSelector(authSelector);
 
-  const updateState = data => setState({...state,...data});
+  const updateState = data => setState({...state, ...data});
 
   const dispatch = useDispatch();
 
@@ -246,7 +246,6 @@ const Login = ({navigation}) => {
 
   return (
     <>
-    {console.log(state)}
       <View style={styles.container}>
         <LanguageChangeHandler />
         <KeyboardAwareScrollView
@@ -339,7 +338,7 @@ const Login = ({navigation}) => {
       </View>
 
       {
-        //#region Modal 
+        //#region Modal
       }
       <Modal
         visible={isModal}

@@ -19,9 +19,9 @@ function LanguageChangeHandler() {
       return config;
     });
   };
-  const changeLang=(lang='vi')=>{
+  const changeLang = (lang = 'vi') => {
     i18n.changeLanguage(lang);
-  }
+  };
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(i18n.language);
   const [items, setItems] = useState([
@@ -74,18 +74,22 @@ function LanguageChangeHandler() {
         setValue={setValue}
         setItems={setItems}
         mode="SIMPLE"
-        labelStyle={{textAlign: 'center',display:'none'}}
+        labelStyle={{textAlign: 'center', display: 'none'}}
         listItemContainerStyle={{textAlign: 'center'}}
         listItemLabelStyle={{display: 'none'}}
         containerStyle={{width: 55, alignSelf: 'center', zIndex: 10}}
-        selectedItemLabelStyle={{color: COLORS.primary, fontWeight: 'bold',backgroundColor:'red'}}
+        selectedItemLabelStyle={{
+          color: COLORS.primary,
+          fontWeight: 'bold',
+          backgroundColor: 'red',
+        }}
         dropDownContainerStyle={{
           borderRadius: 10,
           borderWidth: 1,
           borderColor: '#bdc3c7',
         }}
-        arrowIconContainerStyle={{display:'none'}}
-        selectedItemContainerStyle={{backgroundColor:COLORS.primary}}
+        arrowIconContainerStyle={{display: 'none'}}
+        selectedItemContainerStyle={{backgroundColor: COLORS.primary}}
         placeholder={i18n.t('languages')}
         tickIconStyle={{backgroundColor: COLORS.primary, borderRadius: 5}}
         placeholderStyle={{textAlign: 'center', display: 'none'}}

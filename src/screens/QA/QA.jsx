@@ -46,7 +46,7 @@ const QA = () => {
     setTimeout(() => {
       getAllQuestion();
       setRefreshing(false);
-    }, 2000);
+    }, 300);
   }, []);
   const [visible, setVisible] = React.useState(false);
   const [questionData, setQuestionData] = useState([]);
@@ -124,7 +124,7 @@ const QA = () => {
   return (
     <>
       <PaperProvider>
-        <SafeAreaView>
+        <View>
           <View
             style={{
               flexDirection: 'row',
@@ -266,7 +266,7 @@ const QA = () => {
                       item.content ? (
                         <RenderHTML
                           contentWidth={500}
-                          baseStyle={{fontSize:SIZES.small}}
+                          baseStyle={{fontSize: SIZES.small}}
                           source={{html: item.content}}
                         />
                       ) : (
@@ -281,7 +281,7 @@ const QA = () => {
             />
             {loading ? <AppLoader /> : ''}
           </List.Section>
-        </SafeAreaView>
+        </View>
       </PaperProvider>
     </>
   );

@@ -1,32 +1,37 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import * as ImagePicker from 'expo-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import React, {createRef, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Appearance,
-  ScrollView,
-  StyleSheet,
   Keyboard,
   KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
 } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {TextInputMask} from 'react-native-masked-text';
 import {Avatar, Button, TextInput} from 'react-native-paper';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 import AppLoader from '../../Components/AppLoader';
 import universityApi from '../../api/universityApi';
 import usersApi from '../../api/usersApi';
 import {COLORS} from '../../constants/theme';
+import {SHADOWS} from '../../constants';
 import {showError, showSuccess} from '../../utils/helperFunction';
 import {setItem} from '../../utils/untils';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const UserInfo = () => {
   const {t} = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const refDate = createRef();
   const refPhone = createRef();
   const userData = useSelector(state => state.auth.userData.user);
+  console.log(userData);
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
@@ -50,6 +55,11 @@ const UserInfo = () => {
   //     updateAvatar(result.assets[0].base64);
   //   }
   // };
+  // const [universities, setUniversities] = useState([]);
+  const [unvOpen, setUnvOpen] = useState(false);
+
+  const [genderOpen, setGenderOpen] = useState(false);
+
   const updateAvatar = async b64 => {
     let data = {
       id: userData.id,
@@ -105,7 +115,7 @@ const UserInfo = () => {
       .then(res => {
         if (res.status == 200) {
           let uniSelect = res.data.map(u => {
-            return {key: u.id, value: u.name};
+            return {value: u.id, label: u.name};
           });
           setUni(uniSelect);
         }
@@ -141,6 +151,9 @@ const UserInfo = () => {
       ...prevFormData,
       [f]: v,
     }));
+    // if (f === 'universities') {
+    //   setSelected(v);
+    // }
   };
   // function formatDate(input) {
   //   if (input == '') return;
@@ -171,13 +184,13 @@ const UserInfo = () => {
       id: userData.id,
       fullname: formData.full_name,
       birthday: formatDateSubmit(birthday),
-      gender: slGender,
+      gender: formData.gender,
       address: formData.address,
       phone: formData.phone,
-      uni_id: selected,
+      uni_id: formData.universities_id,
       email2: formData.email2,
     };
-    //console.log(data);
+    // console.log(data);
     await usersApi
       .updateUserInfo(data)
       .then(res => {
@@ -204,9 +217,30 @@ const UserInfo = () => {
       label: t('female'),
     },
   ];
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: true,
+      maxHeight: 480,
+      maxWidth: 480,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageBase64 = response.base64 || response.assets?.[0]?.base64;
+        setSelectedImage(imageBase64);
+        updateAvatar(imageBase64);
+      }
+    });
+  };
   return (
     <>
-      {/* <HideKeyBoard> */}
       <KeyboardAvoidingView
         style={{flex: 1}}
         behavior={Platform.OS === 'ios' ? 'padding' : null} // Android doesn't need 'padding' behavior
@@ -214,6 +248,7 @@ const UserInfo = () => {
       >
         <ScrollView
           keyboardShouldPersistTaps="handled" // Allows tapping outside the keyboard to dismiss it
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={[
             styles.container,
             {backgroundColor: 'white'},
@@ -239,13 +274,13 @@ const UserInfo = () => {
             />
           )}
           <Button
+            style={{marginVertical: 10}}
             // icon="camera"
             mode="contained"
-            // onPress={pickImage}
-            >
+            onPress={openImagePicker}>
             {t('upload_avatar')}
           </Button>
-          <SelectList
+          {/* <SelectList
             placeholder={t('choose_university')}
             setSelected={setSelected}
             data={uni}
@@ -259,18 +294,85 @@ const UserInfo = () => {
             dropdownStyles={''}
             dropdownTextStyles={{color: 'black'}}
             boxStyles={{marginVertical: 20, width: '100%'}}
+          /> */}
+          <DropDownPicker
+            loading={loading}
+            open={unvOpen}
+            setOpen={setUnvOpen}
+            items={uni}
+            placeholder={t('select_school')}
+            searchPlaceholder={t('type_school')}
+            schema={{
+              label: 'label',
+              value: 'value',
+            }}
+            labelProps={{
+              numberOfLines: 1,
+            }}
+            value={formData.universities_id}
+            onSelectItem={data =>
+              handleInputChange('universities_id', data.value)
+            }
+            listMode="SCROLLVIEW"
+            disableBorderRadius={false}
+            searchable={true}
+            maxHeight={300}
+            autoScroll={true}
+            scrollViewProps={{
+              showsHorizontalScrollIndicator: false,
+              showsVerticalScrollIndicator: false,
+            }}
+            ListEmptyComponent={({
+              listMessageContainerStyle,
+              listMessageTextStyle,
+              ActivityIndicatorComponent,
+              loading,
+              message,
+            }) => (
+              <View style={{...listMessageContainerStyle, zIndex: 0}}>
+                {loading ? (
+                  <ActivityIndicatorComponent />
+                ) : (
+                  <Text
+                    style={[listMessageTextStyle, styles.dropBoxMessageEmpty]}>
+                    {t('no_school')}
+                  </Text>
+                )}
+              </View>
+            )}
+            ArrowDownIconComponent={() => (
+              <AntDesign name="caretdown" size={12} color="#333" />
+            )}
+            ArrowUpIconComponent={() => (
+              <AntDesign name="caretup" size={12} color="#333" />
+            )}
+            TickIconComponent={({style}) => (
+              <AntDesign
+                style={style}
+                name="checkcircle"
+                size={16}
+                color="#ee463b"
+              />
+            )}
+            style={styles.unvDropdownPicker}
+            dropDownContainerStyle={styles.unvDropDownContainerStyle}
+            searchContainerStyle={styles.unvsearchContainerStyle}
+            searchTextInputStyle={styles.unvsearchTextInputStyle}
+            listItemContainerStyle={styles.unvListItemContainerStyle}
+            tickIconContainerStyle={styles.unvTickIconContainerStyle}
+            selectedItemLabelStyle={styles.unvSelectedItemLabelStyle}
+            placeholderStyle={styles.placeholderStyle}
           />
           <TextInput
-            style={{...styles.inputStyle,placeHolderTextColor:'red'}}
+            style={{...styles.inputStyle, marginTop: 20}}
             mode="outlined"
             value={formData.email}
             editable={false}
-            textColor='gray'
+            textColor="gray"
             label={t('email')}
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
-            
           />
           <TextInput
             style={styles.inputStyle}
@@ -282,7 +384,7 @@ const UserInfo = () => {
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
             ref={refDate}
-            contentStyle={{color:'black'}}
+            contentStyle={{color: 'black'}}
           />
           <TextInput
             style={styles.inputStyle}
@@ -293,8 +395,7 @@ const UserInfo = () => {
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
             outlineStyle={{borderRadius: 10}}
-            contentStyle={{color:'black'}}
-
+            contentStyle={{color: 'black'}}
           />
           <TextInput
             style={styles.inputStyle}
@@ -320,9 +421,9 @@ const UserInfo = () => {
             )}
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
-            contentStyle={{color:'black'}}
+            contentStyle={{color: 'black'}}
           />
-          <SelectList
+          {/* <SelectList
             placeholder={t('choose_gender')}
             searchPlaceholder={t('search')}
             setSelected={setSelectGender}
@@ -335,12 +436,45 @@ const UserInfo = () => {
             onSelect={() => handleInputChange('gender', slGender)}
             inputStyles={{color: 'black', width: '95%'}}
             dropdownTextStyles={{color: 'black'}}
-            boxStyles={
-                {marginBottom: 20, width: '100%'}
-            }
+            boxStyles={{marginBottom: 20, width: '100%'}}
+          /> */}
+          <DropDownPicker
+            open={genderOpen}
+            setOpen={setGenderOpen}
+            placeholder={t('gender')}
+            items={genders}
+            value={formData.gender}
+            schema={{
+              label: 'label',
+              value: 'value',
+            }}
+            onSelectItem={data => handleInputChange('gender', data.value)}
+            disableBorderRadius={false}
+            dropDownDirection="BOTTOM"
+            ArrowDownIconComponent={() => (
+              <AntDesign name="caretdown" size={12} color="#333" />
+            )}
+            ArrowUpIconComponent={() => (
+              <AntDesign name="caretup" size={12} color="#333" />
+            )}
+            TickIconComponent={({style}) => (
+              <AntDesign
+                style={style}
+                name="checkcircle"
+                size={16}
+                color="#ee463b"
+              />
+            )}
+            style={styles.genderDropDownPicker}
+            dropDownContainerStyle={styles.genderDropDownContainerStyle}
+            listItemContainerStyle={styles.genderListItemContainerStyle}
+            selectedItemLabelStyle={styles.genderSelectedItemLabelStyle}
+            tickIconContainerStyle={styles.genderTickIconContainerStyle}
+            placeholderStyle={styles.placeholderStyle}
+            listMode="SCROLLVIEW"
           />
           <TextInput
-            style={styles.inputStyle}
+            style={{...styles.inputStyle, marginTop: 20}}
             mode="outlined"
             label={t('address')}
             value={formData.address}
@@ -348,8 +482,9 @@ const UserInfo = () => {
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
-            contentStyle={{color:'black'}}
+            contentStyle={{color: 'black'}}
           />
+
           <TextInput
             style={{...styles.inputStyle}}
             mode="outlined"
@@ -359,7 +494,7 @@ const UserInfo = () => {
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
-            contentStyle={{color:'black'}}
+            contentStyle={{color: 'black'}}
             ref={refPhone}
             render={props => (
               <TextInputMask
@@ -382,7 +517,6 @@ const UserInfo = () => {
           </Button>
         </ScrollView>
       </KeyboardAvoidingView>
-      {/* </HideKeyBoard> */}
       {loading ? <AppLoader /> : ''}
     </>
   );
@@ -395,7 +529,7 @@ const styles = StyleSheet.create({
       primary: COLORS.tertiary,
       underlineColor: COLORS.tertiary,
       background: 'white',
-      onSurfaceVariant: 'black'
+      onSurfaceVariant: 'black',
     },
   },
   themeDark: {
@@ -410,7 +544,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: '100%',
     marginBottom: 30,
-    color:'black'
+    color: 'black',
   },
   saveButton: {
     width: '100%',
@@ -423,6 +557,73 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+  },
+  unvDropdownPicker: {
+    borderColor: '#E9EAEC',
+  },
+
+  unvDropDownContainerStyle: {
+    marginTop: 6,
+    backgroundColor: '#fff',
+    ...SHADOWS.medium,
+    borderWidth: 0,
+    padding: 6,
+    position: 'relative',
+    top: 0,
+  },
+
+  unvsearchTextInputStyle: {
+    borderWidth: 0,
+  },
+
+  unvTickIconContainerStyle: {
+    paddingTop: 4,
+    justifyContent: 'center',
+  },
+
+  unvSelectedItemLabelStyle: {
+    color: '#ee463b',
+    fontWeight: 500,
+    fontStyle: 'italic',
+  },
+
+  unvsearchContainerStyle: {
+    borderBottomWidth: 1,
+    borderColor: '#E9EAEC',
+  },
+
+  unvListItemContainerStyle: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#E9EAEC',
+  },
+
+  genderDropDownPicker: {
+    borderColor: '#E9EAEC',
+    height: 48,
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+
+  genderDropDownContainerStyle: {
+    marginTop: 6,
+    backgroundColor: '#fff',
+    borderColor: 'gray',
+    ...SHADOWS.medium,
+    borderWidth: 0,
+    padding: 6,
+    position: 'relative',
+    top: 0,
+  },
+
+  genderListItemContainerStyle: {
+    borderBottomWidth: 1,
+    borderColor: '#E9EAEC',
+  },
+
+  genderSelectedItemLabelStyle: {
+    color: '#ee463b',
+    fontWeight: 500,
+    fontStyle: 'italic',
   },
 });
 export default UserInfo;

@@ -487,10 +487,8 @@ const Register = ({navigation}) => {
             {t('have_account')}{' '}
             <Text style={styles.textLogin}>{t('login')}</Text>
           </Text>
-
         </View>
       </SafeAreaView>
-
     </KeyboardAwareScrollView>
   );
 };

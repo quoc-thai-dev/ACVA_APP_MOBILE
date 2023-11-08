@@ -25,7 +25,7 @@ const Home = ({navigation}) => {
     refreshing: false,
     checkId: '',
   });
-
+  const userData = useSelector(state => state.auth.userData);
   const [selectedId, setSelectedId] = useState();
   const dispatch = useDispatch();
 

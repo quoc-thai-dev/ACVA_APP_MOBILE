@@ -28,7 +28,7 @@ const screenOptions = {
     // right: 10,
     // backgroundColor: '#F3F4F5',
     // borderRadius: 20,
-    height: Platform.OS === 'ios' ? 70 : 70,
+    height: Platform.OS === 'ios' ? 90 : 70,
     // Add shadow based on the platform
     ...Platform.select({
       ios: {
@@ -105,8 +105,14 @@ const BottomTabNavigation = () => {
             headerTitle: t('video'),
             title: 'Aligned Center',
             headerTitleAlign: 'center',
+            headerTitleContainerStyle: {
+              marginTop: 50,
+            },
+            headerTitleStyle: {
+              fontSize: SIZES.large,
+            },
             headerStyle: {
-              height: Platform.OS === 'ios' ? 70 : 70,
+              height: Platform.OS === 'ios' ? 100 : 70,
               borderBottomWidth: 1,
               borderBottomColor: '#eee',
             },
@@ -162,13 +168,18 @@ const BottomTabNavigation = () => {
                 </>
               );
             },
-
             headerShown: true,
             headerTitle: 'Q&A',
             title: 'Aligned Center',
             headerTitleAlign: 'center',
+            headerTitleContainerStyle: {
+              marginTop: 50,
+            },
+            headerTitleStyle: {
+              fontSize: SIZES.large,
+            },
             headerStyle: {
-              height: Platform.OS === 'ios' ? 70 : 70,
+              height: Platform.OS === 'ios' ? 100 : 70,
               borderBottomWidth: 1,
               borderBottomColor: '#eee',
             },

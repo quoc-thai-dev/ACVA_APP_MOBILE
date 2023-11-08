@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   headerTopContainer: {
-    height: 100,
+    height: Platform.OS === 'ios' ? 150 : 100,
     zIndex: 1,
     position: 'absolute',
     top: 0,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   textTitle: {
     color: '#fff',
     fontSize: SIZES.large,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   textHeaderWelcome: {
     position: 'absolute',

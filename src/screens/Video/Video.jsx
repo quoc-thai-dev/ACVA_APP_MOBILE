@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Dimensions, FlatList, RefreshControl} from 'react-native';
-import {Appbar, Card, Text} from 'react-native-paper';
+import {useTranslation} from 'react-i18next';
+import {FlatList, RefreshControl, View} from 'react-native';
+import {Card} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AppLoader from '../../Components/AppLoader';
 import videoStudyApi from '../../api/videoStudyApi';
+import {SIZES} from '../../constants';
 import styles from './Video.style';
-import {useTranslation} from 'react-i18next';
-import {FONT, SIZES} from '../../constants';
 const Video = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [playing, setPlaying] = useState(false);
@@ -26,7 +26,7 @@ const Video = ({navigation}) => {
     setTimeout(() => {
       getAllVideos(videos);
       setRefreshing(false);
-    }, 2000);
+    }, 300);
   }, []);
   const togglePlaying = useCallback(() => {
     setPlaying(prev => !prev);
@@ -56,7 +56,7 @@ const Video = ({navigation}) => {
   };
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.scrollView}
           refreshControl={
@@ -78,10 +78,6 @@ const Video = ({navigation}) => {
             <Card onPress={() => showModalYoutube(item)} style={styles.card}>
               <Card.Cover
                 style={{height: 110}}
-                // style={{
-                //   height: 200,
-                //   width: Dimensions.get('screen').width - 30,
-                // }}
                 source={require('../../assets/images/ACVA/ACVA_Video_Image.jpg')}></Card.Cover>
               <Card.Title
                 titleNumberOfLines={5}
@@ -102,7 +98,7 @@ const Video = ({navigation}) => {
             </Card>
           )}
         />
-      </SafeAreaView>
+      </View>
       {loading ? <AppLoader /> : ''}
     </>
   );
