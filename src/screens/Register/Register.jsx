@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useMemo, useState} from 'react';
 import {
   Alert,
   Pressable,
@@ -487,8 +487,10 @@ const Register = ({navigation}) => {
             {t('have_account')}{' '}
             <Text style={styles.textLogin}>{t('login')}</Text>
           </Text>
+
         </View>
       </SafeAreaView>
+
     </KeyboardAwareScrollView>
   );
 };
