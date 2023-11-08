@@ -288,6 +288,7 @@ const DetailExam = () => {
               <Text style={styles.txtInputNoData}>{t('no_data_display')}</Text>
             </View>
           )}
+          <View style={{height:70}}></View>
         </View>
       </View>
       {/* </SafeAreaView> */}

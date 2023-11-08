@@ -106,7 +106,7 @@ const BottomTabNavigation = () => {
             title: 'Aligned Center',
             headerTitleAlign: 'center',
             headerStyle: {
-              height: Platform.OS === 'ios' ? 70 : 0,
+              height: Platform.OS === 'ios' ? 70 : 70,
               borderBottomWidth: 1,
               borderBottomColor: '#eee',
             },
@@ -168,7 +168,7 @@ const BottomTabNavigation = () => {
             title: 'Aligned Center',
             headerTitleAlign: 'center',
             headerStyle: {
-              height: Platform.OS === 'ios' ? 70 : 0,
+              height: Platform.OS === 'ios' ? 70 : 70,
               borderBottomWidth: 1,
               borderBottomColor: '#eee',
             },
