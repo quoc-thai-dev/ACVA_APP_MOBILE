@@ -55,6 +55,7 @@ const TextInputWithLabel = ({
                 : styles.textInputabsent
               : {color: '#333'}
           }
+          pointerc059
           onFocus={() => {
             onFocus;
             updateState({focus: !focus});
@@ -64,6 +65,7 @@ const TextInputWithLabel = ({
             updateState({focus: !focus});
           }}
           placeholderTextColor={'#e5e2e2'}
+          selectionColor={'red'}
           secureTextEntry={
             iconRight
               ? iconRight.hide === true

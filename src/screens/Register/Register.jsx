@@ -21,6 +21,7 @@ import {showError} from '../../utils/helperFunction';
 import validator from '../../utils/validations';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-date-picker';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -37,7 +38,7 @@ import {Button} from 'react-native-paper';
 
 const Register = ({navigation}) => {
   //const { universities } = useSelector(universitiesSelector);
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
   const {isLoading, isRegisterSuccess, message} = useSelector(authSelector);
   const dispatch = useDispatch();
   const genders = [
@@ -187,16 +188,24 @@ const Register = ({navigation}) => {
     dispatch(actions.register(data));
   };
 
-  //method date
+  // //method date
 
-  const showPicker = () => {
-    updateState({showDate: !showDate});
-    dispatch(registerFailed());
-  };
+  // const showPicker = () => {
+  //   updateState({showDate: !showDate});
+  //   dispatch(registerFailed());
+  // };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    const dateFormat = new Date(currentDate);
+  // const onChange = (event, selectedDate) => {
+
+  //   updateState({
+  //     showDate: !showDate,
+  //     date: currentDate,
+  //     birthday: newCurrentdate,
+  //   });
+  // };
+  const [open, setOpen] = useState(false);
+  const chooseDate = date => {
+    const dateFormat = new Date(date);
     const newCurrentdate = `${String(dateFormat.getDate()).padStart(
       2,
       '0',
@@ -205,12 +214,9 @@ const Register = ({navigation}) => {
       '0',
     )}-${dateFormat.getFullYear()}`;
     updateState({
-      showDate: !showDate,
-      date: currentDate,
       birthday: newCurrentdate,
     });
   };
-
   const scrollRef = useRef();
 
   const _scrollToInput = reactNode => {
@@ -290,10 +296,10 @@ const Register = ({navigation}) => {
                   </View>
                 )}
                 ArrowDownIconComponent={() => (
-                  <AntDesign name="caretdown" size={12} color="#333" />
+                  <AntDesign name="caretdown" size={12} color="gray" />
                 )}
                 ArrowUpIconComponent={() => (
-                  <AntDesign name="caretup" size={12} color="#333" />
+                  <AntDesign name="caretup" size={12} color="#EE6155" />
                 )}
                 TickIconComponent={({style}) => (
                   <AntDesign
@@ -347,10 +353,14 @@ const Register = ({navigation}) => {
                   value={password}
                   iconRight={{
                     icon2: (
-                      <Ionicons name="eye-outline" size={20} color="gray" />
+                      <Ionicons name="eye-outline" size={20} color="#EE6155" />
                     ),
                     icon: (
-                      <Ionicons name="eye-off-outline" size={20} color="gray" />
+                      <Ionicons
+                        name="eye-off-outline"
+                        size={20}
+                        color="#EE6155"
+                      />
                     ),
                     hide: true,
                   }}
@@ -370,10 +380,14 @@ const Register = ({navigation}) => {
                   value={confirm_password}
                   iconRight={{
                     icon2: (
-                      <Ionicons name="eye-outline" size={20} color="gray" />
+                      <Ionicons name="eye-outline" size={20} color="#EE6155" />
                     ),
                     icon: (
-                      <Ionicons name="eye-off-outline" size={20} color="gray" />
+                      <Ionicons
+                        name="eye-off-outline"
+                        size={20}
+                        color="#EE6155"
+                      />
                     ),
                     hide: true,
                   }}
@@ -395,27 +409,29 @@ const Register = ({navigation}) => {
 
             <View style={styles.groupContainer}>
               <View style={styles.inputGroup}>
-                <Pressable onPress={showPicker}>
-                  <TextInput
-                    style={styles.inputStyle}
-                    placeholder={t('birthday')}
-                    onBlur={() => updateState({showDatePicker: false})}
-                    onPressIn={() => updateState({showDatePicker: true})}
-                    editable={false}
-                    value={birthday ? birthday : ''}
-                  />
-                </Pressable>
-                {showDate ? (
-                  <DateTimePicker
-                    display="spinner"
-                    mode="date"
-                    value={new Date()}
-                    style={{width: Dimensions.get('window').width}}
-                  />
-                ) : (
-                  <></>
-                )}
-                <Button title="Pick a Date" onPress={showPicker} />
+                <TextInputCustom
+                  placeHolder={t('birthday')}
+                  editable={false}
+                  value={birthday ? birthday : ''}
+                  onPressIn={() => setOpen(true)}
+                />
+                <DatePicker
+                  modal
+                  open={open}
+                  date={new Date()}
+                  mode="date"
+                  locale={i18n.language}
+                  confirmText={t('confirm')}
+                  cancelText={t('cancel')}
+                  title={t('birthday')}
+                  onConfirm={date => {
+                    setOpen(false);
+                    chooseDate(date);
+                  }}
+                  onCancel={() => {
+                    setOpen(false);
+                  }}
+                />
               </View>
 
               <View style={[styles.inputGroup, styles.selectListContainer]}>
@@ -433,10 +449,10 @@ const Register = ({navigation}) => {
                   disableBorderRadius={false}
                   dropDownDirection="BOTTOM"
                   ArrowDownIconComponent={() => (
-                    <AntDesign name="caretdown" size={12} color="#333" />
+                    <AntDesign name="caretdown" size={12} color="gray" />
                   )}
                   ArrowUpIconComponent={() => (
-                    <AntDesign name="caretup" size={12} color="#333" />
+                    <AntDesign name="caretup" size={12} color="#EE6155" />
                   )}
                   TickIconComponent={({style}) => (
                     <AntDesign
@@ -467,6 +483,7 @@ const Register = ({navigation}) => {
             />
             <TextInputCustom
               placeHolder={t('tel')}
+              keyboardType={'numeric'}
               onChangeText={phone => updateState({phone})}
               value={phone}
               onFocus={event => {

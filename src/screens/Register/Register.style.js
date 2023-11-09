@@ -8,6 +8,18 @@ const styles = StyleSheet.create({
   },
   selectListContainer: {
     marginBottom: 12,
+    // Add shadow based on the platform
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: {width: 0, height: 3},
+        shadowRadius: 5,
+        shadowOpacity: 0.2,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   groupContainer: {
     flexDirection: 'row',
@@ -25,7 +37,7 @@ const styles = StyleSheet.create({
     width: '49%',
   },
   textLogin: {
-    fontWeight: 'bold',
+    fontWeight: '500',
     fontStyle: 'italic',
     color: '#0082EF',
   },

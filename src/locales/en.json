@@ -122,6 +122,7 @@
         "present":"Present",
         "time_start":"Time start",
         "time_end":"Time end",
-        "school_day":"School date"
+        "school_day":"School date",
+        "cancel":"Cancel"
     }
 }

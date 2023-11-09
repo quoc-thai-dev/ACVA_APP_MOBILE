@@ -122,6 +122,7 @@
         "present":"결석",
         "time_start":"시작시간",
         "time_end":"종료시간",
-        "school_day":"학습일자"
+        "school_day":"학습일자",
+        "cancel":"취소"
     }
 }

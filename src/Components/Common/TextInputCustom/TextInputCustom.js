@@ -12,8 +12,10 @@ const TextInputCustom = ({
   onChangeText = defaultFn,
   onBlur = defaultFn,
   onFocus = defaultFn,
+  onPressIn = defaultFn,
   iconRight,
   iconRightOnPress,
+  keyboardType,
   props,
 }) => {
   const [state, setState] = useState({
@@ -33,7 +35,7 @@ const TextInputCustom = ({
         style={{
           ...styles.inputStyle,
           ...(focus
-            ? {borderColor: '#FF5055'}
+            ? {borderColor: '#EE6155', borderWidth: 2}
             : {borderColor: styles.inputStyle.borderColor}),
         }}
         onChangeText={onChangeText}
@@ -42,10 +44,15 @@ const TextInputCustom = ({
         secureTextEntry={
           iconRight && iconRight.hide ? hidePassword : secureTextEntry
         }
+        selectionColor={'#EE6155'}
         onFocus={event => {
           updateState({focus: !focus});
           onFocus(event);
         }}
+        onPressIn={event => {
+          onPressIn(event);
+        }}
+        keyboardType={keyboardType}
         onBlur={() => {
           updateState({focus: !focus});
           onBlur();

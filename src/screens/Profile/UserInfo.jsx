@@ -1,32 +1,35 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import * as ImagePicker from 'expo-image-picker';
-import {launchImageLibrary} from 'react-native-image-picker';
 import React, {createRef, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+  Alert,
   Appearance,
   Keyboard,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
-  View,
   Text,
+  View,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {SelectList} from 'react-native-dropdown-select-list';
+import DatePicker from 'react-native-date-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {TextInputMask} from 'react-native-masked-text';
 import {Avatar, Button, TextInput} from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
 import AppLoader from '../../Components/AppLoader';
 import universityApi from '../../api/universityApi';
 import usersApi from '../../api/usersApi';
-import {COLORS} from '../../constants/theme';
 import {SHADOWS} from '../../constants';
+import {COLORS} from '../../constants/theme';
 import {showError, showSuccess} from '../../utils/helperFunction';
 import {setItem} from '../../utils/untils';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {TextInputWithLabel} from '../../Components';
+import TextInputCustom from '../../Components/Common/TextInputCustom/TextInputCustom';
 const UserInfo = () => {
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const refDate = createRef();
   const refPhone = createRef();
@@ -35,11 +38,9 @@ const UserInfo = () => {
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
-  const [selected, setSelected] = useState(userData.universities_id);
-  const [slGender, setSelectGender] = useState(parseInt(userData.gender));
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [birthday, setBirthday] = useState('');
+  const [birthday, setBirthday] = useState(formatDate(userData.birthday));
   const theme = Appearance.getColorScheme();
   // const pickImage = async () => {
   //   // No permissions request is necessary for launching the image library
@@ -169,7 +170,7 @@ const UserInfo = () => {
       year = datePart[0], // get only two digits
       month = datePart[1],
       day = datePart[2];
-    return day + month + year;
+    return day + '-' + month + '-' + year;
   }
   function formatDateSubmit(input) {
     if (input == '' || input == null) return;
@@ -178,6 +179,13 @@ const UserInfo = () => {
       month = datePart[1],
       day = datePart[0];
     return year + '-' + month + '-' + day;
+  }
+  function createDate(input) {
+    if (input == '' || input == null) return;
+    var dateParts = input.split('-');
+
+    // month is 0-based, that's why we need dataParts[1] - 1
+    return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
   }
   const saveProfile = async () => {
     let data = {
@@ -218,7 +226,19 @@ const UserInfo = () => {
     },
   ];
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const [open, setOpen] = useState(false);
+  const chooseDate = date => {
+    const dateFormat = new Date(date);
+    const newCurrentdate = `${String(dateFormat.getDate()).padStart(
+      2,
+      '0',
+    )}-${String(dateFormat.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-${dateFormat.getFullYear()}`;
+    // alert(newCurrentdate);
+    setBirthday(newCurrentdate);
+  };
   const openImagePicker = () => {
     const options = {
       mediaType: 'photo',
@@ -280,21 +300,6 @@ const UserInfo = () => {
             onPress={openImagePicker}>
             {t('upload_avatar')}
           </Button>
-          {/* <SelectList
-            placeholder={t('choose_university')}
-            setSelected={setSelected}
-            data={uni}
-            defaultOption={{
-              key: formData.universities_id,
-              value: formData.uni_name,
-            }}
-            save="key"
-            onSelect={() => handleInputChange('universities', selected)}
-            inputStyles={{color: 'black', width: '95%'}}
-            dropdownStyles={''}
-            dropdownTextStyles={{color: 'black'}}
-            boxStyles={{marginVertical: 20, width: '100%'}}
-          /> */}
           <DropDownPicker
             loading={loading}
             open={unvOpen}
@@ -399,45 +404,35 @@ const UserInfo = () => {
           />
           <TextInput
             style={styles.inputStyle}
+            value={birthday}
             mode="outlined"
             label={t('birthday')}
             outlineColor="#E9EAEC"
-            value={formatDate(formData.birthday)}
-            render={props => (
-              <TextInputMask
-                {...props}
-                type={'datetime'}
-                value={formatDate(formData.birthday)}
-                options={{
-                  format: 'DD/MM/YYYY',
-                  // format: 'YYYY-MM-DD',
-                }}
-                onChangeText={text => {
-                  props.onChangeText?.(text);
-                  setBirthday(text);
-                  //   handleInputChange('birthday', text);
-                }}
-              />
-            )}
-            outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
+            outlineStyle={{borderRadius: 10}}
             contentStyle={{color: 'black'}}
+            editable={false}
+            onPressIn={() => setOpen(true)}
           />
-          {/* <SelectList
-            placeholder={t('choose_gender')}
-            searchPlaceholder={t('search')}
-            setSelected={setSelectGender}
-            data={genderData}
-            defaultOption={{
-              key: userData.gender,
-              value: userData.gender == '1' ? t('female') : t('male'),
-            }}
-            save="key"
-            onSelect={() => handleInputChange('gender', slGender)}
-            inputStyles={{color: 'black', width: '95%'}}
-            dropdownTextStyles={{color: 'black'}}
-            boxStyles={{marginBottom: 20, width: '100%'}}
-          /> */}
+          <View style={styles.inputGroup}>
+            <DatePicker
+              modal
+              open={open}
+              date={createDate(birthday)}
+              mode="date"
+              locale={i18n.language}
+              confirmText={t('confirm')}
+              cancelText={t('cancel')}
+              title={t('birthday')}
+              onConfirm={date => {
+                setOpen(false);
+                chooseDate(date);
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
+          </View>
           <DropDownPicker
             open={genderOpen}
             setOpen={setGenderOpen}
@@ -543,7 +538,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     width: '100%',
-    marginBottom: 30,
+    marginBottom: 20,
     color: 'black',
   },
   saveButton: {
@@ -624,6 +619,13 @@ const styles = StyleSheet.create({
     color: '#ee463b',
     fontWeight: 500,
     fontStyle: 'italic',
+  },
+  groupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  inputGroup: {
+    width: '100%',
   },
 });
 export default UserInfo;

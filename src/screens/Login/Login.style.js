@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#0082EF',
     fontSize: 13,
-    fontWeight:'400'
+    fontWeight: '400',
   },
   footerLogin: {
     paddingVertical: 20,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textRegister: {
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'italic',
     color: '#0082EF',
   },

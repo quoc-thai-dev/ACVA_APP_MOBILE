@@ -276,7 +276,7 @@ const Login = ({navigation}) => {
               iconRight={
                 email
                   ? {
-                      icon: <Feather name="x" size={24} color="gray" />,
+                      icon: <Feather name="x" size={24} color="#EE6155" />,
                     }
                   : ''
               }
@@ -288,9 +288,11 @@ const Login = ({navigation}) => {
               value={password}
               onChangeText={password => updateState({password})}
               iconRight={{
-                icon2: <Ionicons name="eye-outline" size={24} color="gray" />,
+                icon2: (
+                  <Ionicons name="eye-outline" size={24} color="#EE6155" />
+                ),
                 icon: (
-                  <Ionicons name="eye-off-outline" size={24} color="gray" />
+                  <Ionicons name="eye-off-outline" size={24} color="#EE6155" />
                 ),
                 hide: true,
               }}

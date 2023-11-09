@@ -119,6 +119,7 @@
         "present":"Có mặt",
         "time_start":"Thời gian bắt đầu",
         "time_end":"Thời gian kết thúc",
-        "school_day":"Ngày học"
+        "school_day":"Ngày học",
+        "cancel":"Hủy bỏ"
     }
 }
