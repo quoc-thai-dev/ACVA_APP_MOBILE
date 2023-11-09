@@ -33,7 +33,13 @@ const TextInputWithLabel = ({
   return (
     <View style={styles.inputWrapper}>
       <View style={styles.labelContainer}>
-        <Text style={{fontWeight: 'bold'}}>{label}</Text>
+        <Text
+          style={[
+            {fontWeight: '500'},
+            focus ? {color: '#f54257'} : {color: 'black'},
+          ]}>
+          {label}
+        </Text>
       </View>
       <View
         style={

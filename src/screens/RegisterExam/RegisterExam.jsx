@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import ButtonWithLoader from '../../Components/Common/ButtonWithLoader/ButtonWithLoader';
 import examApi from '../../api/examApi';
@@ -23,6 +24,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import actions from '../../redux/actions';
 import {useTranslation} from 'react-i18next';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const RegisterExam = ({navigation}) => {
   const {t} = useTranslation();
@@ -42,12 +44,38 @@ const RegisterExam = ({navigation}) => {
   const [uploadImage, setUploadImage] = useState(false);
 
   const [imageCCCD, setImageCCCD] = useState('');
-  // const [imageGCN, setImageGCN] = useState(null);
+  const [imageGCN, setImageGCN] = useState(null);
   const [nameImageCmnd, setNameImageCmnd] = useState('');
   const [base64ImageCmnd, setBase64ImageCmnd] = useState('');
-
   const dispatch = useDispatch();
+  const pickImageCCCD = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: true,
+      quality: 1,
+    };
 
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        const filenameCCCD =
+          response.assets[0].uri &&
+          response.assets[0].uri.substring(
+            response.assets[0].uri.lastIndexOf('/') + 1,
+            response.assets[0].uri.length,
+          );
+        setImageCCCD(response.assets[0].uri);
+        setNameImageCmnd(filenameCCCD);
+        setBase64ImageCmnd(response.assets[0].base64);
+        // let imageBase64 = response.base64 || response.assets?.[0]?.base64;
+        // setSelectedImage(imageBase64);
+        // updateAvatar(imageBase64);
+      }
+    });
+  };
   // const pickImageCCCD = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({
   //     mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -145,8 +173,14 @@ const RegisterExam = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView></ScrollView>
-      <Image style={{alignSelf: 'center'}} source={images.acva_logo} />
+      <Image
+        style={{
+          alignSelf: 'center',
+          height: 175,
+        }}
+        resizeMode="contain"
+        source={images.acva_logo}
+      />
 
       <DropDownPicker
         open={openLevel}
@@ -156,10 +190,10 @@ const RegisterExam = ({navigation}) => {
         setValue={setLevel}
         disableBorderRadius={false}
         ArrowDownIconComponent={() => (
-          <AntDesign name="caretdown" size={12} color="#333" />
+          <AntDesign name="caretdown" size={12} color="gray" />
         )}
         ArrowUpIconComponent={() => (
-          <AntDesign name="caretup" size={12} color="#333" />
+          <AntDesign name="caretup" size={12} color="#f54257" />
         )}
         TickIconComponent={({style}) => (
           <AntDesign
@@ -193,6 +227,7 @@ const RegisterExam = ({navigation}) => {
         setValue={setIdExam}
         autoScroll={true}
         disableBorderRadius={false}
+        zIndex={1000}
         flatListProps={{
           showsHorizontalScrollIndicator: false,
           showsVerticalScrollIndicator: false,
@@ -222,10 +257,10 @@ const RegisterExam = ({navigation}) => {
           numberOfLines: 1,
         }}
         ArrowDownIconComponent={() => (
-          <AntDesign name="caretdown" size={12} color="#333" />
+          <AntDesign name="caretdown" size={12} color="gray" />
         )}
         ArrowUpIconComponent={() => (
-          <AntDesign name="caretup" size={12} color="#333" />
+          <AntDesign name="caretup" size={12} color="#f54257" />
         )}
         renderListItem={props => {
           return (
@@ -282,7 +317,7 @@ const RegisterExam = ({navigation}) => {
 
           <View style={styles.btnUpLoadCCCDContainer}>
             <TouchableOpacity
-              // onPress={pickImageCCCD}
+              onPress={pickImageCCCD}
               style={styles.btnUpLoadCCCD}>
               <FontAwesome5 name="upload" size={18} color="#333" />
             </TouchableOpacity>
@@ -294,7 +329,6 @@ const RegisterExam = ({navigation}) => {
             imageCCCD && (
               <Image
                 source={{uri: imageCCCD}}
-                resizeMode="contain"
                 style={{width: '100%', height: 150}}
               />
             )

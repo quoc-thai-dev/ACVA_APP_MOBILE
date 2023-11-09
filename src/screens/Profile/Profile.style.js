@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {SIZES} from '../../constants';
 
 const styles = StyleSheet.create({
@@ -9,12 +9,13 @@ const styles = StyleSheet.create({
     padding: 10,
     // backgroundColor: 'red',
     position: 'absolute',
-    top: 30,
+    // top: (Dimensions.get('window').height * 1) / 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'black',
+    marginBottom: 50,
   },
   blockList: {
     // width: '100%',

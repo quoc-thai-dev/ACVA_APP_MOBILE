@@ -67,8 +67,8 @@ const ChangePassword = ({navigation}) => {
         onChangeText={oldPassWord => updateState({oldPassWord})}
         placeholder={t('type_old_password')}
         iconRight={{
-          icon2: <Ionicons name="eye-outline" size={24} color="gray" />,
-          icon: <Ionicons name="eye-off-outline" size={24} color="gray" />,
+          icon2: <Ionicons name="eye-outline" size={24} color="#f54257" />,
+          icon: <Ionicons name="eye-off-outline" size={24} color="#f54257" />,
           hide: true,
         }}
       />
@@ -78,8 +78,8 @@ const ChangePassword = ({navigation}) => {
         onChangeText={newPassWord => updateState({newPassWord})}
         placeholder={t('type_new_password')}
         iconRight={{
-          icon2: <Ionicons name="eye-outline" size={24} color="gray" />,
-          icon: <Ionicons name="eye-off-outline" size={24} color="gray" />,
+          icon2: <Ionicons name="eye-outline" size={24} color="#f54257" />,
+          icon: <Ionicons name="eye-off-outline" size={24} color="#f54257" />,
           hide: true,
         }}
       />
@@ -89,8 +89,8 @@ const ChangePassword = ({navigation}) => {
         onChangeText={confirmNewPassowrd => updateState({confirmNewPassowrd})}
         placeholder={t('type_renew_password')}
         iconRight={{
-          icon2: <Ionicons name="eye-outline" size={24} color="gray" />,
-          icon: <Ionicons name="eye-off-outline" size={24} color="gray" />,
+          icon2: <Ionicons name="eye-outline" size={24} color="#f54257" />,
+          icon: <Ionicons name="eye-off-outline" size={24} color="#f54257" />,
           hide: true,
         }}
       />

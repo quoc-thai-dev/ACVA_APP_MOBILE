@@ -4,31 +4,21 @@ import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Alert,
+  Appearance,
+  Dimensions,
+  Image,
+  Platform,
   ScrollView,
   View,
-  Image,
-  TouchableOpacity,
-  Appearance,
-  Platform,
-  Dimensions,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import {
-  Modal,
-  Portal,
-  Button,
-  Provider,
-  Avatar,
-  List,
-  Text,
-} from 'react-native-paper';
-import {ImageBackground} from 'react-native';
+import {Avatar, Button, List, Modal, Portal, Text} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
+import {HeaderAuth} from '../../Components';
+import {images} from '../../constants';
 import {COLORS, SIZES} from '../../constants/index';
 import actions from '../../redux/actions';
 import styles from './Profile.style.js';
-import {HeaderAuth} from '../../Components';
-import {images} from '../../constants';
 const Profile = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -199,12 +189,12 @@ const Profile = ({navigation}) => {
         // textWelcome={t('welcome')}
       />
       <View style={styles.container}>
-        {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}> */}
+        {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}/> */}
         <View style={styles.blockAvatar}>
           <Text style={styles.title}>{t('setting')}</Text>
           {userData.user.image46 != '' ? (
             <Avatar.Image
-              size={72}
+              size={92}
               source={{
                 uri: avatarUrl.replace(/['"]+/g, ''),
               }}
@@ -237,7 +227,7 @@ const Profile = ({navigation}) => {
                 width: (Dimensions.get('screen').width * 90) / 100,
                 backgroundColor: 'white',
                 borderRadius: 16,
-                marginBottom: 7,
+                marginBottom: 10,
                 // Add shadow based on the platform
                 ...Platform.select({
                   ios: {

@@ -20,6 +20,8 @@ import {Avatar} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import icons from '../../constants/icons';
 import {authSelector} from '../../redux/selectors';
+import usersApi from '../../api/usersApi';
+import {showError} from '../../utils/helperFunction';
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
 const HomeHeader = ({navigation}) => {

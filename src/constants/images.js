@@ -1,5 +1,5 @@
 import acva_header from '../assets/images/ACVA/ACVA_Header.png';
-import acva_logo from '../assets/images/ACVA/ACVA_Logo.png';
+import acva_logo from '../assets/ACVA.png';
 import acva_get_start from '../assets/images/ACVA/ACVA_Get_start.png';
 import acva_home_header from '../assets/images/ACVA/ACVA_Home_Header.png';
 import acva_list from '../assets/images/ACVA/ACVA_List.png';

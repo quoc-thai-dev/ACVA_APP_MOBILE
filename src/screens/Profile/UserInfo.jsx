@@ -34,13 +34,12 @@ const UserInfo = () => {
   const refDate = createRef();
   const refPhone = createRef();
   const userData = useSelector(state => state.auth.userData.user);
-  console.log(userData);
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [birthday, setBirthday] = useState(formatDate(userData.birthday));
+  const [birthday, setBirthday] = useState(formatDate(formData.birthday));
   const theme = Appearance.getColorScheme();
   // const pickImage = async () => {
   //   // No permissions request is necessary for launching the image library
@@ -172,26 +171,26 @@ const UserInfo = () => {
       day = datePart[2];
     return day + '-' + month + '-' + year;
   }
-  function formatDateSubmit(input) {
-    if (input == '' || input == null) return;
-    var datePart = input.match(/\d+/g),
-      year = datePart[2], // get only two digits
-      month = datePart[1],
-      day = datePart[0];
-    return year + '-' + month + '-' + day;
-  }
+  // function formatDateSubmit(input) {
+  //   if (input == '' || input == null) return;
+  //   var datePart = input.match(/\d+/g),
+  //     year = datePart[2], // get only two digits
+  //     month = datePart[1],
+  //     day = datePart[0];
+  //   return year + '-' + month + '-' + day;
+  // }
   function createDate(input) {
     if (input == '' || input == null) return;
     var dateParts = input.split('-');
 
     // month is 0-based, that's why we need dataParts[1] - 1
-    return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+    return new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
   }
   const saveProfile = async () => {
     let data = {
       id: userData.id,
       fullname: formData.full_name,
-      birthday: formatDateSubmit(birthday),
+      birthday: formData.birthday,
       gender: formData.gender,
       address: formData.address,
       phone: formData.phone,
@@ -229,15 +228,22 @@ const UserInfo = () => {
   const [open, setOpen] = useState(false);
   const chooseDate = date => {
     const dateFormat = new Date(date);
-    const newCurrentdate = `${String(dateFormat.getDate()).padStart(
-      2,
-      '0',
-    )}-${String(dateFormat.getMonth() + 1).padStart(
-      2,
-      '0',
-    )}-${dateFormat.getFullYear()}`;
+    const newCurrentdate = `${dateFormat.getFullYear()}-${String(
+      dateFormat.getMonth() + 1,
+    ).padStart(2, '0')}-${String(dateFormat.getDate()).padStart(2, '0')}`;
+    // const newCurrentdate = `${String(dateFormat.getDate()).padStart(
+    //   2,
+    //   '0',
+    // )}-${String(dateFormat.getMonth() + 1).padStart(
+    //   2,
+    //   '0',
+    // )}-${dateFormat.getFullYear()}`;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      birthday: newCurrentdate,
+    }));
     // alert(newCurrentdate);
-    setBirthday(newCurrentdate);
+    // setBirthday(newCurrentdate);
   };
   const openImagePicker = () => {
     const options = {
@@ -404,7 +410,7 @@ const UserInfo = () => {
           />
           <TextInput
             style={styles.inputStyle}
-            value={birthday}
+            value={formatDate(formData.birthday)}
             mode="outlined"
             label={t('birthday')}
             outlineColor="#E9EAEC"
@@ -418,7 +424,7 @@ const UserInfo = () => {
             <DatePicker
               modal
               open={open}
-              date={createDate(birthday)}
+              date={createDate(formData.birthday)}
               mode="date"
               locale={i18n.language}
               confirmText={t('confirm')}

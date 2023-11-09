@@ -17,17 +17,18 @@ const styles = StyleSheet.create({
     top: -12, // Vertical position of label. Eyeball it to see where label intersects border.
   },
   inputContainer: focus => ({
-    borderWidth: 1, // Create border
+    borderWidth: 2, // Create border
     borderRadius: 8, // Not needed. Just make it look nicer.
     // padding: 8, // Also used to make it look nicer
     zIndex: 0, // Ensure border has z-index of 0
-    borderColor: focus ? '#1b1c1b' : '#e5e2e2',
+    borderColor: focus ? '#f54257' : '#ccc',
     // backgroundColor: 'red',
+
     padding: Platform.OS === 'ios' ? 15 : 5,
   }),
 
   textInput: focus => ({
-    color: focus ? '#e5e2e2' : '#333',
+    color: focus ? '#f54257' : '#ccc',
   }),
 
   textInputabsent: {
@@ -40,15 +41,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   icon: {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
     position: 'absolute',
-
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingRight: 9,
+    right: 0,
+    bottom: 4,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    // backgroundColor: 'red',
   },
 });
 
