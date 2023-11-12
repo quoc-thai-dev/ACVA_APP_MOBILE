@@ -7,9 +7,9 @@ require Pod::Executable.execute_command('node', ['-p',
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
-pod 'react-native-camera', path: '../node_modules/react-native-camera', subspecs: [
-  'BarcodeDetectorMLKit'
-]
+# pod 'react-native-camera', path: '../node_modules/react-native-camera', subspecs: [
+#   'BarcodeDetectorMLKit'
+# ]
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
 # because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
 #
@@ -25,6 +25,9 @@ linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
+end
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
 end
 target 'ACVA_APP_MOBILE' do
   config = use_native_modules!
@@ -58,6 +61,13 @@ target 'ACVA_APP_MOBILE' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+        # config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = "arm64"
+      end
+    end
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
+
 end

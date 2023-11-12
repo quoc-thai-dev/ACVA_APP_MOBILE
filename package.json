@@ -15,6 +15,7 @@
     "@react-native-community/datetimepicker": "^7.6.1",
     "@react-native-picker/picker": "^2.5.1",
     "@react-navigation/bottom-tabs": "^6.5.11",
+    "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.16",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.5.1",
