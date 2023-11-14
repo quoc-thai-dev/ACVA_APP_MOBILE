@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {Dimensions, StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,8 +12,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'red', // Color of the floating frame
   },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: Dimensions.get('screen').width / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scannedText: {
+    color: 'white',
+    fontSize: 20,
+  },
+});
 
-})
-
-export default styles
-
+export default styles;

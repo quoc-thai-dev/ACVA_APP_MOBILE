@@ -217,7 +217,7 @@ const Profile = ({navigation}) => {
         {/* </ImageBackground> */}
         <ScrollView
           style={styles.blockList}
-          scrollEnabled={false}
+          scrollEnabled={true}
           showsVerticalScrollIndicator={false}>
           {menuItems.map((item, index) => (
             <List.Item
