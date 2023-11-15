@@ -9,11 +9,13 @@ import {
   StatusBar,
   Text,
   View,
+  Easing,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import examApi from '../api/examApi';
 import styles from './QRCode.style';
+import {BlurView} from '@react-native-community/blur';
 
 import {COLORS, images} from '../constants';
 import {useTranslation} from 'react-i18next';
@@ -21,6 +23,30 @@ const QRCode = ({navigation}) => {
   const {t} = useTranslation();
   const [scannedData, setScannedData] = useState(null);
   const isScanningRef = useRef(false);
+  const [scanResult, setScanResult] = useState(null);
+  const [scaleValue] = useState(new Animated.Value(1));
+
+  const pulseAnimation = () => {
+    Animated.sequence([
+      Animated.timing(scaleValue, {
+        toValue: 1.2,
+        duration: 500,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleValue, {
+        toValue: 1,
+        duration: 500,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]).start(() => pulseAnimation());
+  };
+
+  useEffect(() => {
+    pulseAnimation();
+  }, []);
+
   const onAlert = message => {
     // Alert.alert(t('notification'), message, [
     //   {
@@ -76,20 +102,30 @@ const QRCode = ({navigation}) => {
   return (
     <View style={styles.container}>
       <RNCamera
-        style={styles.preview}
+        style={styles.camera}
         onBarCodeRead={handleBarCodeScanned}
-        flashMode={RNCamera.Constants.FlashMode.on}
         androidCameraPermissionOptions={{
           title: 'Permission to use camera',
           message: 'We need your permission to use your camera',
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
         }}></RNCamera>
+      <BlurView
+        style={styles.blurContainer}
+        blurType="light"
+        blurAmount={10}
+        reducedTransparencyFallbackColor="white"
+      />
       <View style={styles.overlay}>
-        {scannedData && (
-          <Text style={styles.scannedText}>Scanned Data: {scannedData}</Text>
-        )}
+        <Animated.View
+          style={[styles.frame, {transform: [{scale: scaleValue}]}]}
+        />
       </View>
+      {scanResult && (
+        <View style={styles.resultContainer}>
+          <Text style={styles.resultText}>Scanned Data: {scanResult}</Text>
+        </View>
+      )}
     </View>
   );
 };

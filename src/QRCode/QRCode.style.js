@@ -1,25 +1,36 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
   },
-  preview: {
-    width: 300,
-    height: 300,
-    borderWidth: 2,
-    borderColor: 'red', // Color of the floating frame
+  camera: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  blurContainer: {
+    ...StyleSheet.absoluteFillObject,
+    top: 100,
   },
   overlay: {
-    position: 'absolute',
-    top: 0,
-    left: Dimensions.get('screen').width / 2,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  scannedText: {
+  frame: {
+    width: 200,
+    height: 200,
+    borderWidth: 2,
+    borderColor: 'white',
+    borderRadius: 10,
+    backgroundColor: 'transparent',
+  },
+  resultContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+  },
+  resultText: {
     color: 'white',
     fontSize: 20,
   },
