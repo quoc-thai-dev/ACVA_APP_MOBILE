@@ -1,11 +1,25 @@
 import {useEffect, useState} from 'react';
-import {View, Image, TouchableOpacity, Alert} from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useTranslation} from 'react-i18next';
 import api from '../api/axiosClient';
-import {COLORS} from '../constants';
+import {COLORS, SIZES} from '../constants';
+import {Modal, Portal, List, Button, Text} from 'react-native-paper';
 function LanguageChangeHandler() {
-  const {i18n} = useTranslation();
+  const [t, i18n] = useTranslation();
+  const [visible, setVisible] = useState(false);
+  const showModal = () => {
+    setVisible(true);
+  };
+  const hideModal = () => setVisible(false);
+
   useEffect(() => {
     handleLanguageChange();
     i18n.on('languageChanged', handleLanguageChange);
@@ -19,84 +33,136 @@ function LanguageChangeHandler() {
       return config;
     });
   };
-  const changeLang = (lang = 'vi') => {
-    i18n.changeLanguage(lang);
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+  const languages = [
+    {
+      label: t('vi'),
+      code: 'vi',
+      flag: require('../assets/images/flags/vi.png'),
+    },
+    {
+      label: t('en'),
+      code: 'en',
+      flag: require('../assets/images/flags/en.png'),
+    },
+    {
+      label: t('ko'),
+      code: 'ko',
+      flag: require('../assets/images/flags/ko.png'),
+    },
+  ];
+
+  const handleLanguageSelection = languageCode => {
+    setSelectedLanguage(languageCode);
   };
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(i18n.language);
-  const [items, setItems] = useState([
-    {
-      label: i18n.t('vi'),
-      value: 'vi',
-      icon: () => (
-        <Image
-          source={require('../assets/images/flags/vi.png')}
-          style={{width: 32, height: 32}}
-        />
-      ),
-    },
-    {
-      label: i18n.t('en'),
-      value: 'en',
-      icon: () => (
-        <Image
-          source={require('../assets/images/flags/en.png')}
-          style={{width: 32, height: 32}}
-        />
-      ),
-    },
-    {
-      label: i18n.t('ko'),
-      value: 'ko',
-      icon: () => (
-        <Image
-          source={require('../assets/images/flags/ko.png')}
-          style={{width: 32, height: 32}}
-        />
-      ),
-    },
-  ]);
+
+  const handleConfirm = () => {
+    if (selectedLanguage) {
+      i18n.changeLanguage(selectedLanguage);
+    }
+    hideModal();
+  };
   return (
-    <View style={{position: 'absolute', top: 40, right: 20, zIndex: 999}}>
-      <DropDownPicker
+    <>
+      <Portal>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={styles.containerStyle}>
+          <View>
+            <List.Section>
+              <List.Subheader
+                style={{
+                  color: 'black',
+                  fontSize: SIZES.medium,
+                  fontWeight: 'bold',
+                }}>
+                {t('choose_language')}
+              </List.Subheader>
+              {languages.map(language => (
+                <List.Item
+                  key={language.code}
+                  title={() => (
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <Image
+                        style={{width: 32, height: 32, marginRight: 30}}
+                        source={language.flag}
+                      />
+                      <Text style={{color: 'black'}}>{language.label}</Text>
+                    </View>
+                  )}
+                  onPress={() => handleLanguageSelection(language.code)}
+                  right={props => (
+                    <List.Icon
+                      {...props}
+                      icon={
+                        selectedLanguage === language.code ? 'check' : 'square'
+                      }
+                      color={
+                        selectedLanguage === language.code
+                          ? COLORS.primary
+                          : '#ccc'
+                      }
+                    />
+                  )}
+                />
+              ))}
+            </List.Section>
+            <Button mode="contained" onPress={handleConfirm}>
+              {t('confirm')}
+            </Button>
+          </View>
+        </Modal>
+      </Portal>
+      <View
         style={{
-          width: 55,
-          alignSelf: 'center',
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: '#bdc3c7',
-          overflow: 'hidden',
-        }}
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        mode="SIMPLE"
-        labelStyle={{textAlign: 'center', display: 'none'}}
-        listItemContainerStyle={{textAlign: 'center'}}
-        listItemLabelStyle={{display: 'none'}}
-        containerStyle={{width: 55, alignSelf: 'center', zIndex: 10}}
-        selectedItemLabelStyle={{
-          color: COLORS.primary,
-          fontWeight: 'bold',
-          backgroundColor: 'red',
-        }}
-        dropDownContainerStyle={{
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: '#bdc3c7',
-        }}
-        arrowIconContainerStyle={{display: 'none'}}
-        selectedItemContainerStyle={{backgroundColor: COLORS.primary}}
-        placeholder={i18n.t('languages')}
-        tickIconStyle={{backgroundColor: COLORS.primary, borderRadius: 5}}
-        placeholderStyle={{textAlign: 'center', display: 'none'}}
-        onSelectItem={item => changeLang(item.value)}
-      />
-    </View>
+          position: 'absolute',
+          backgroundColor: 'transparent',
+          top: 60,
+          right: 30,
+          zIndex: 999,
+          paddingHorizontal: 10,
+        }}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => showModal()}>
+          {i18n.language == 'vi' ? (
+            <Image
+              source={languages[0].flag}
+              resizeMode="cover"
+              style={styles.image}></Image>
+          ) : i18n.language == 'en' ? (
+            <Image
+              source={languages[1].flag}
+              resizeMode="cover"
+              style={styles.image}></Image>
+          ) : (
+            <Image
+              source={languages[2].flag}
+              resizeMode="cover"
+              style={styles.image}></Image>
+          )}
+        </TouchableOpacity>
+      </View>
+    </>
   );
 }
+const styles = StyleSheet.create({
+  image: {
+    width: 48, // Set the width of your image
+    height: 48, // Set the height of your image
+    // Add any other styles you need
+  },
+  containerStyle: {
+    padding: 20,
+    borderRadius: 30,
+    alignSelf: 'center',
+    width: '90%',
+    backgroundColor: 'white',
+  },
+});
 
 export default LanguageChangeHandler;

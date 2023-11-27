@@ -267,6 +267,7 @@ const Profile = ({navigation}) => {
                       fontWeight: 'bold',
                       color: 'black',
                       fontSize: SIZES.small,
+                      lineHeight: 25,
                     }}>
                     {item[2]}
                   </Text>
