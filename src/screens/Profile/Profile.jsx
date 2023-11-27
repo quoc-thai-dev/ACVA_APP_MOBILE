@@ -95,7 +95,10 @@ const Profile = ({navigation}) => {
     Alert.alert(
       t('notification'),
       t('logout_msg'),
-      [{text: t('yes'), onPress: logout}, {text: t('no')}],
+      [
+        {text: t('no'), style: 'cancel'},
+        {text: t('logout'), style: 'destructive', onPress: logout},
+      ],
       {cancelable: true},
     );
   };
