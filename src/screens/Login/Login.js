@@ -353,7 +353,7 @@ const Login = ({navigation}) => {
           size={24}
           color="gray"
         />
-        <Image source={images.acva_logo} />
+        <Image source={images.acva_logo} style={{width: 250, height: 120}} />
 
         <View
           style={{
@@ -376,10 +376,19 @@ const Login = ({navigation}) => {
         </View>
 
         <View style={{width: '100%', alignItems: 'center'}}>
-          <TextInput
+          {/* <TextInput
             style={styles.textInputModal}
             placeholder={t('type_email')}
             onChangeText={email => updateState({email})}
+          /> */}
+          <TextInputWithLabel
+            placeHolder={t('type_email')}
+            style={{width: 255, marginTop: 20}}
+            onChangeText={email => updateState({email})}
+            value={email}
+            onFocus={event => {
+              _scrollToInput(findNodeHandle(event.target));
+            }}
           />
           <View style={styles.btnSend}>
             <ButtonWithLoader

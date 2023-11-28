@@ -16,6 +16,7 @@ const TextInputCustom = ({
   iconRight,
   iconRightOnPress,
   keyboardType,
+  style,
   props,
 }) => {
   const [state, setState] = useState({
@@ -34,6 +35,7 @@ const TextInputCustom = ({
         placeholder={placeHolder}
         style={{
           ...styles.inputStyle,
+          ...style,
           ...(focus
             ? {borderColor: '#EE6155', borderWidth: 2}
             : {borderColor: styles.inputStyle.borderColor}),
