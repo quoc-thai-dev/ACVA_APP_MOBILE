@@ -6,6 +6,7 @@ import {
   Alert,
   StyleSheet,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useTranslation} from 'react-i18next';
@@ -123,7 +124,7 @@ function LanguageChangeHandler() {
         style={{
           position: 'absolute',
           backgroundColor: 'transparent',
-          top: 60,
+          top: Platform.OS=="ios"?60:20,
           right: 30,
           zIndex: 999,
           paddingHorizontal: 10,

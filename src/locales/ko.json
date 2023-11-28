@@ -123,6 +123,8 @@
         "time_start":"시작시간",
         "time_end":"종료시간",
         "school_day":"학습일자",
-        "cancel":"취소"
+        "cancel":"취소",
+        "empty_notification":"현재 알림이 없습니다!"
+
     }
 }

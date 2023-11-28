@@ -123,6 +123,8 @@
         "time_start":"Time start",
         "time_end":"Time end",
         "school_day":"School date",
-        "cancel":"Cancel"
+        "cancel":"Cancel",
+        "empty_notification":"There are currently no notifications!"
+
     }
 }

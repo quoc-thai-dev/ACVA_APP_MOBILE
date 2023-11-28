@@ -8,10 +8,6 @@ const styles = StyleSheet.create({
   camera: {
     ...StyleSheet.absoluteFillObject,
   },
-  blurContainer: {
-    ...StyleSheet.absoluteFillObject,
-    top: 100,
-  },
   overlay: {
     flex: 1,
     justifyContent: 'center',

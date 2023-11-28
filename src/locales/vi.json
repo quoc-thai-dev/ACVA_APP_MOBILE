@@ -120,6 +120,7 @@
         "time_start":"Thời gian bắt đầu",
         "time_end":"Thời gian kết thúc",
         "school_day":"Ngày học",
-        "cancel":"Hủy bỏ"
+        "cancel":"Hủy bỏ",
+        "empty_notification":"Hiện tại chưa có thông báo nào!"
     }
 }

@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff', // Same color as background
     alignSelf: 'flex-start', // Have View be same width as Text inside
     paddingHorizontal: 3, // Amount of spacing between border and first/last letter
-    marginStart: 10, // How far right do you want the label to start
+    marginStart: 15, // How far right do you want the label to start
+    paddingHorizontal:5,
     zIndex: 1, // Label must overlap border
     elevation: 1, // Needed for android
     shadowColor: 'white', // Same as background color because elevation: 1 creates a shadow that we don't want
@@ -24,7 +25,8 @@ const styles = StyleSheet.create({
     borderColor: focus ? '#f54257' : '#ccc',
     // backgroundColor: 'red',
 
-    padding: Platform.OS === 'ios' ? 15 : 5,
+    padding: Platform.OS === 'ios' ? 15 : 0,
+    paddingLeft:10,
   }),
 
   textInput: focus => ({
