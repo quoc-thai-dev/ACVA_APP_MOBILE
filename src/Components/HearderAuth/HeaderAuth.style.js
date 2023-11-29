@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginTop: 200,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 20,
+    marginBottom: 20,
   },
   containerHeader: {
     position: 'absolute',

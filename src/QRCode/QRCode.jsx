@@ -26,7 +26,7 @@ const QRCode = ({navigation}) => {
   const [scanResult, setScanResult] = useState(null);
   const [scaleValue] = useState(new Animated.Value(1));
   const [scanned, setScanned] = useState(false);
-  const [hasPermission, setHasPermission] = useState();
+  const [hasPermission, setHasPermission] = useState(false);
   const pulseAnimation = () => {
     Animated.sequence([
       Animated.timing(scaleValue, {
@@ -54,7 +54,7 @@ const QRCode = ({navigation}) => {
             buttonNeutral: 'Ask Me Later',
             buttonNegative: 'Cancel',
             buttonPositive: 'OK',
-          }
+          },
         );
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -129,20 +129,20 @@ const QRCode = ({navigation}) => {
           message: 'We need your permission to use your camera',
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
-        }}
-        >
-        </RNCamera>
-      {
-      hasPermission?<View style={styles.overlay}>
-        <Image
-          source={require('../assets/ACVA.png')}
-          style={{width: 200, height: 100}}
-        />
-        <Animated.View
-          style={[styles.frame, {transform: [{scale: scaleValue}]}]}
-        />
-      </View>:<></>
-      }
+        }}></RNCamera>
+      {true ? (
+        <View style={styles.overlay}>
+          <Image
+            source={require('../assets/ACVA.png')}
+            style={{width: 200, height: 90, marginBottom: 20}}
+          />
+          <Animated.View
+            style={[styles.frame, {transform: [{scale: scaleValue}]}]}
+          />
+        </View>
+      ) : (
+        <></>
+      )}
 
       {scanResult && (
         <View style={styles.resultContainer}>

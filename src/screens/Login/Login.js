@@ -353,7 +353,7 @@ const Login = ({navigation}) => {
           size={24}
           color="gray"
         />
-        <Image source={images.acva_logo} style={{width: 250, height: 120}} />
+        <Image source={images.acva_logo} style={{width: 250, height: 110}} />
 
         <View
           style={{

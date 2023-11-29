@@ -29,6 +29,7 @@ import qaApi from '../../api/qaApi';
 import questionApi from '../../api/questionApi';
 import {COLORS, SIZES} from '../../constants';
 import {showError, showSuccess} from '../../utils/helperFunction';
+import TextInputWithLabel from '../../Components/Common/TextInputCustom/TextInputCustom';
 import {useTranslation} from 'react-i18next';
 const QA = () => {
   const [t, i18n] = useTranslation();
@@ -54,7 +55,7 @@ const QA = () => {
   const hideModal = () => setVisible(false);
   const containerStyle = {
     backgroundColor: 'white',
-    height: Dimensions.get('screen').height - 350,
+    height: 350,
     padding: 20,
     alignSelf: 'center',
     width: '90%',
@@ -160,17 +161,31 @@ const QA = () => {
               visible={visible}
               onDismiss={hideModal}
               contentContainerStyle={containerStyle}>
-              <View style={{flex: 1, justifyContent: 'space-around'}}>
+              <View style={{flex: 1}}>
                 <Text
                   style={{
                     fontSize: SIZES.large,
                     fontWeight: 'bold',
                     textAlign: 'center',
+                    marginBottom: 20,
                   }}>
                   {t('make_question')}
                 </Text>
                 <Text>{t('full_name')}</Text>
-                <TextInput
+                <TextInputWithLabel
+                  placeHolder={t('type_full_name')}
+                  style={{width: '100%', marginVertical: 10}}
+                  onChangeText={t =>
+                    handleQuestion('fullname', t)
+                  }></TextInputWithLabel>
+                <Text>{t('question')}</Text>
+                <TextInputWithLabel
+                  placeHolder={t('type_question')}
+                  style={{width: '100%', marginTop: 10}}
+                  onChangeText={t =>
+                    handleQuestion('question', t)
+                  }></TextInputWithLabel>
+                {/* <TextInput
                   // style={styles.input}
                   onChangeText={t => handleQuestion('fullname', t)}
                   placeholder={t('type_full_name')}
@@ -181,9 +196,9 @@ const QA = () => {
                     borderColor: '#E9EAEC',
                     borderRadius: 10,
                   }}
-                />
-                <Text>{t('question')}</Text>
-                <TextInput
+                /> */}
+                {/* <Text>{t('question')}</Text> */}
+                {/* <TextInput
                   editable
                   multiline
                   numberOfLines={6}
@@ -198,7 +213,7 @@ const QA = () => {
                     borderRadius: 10,
                     height: 90,
                   }}
-                />
+                /> */}
               </View>
               <Button
                 style={{backgroundColor: COLORS.primary, borderRadius: 10}}
