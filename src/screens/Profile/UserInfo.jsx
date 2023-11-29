@@ -31,7 +31,7 @@ import TextInputCustom from '../../Components/Common/TextInputCustom/TextInputCu
 const UserInfo = () => {
   const {t, i18n} = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
-  const refDate = createRef();
+  // const refDate = createRef();
   const refPhone = createRef();
   const userData = useSelector(state => state.auth.userData.user);
   const token = useSelector(state => state.auth.userData.token);
@@ -381,6 +381,7 @@ const UserInfo = () => {
             editable={false}
             textColor="gray"
             label={t('email')}
+            autoCapitalize="none"
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
@@ -394,7 +395,8 @@ const UserInfo = () => {
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
-            ref={refDate}
+            autoCapitalize="none"
+            // ref={refDate}
             contentStyle={{color: 'black'}}
           />
           <TextInput
@@ -483,6 +485,7 @@ const UserInfo = () => {
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
+            autoCapitalize="none"
             contentStyle={{color: 'black'}}
           />
 
