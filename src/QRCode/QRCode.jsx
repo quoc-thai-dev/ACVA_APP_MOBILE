@@ -124,6 +124,7 @@ const QRCode = ({navigation}) => {
       <RNCamera
         style={styles.camera}
         onBarCodeRead={handleBarCodeScanned}
+        captureAudio={false}
         androidCameraPermissionOptions={{
           title: 'Permission to use camera',
           message: 'We need your permission to use your camera',

@@ -124,7 +124,8 @@
         "time_end":"Time end",
         "school_day":"School date",
         "cancel":"Cancel",
-        "empty_notification":"There are currently no notifications!"
-
+        "empty_notification":"There are currently no notifications!",
+        "optional":"optional",
+        "required":"required"
     }
 }

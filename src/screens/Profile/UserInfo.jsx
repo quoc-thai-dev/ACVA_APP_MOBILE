@@ -299,19 +299,29 @@ const UserInfo = () => {
               style={{margin: 0}}
             />
           )}
+          <View style={{flex:1}}>
           <Button
             style={{marginVertical: 10}}
-            // icon="camera"
+            icon="upload"
             mode="contained"
             onPress={openImagePicker}>
             {t('upload_avatar')}
           </Button>
+            <Button
+            style={{backgroundColor:'red'}}
+              icon="delete"
+              mode="contained"
+              onPress={()=>alert("Xóa tài khoản và đăng xuất!")}>
+              {t('Delete')}
+            </Button>
+          </View>
+
           <DropDownPicker
             loading={loading}
             open={unvOpen}
             setOpen={setUnvOpen}
             items={uni}
-            placeholder={t('select_school')}
+            placeholder={t('select_school')+" *"}
             searchPlaceholder={t('type_school')}
             schema={{
               label: 'label',
@@ -380,7 +390,7 @@ const UserInfo = () => {
             value={formData.email}
             editable={false}
             textColor="gray"
-            label={t('email')}
+            label={t('email')+" *"}
             autoCapitalize="none"
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
@@ -391,7 +401,7 @@ const UserInfo = () => {
             mode="outlined"
             value={formData.email2}
             onChangeText={v => handleInputChange('email2', v)}
-            label={t('backup_email')}
+            label={t('backup_email')+" ("+t('optional')+")"}
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
@@ -404,7 +414,7 @@ const UserInfo = () => {
             value={formData.full_name}
             onChangeText={v => handleInputChange('full_name', v)}
             mode="outlined"
-            label={t('full_name')}
+            label={t('full_name')+" *"}
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
             outlineStyle={{borderRadius: 10}}
@@ -414,7 +424,7 @@ const UserInfo = () => {
             style={styles.inputStyle}
             value={formatDate(formData.birthday)}
             mode="outlined"
-            label={t('birthday')}
+            label={t('birthday')+" ("+t('optional')+")"}
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
             outlineStyle={{borderRadius: 10}}
@@ -444,7 +454,7 @@ const UserInfo = () => {
           <DropDownPicker
             open={genderOpen}
             setOpen={setGenderOpen}
-            placeholder={t('gender')}
+            placeholder={t('gender')+" ("+t('optional')+")"}
             items={genders}
             value={formData.gender}
             schema={{
@@ -479,7 +489,7 @@ const UserInfo = () => {
           <TextInput
             style={{...styles.inputStyle, marginTop: 20}}
             mode="outlined"
-            label={t('address')}
+            label={t('address')+" ("+t('optional')+")"}
             value={formData.address}
             onChangeText={v => handleInputChange('address', v)}
             outlineColor="#E9EAEC"
@@ -492,7 +502,7 @@ const UserInfo = () => {
           <TextInput
             style={{...styles.inputStyle}}
             mode="outlined"
-            label={t('tel')}
+            label={t('tel')+" ("+t('optional')+")"}
             value={formData.phone}
             onChangeText={v => handleInputChange('phone', v)}
             outlineColor="#E9EAEC"

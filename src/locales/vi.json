@@ -121,6 +121,8 @@
         "time_end":"Thời gian kết thúc",
         "school_day":"Ngày học",
         "cancel":"Hủy bỏ",
-        "empty_notification":"Hiện tại chưa có thông báo nào!"
+        "empty_notification":"Hiện tại chưa có thông báo nào!",
+        "optional":"Không bắt buộc",
+        "required":"Bắt buộc"
     }
 }

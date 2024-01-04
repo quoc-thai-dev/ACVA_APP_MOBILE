@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-ACVA_APP_MOBILE-ACVA_APP_MOBILETests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ACVA_APP_MOBILE-ACVA_APP_MOBILETests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8BBDE1A42B46B0B600399AAD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BBDE1A62B46B0B600399AAD /* InfoPlist.strings */; };
 		D4BD3F9D2AFFC7CF00644828 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD3F9C2AFFC7CF00644828 /* NotificationService.swift */; };
 		D4BD3FA12AFFC7CF00644828 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D4BD3F9A2AFFC7CF00644828 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D4CFDC0C2AEBBE4400F1E7B4 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = D4CFDC0B2AEBBE4400F1E7B4 /* fonts */; };
@@ -72,6 +73,9 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-ACVA_APP_MOBILE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ACVA_APP_MOBILE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ACVA_APP_MOBILE/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ACVA_APP_MOBILE-ACVA_APP_MOBILETests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ACVA_APP_MOBILE-ACVA_APP_MOBILETests.release.xcconfig"; path = "Target Support Files/Pods-ACVA_APP_MOBILE-ACVA_APP_MOBILETests/Pods-ACVA_APP_MOBILE-ACVA_APP_MOBILETests.release.xcconfig"; sourceTree = "<group>"; };
+		8BBDE1A52B46B0B600399AAD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8BBDE1A72B46B0E800399AAD /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8BBDE1A82B46B19200399AAD /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4BD3F9A2AFFC7CF00644828 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BD3F9C2AFFC7CF00644828 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D4BD3F9E2AFFC7CF00644828 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				8BBDE1A62B46B0B600399AAD /* InfoPlist.strings */,
 			);
 			name = ACVA_APP_MOBILE;
 			sourceTree = "<group>";
@@ -303,6 +308,8 @@
 			knownRegions = (
 				en,
 				Base,
+				vi,
+				ko,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -329,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4CFDC0C2AEBBE4400F1E7B4 /* fonts in Resources */,
+				8BBDE1A42B46B0B600399AAD /* InfoPlist.strings in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -556,6 +564,19 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		8BBDE1A62B46B0B600399AAD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BBDE1A52B46B0B600399AAD /* en */,
+				8BBDE1A72B46B0E800399AAD /* vi */,
+				8BBDE1A82B46B19200399AAD /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -752,20 +773,14 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -829,20 +844,14 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

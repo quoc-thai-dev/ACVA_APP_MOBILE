@@ -124,7 +124,7 @@ function LanguageChangeHandler() {
         style={{
           position: 'absolute',
           backgroundColor: 'transparent',
-          top: Platform.OS=="ios"?60:20,
+          top: Platform.OS=="ios"?40:20,
           right: 30,
           zIndex: 999,
           paddingHorizontal: 10,

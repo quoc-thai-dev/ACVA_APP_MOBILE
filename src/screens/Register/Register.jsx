@@ -254,7 +254,7 @@ const Register = ({navigation}) => {
                 open={unvOpen}
                 setOpen={setUnvOpen}
                 items={universities}
-                placeholder={t('select_school')}
+                placeholder={t('select_school')+' *'}
                 searchPlaceholder={t('type_school')}
                 schema={{
                   label: 'name',
@@ -319,35 +319,25 @@ const Register = ({navigation}) => {
                 placeholderStyle={styles.placeholderStyle}
               />
             </View>
-
-            <View style={styles.groupContainer}>
-              <View style={styles.inputGroup}>
+            <TextInputCustom
+              placeHolder={t('full_name')+" *"}
+              onChangeText={fullname => updateState({fullname})}
+              value={fullname}
+              onFocus={event => {
+                _scrollToInput(findNodeHandle(event.target));
+              }}
+            />
                 <TextInputCustom
-                  placeHolder={t('email')}
+                  placeHolder={t('email')+' *'}
                   onChangeText={email => updateState({email})}
                   value={email}
                   onFocus={event => {
                     _scrollToInput(findNodeHandle(event.target));
                   }}
                 />
-              </View>
 
-              <View style={styles.inputGroup}>
                 <TextInputCustom
-                  placeHolder={t('backup_email')}
-                  onChangeText={email_b => updateState({email_b})}
-                  value={email_b}
-                  onFocus={event => {
-                    _scrollToInput(findNodeHandle(event.target));
-                  }}
-                />
-              </View>
-            </View>
-
-            <View style={styles.groupContainer}>
-              <View style={styles.inputGroup}>
-                <TextInputCustom
-                  placeHolder={t('password')}
+                  placeHolder={t('password')+' *'}
                   secureTextEntry={isSecure}
                   onChangeText={password => updateState({password})}
                   value={password}
@@ -368,11 +358,9 @@ const Register = ({navigation}) => {
                     _scrollToInput(findNodeHandle(event.target));
                   }}
                 />
-              </View>
 
-              <View style={styles.inputGroup}>
                 <TextInputCustom
-                  placeHolder={t('confirm_password')}
+                  placeHolder={t('confirm_password')+' *'}
                   secureTextEntry={isSecure}
                   onChangeText={confirm_password =>
                     updateState({confirm_password})
@@ -395,22 +383,20 @@ const Register = ({navigation}) => {
                     _scrollToInput(findNodeHandle(event.target));
                   }}
                 />
-              </View>
-            </View>
 
-            <TextInputCustom
-              placeHolder={t('full_name')}
-              onChangeText={fullname => updateState({fullname})}
-              value={fullname}
-              onFocus={event => {
-                _scrollToInput(findNodeHandle(event.target));
-              }}
-            />
 
-            <View style={styles.groupContainer}>
-              <View style={styles.inputGroup}>
+                {/* <TextInputCustom
+                  placeHolder={t('backup_email')+" ("+t('optional')+")"}
+                  onChangeText={email_b => updateState({email_b})}
+                  value={email_b}
+                  onFocus={event => {
+                    _scrollToInput(findNodeHandle(event.target));
+                  }}
+                /> */}
+
+              {/* <View style={styles.inputGroup}>
                 <TextInputCustom
-                  placeHolder={t('birthday')}
+                  placeHolder={t('birthday')+" ("+t('optional')+")"}
                   editable={false}
                   value={birthday ? birthday : ''}
                   onPressIn={() => setOpen(true)}
@@ -432,13 +418,13 @@ const Register = ({navigation}) => {
                     setOpen(false);
                   }}
                 />
-              </View>
+              </View> */}
 
-              <View style={[styles.inputGroup, styles.selectListContainer]}>
+              {/* <View style={styles.selectListContainer}>
                 <DropDownPicker
                   open={genderOpen}
                   setOpen={setGenderOpen}
-                  placeholder={t('gender')}
+                  placeholder={t('gender')+" ("+t('optional')+")"}
                   items={genders}
                   value={gender}
                   schema={{
@@ -470,26 +456,25 @@ const Register = ({navigation}) => {
                   placeholderStyle={styles.placeholderStyle}
                   listMode="SCROLLVIEW"
                 />
-              </View>
-            </View>
+              </View> */}
 
-            <TextInputCustom
-              placeHolder={t('address')}
+            {/* <TextInputCustom
+              placeHolder={t('address')+" ("+t('optional')+")"}
               onChangeText={address => updateState({address})}
               value={address}
               onFocus={event => {
                 _scrollToInput(findNodeHandle(event.target));
               }}
-            />
-            <TextInputCustom
-              placeHolder={t('tel')}
+            /> */}
+            {/* <TextInputCustom
+              placeHolder={t('tel')+" ("+t('optional')+")"}
               keyboardType={'numeric'}
               onChangeText={phone => updateState({phone})}
               value={phone}
               onFocus={event => {
                 _scrollToInput(findNodeHandle(event.target));
               }}
-            />
+            /> */}
           </View>
 
           <ButtonWithLoader

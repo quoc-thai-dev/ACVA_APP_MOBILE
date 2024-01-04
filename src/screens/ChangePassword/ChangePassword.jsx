@@ -63,9 +63,9 @@ const ChangePassword = ({navigation}) => {
   return (
     <View style={styles.ChangePasswordContainer}>
       <TextInputWithLabel
-        label={t('old_password')}
+        label={t('old_password')+" *"}
         onChangeText={oldPassWord => updateState({oldPassWord})}
-        placeholder={t('type_old_password')}
+        placeholder={t('type_old_password')+" *"}
         iconRight={{
           icon2: <Ionicons name="eye-outline" size={24} color="#f54257" />,
           icon: <Ionicons name="eye-off-outline" size={24} color="#f54257" />,
@@ -74,9 +74,9 @@ const ChangePassword = ({navigation}) => {
       />
 
       <TextInputWithLabel
-        label={t('new_password')}
+        label={t('new_password')+" *"}
         onChangeText={newPassWord => updateState({newPassWord})}
-        placeholder={t('type_new_password')}
+        placeholder={t('type_new_password')+" *"}
         iconRight={{
           icon2: <Ionicons name="eye-outline" size={24} color="#f54257" />,
           icon: <Ionicons name="eye-off-outline" size={24} color="#f54257" />,
@@ -85,9 +85,9 @@ const ChangePassword = ({navigation}) => {
       />
 
       <TextInputWithLabel
-        label={t('renew_password')}
+        label={t('renew_password')+" *"}
         onChangeText={confirmNewPassowrd => updateState({confirmNewPassowrd})}
-        placeholder={t('type_renew_password')}
+        placeholder={t('type_renew_password')+" *"}
         iconRight={{
           icon2: <Ionicons name="eye-outline" size={24} color="#f54257" />,
           icon: <Ionicons name="eye-off-outline" size={24} color="#f54257" />,

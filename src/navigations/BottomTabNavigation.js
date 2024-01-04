@@ -28,7 +28,7 @@ const screenOptions = {
     // right: 10,
     // backgroundColor: '#F3F4F5',
     // borderRadius: 20,
-    height: Platform.OS === 'ios' ? 90 : 70,
+    height: Platform.OS === 'ios' ? 60 : 70,
     // Add shadow based on the platform
     ...Platform.select({
       ios: {
