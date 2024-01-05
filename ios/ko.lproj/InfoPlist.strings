@@ -1,1 +1,2 @@
-"Privacy - Camera Usage Description"="귀하의 카메라는 수업 중 출석 QR 코드를 스캔하기 위해 QR 코드를 스캔하는 데 사용됩니다.";
+NSCameraUsageDescription="귀하의 카메라는 수업 중 출석 QR 코드를 스캔하기 위해 QR 코드를 스캔하는 데 사용됩니다.";
+NSUserNotificationsUsageDescription="우리는 이 정보를 귀하에게 강좌 공지 사항을 보내는 데 사용합니다.";

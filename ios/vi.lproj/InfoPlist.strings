@@ -1,1 +1,2 @@
-"Privacy - Camera Usage Description"="Máy ảnh của bạn được dùng để quét mã QR điểm danh tại lớp học.";
+NSCameraUsageDescription="Máy ảnh của bạn được dùng để quét mã QR điểm danh tại lớp học.";
+NSUserNotificationsUsageDescription="Chúng tôi sử dụng điều này để gửi cho bạn thông tin về khóa học";
