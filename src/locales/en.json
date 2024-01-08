@@ -126,6 +126,12 @@
         "cancel":"Cancel",
         "empty_notification":"There are currently no notifications!",
         "optional":"optional",
-        "required":"required"
+        "required":"required",
+        "remove_account":"Remove account",
+        "danger":"Warning",
+        "remove_msg":"Are you sure you want to remove this account? \n All related information will be completely removed!",
+        "waiting_update":"Waiting for update",
+        "remove_account_success":"Account removed successfully"
+
     }
 }

@@ -1,4 +1,4 @@
-import {GET_USER_BY_ID, POST_USER_INFO, CHANGE_AVATAR} from '../config/urls';
+import {GET_USER_BY_ID, POST_USER_INFO, CHANGE_AVATAR,REMOVE_ACCOUNT} from '../config/urls';
 import axiosClient from './axiosClient';
 
 const usersApi = {
@@ -12,6 +12,9 @@ const usersApi = {
   changeAvatar: async data => {
     return await axiosClient.post(CHANGE_AVATAR, data);
   },
+  removeAccount: async data=>{
+    return await axiosClient.post(REMOVE_ACCOUNT,data);
+  }
 };
 
 export default usersApi;

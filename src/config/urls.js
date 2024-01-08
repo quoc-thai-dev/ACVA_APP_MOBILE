@@ -22,6 +22,7 @@ export const GET_ALL_VIDEO_STUDY = '/admin/get-video-study';
 export const GET_USER_BY_ID = '/admin/get-user-by-id';
 export const POST_USER_INFO = '/admin/update-user-info';
 export const CHANGE_AVATAR = '/admin/change-avatar';
+export const REMOVE_ACCOUNT= '/admin/delete-user';
 
 //question and answer
 export const GET_ALL_QUESTION_ANSWER = '/admin/get-qa';

@@ -191,13 +191,13 @@ const Profile = ({navigation}) => {
         // iconHeader={'user'}
         // textWelcome={t('welcome')}
       />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}/> */}
         <View style={styles.blockAvatar}>
           <Text style={styles.title}>{t('setting')}</Text>
           {userData.user.image46 != '' ? (
             <Avatar.Image
-              size={92}
+              size={84}
               source={{
                 uri: avatarUrl.replace(/['"]+/g, ''),
               }}
@@ -231,6 +231,7 @@ const Profile = ({navigation}) => {
                 backgroundColor: 'white',
                 borderRadius: 16,
                 marginBottom: 10,
+                height:45,
                 // Add shadow based on the platform
                 ...Platform.select({
                   ios: {
@@ -270,7 +271,7 @@ const Profile = ({navigation}) => {
                       fontWeight: 'bold',
                       color: 'black',
                       fontSize: SIZES.small,
-                      lineHeight: 25,
+                      lineHeight: 17,
                     }}>
                     {item[2]}
                   </Text>
@@ -280,29 +281,29 @@ const Profile = ({navigation}) => {
                     {i18n.language == 'vi' ? (
                       <Image
                         source={require('../../assets/images/flags/vi.png')}
-                        style={{width: 32, height: 25}}
+                        style={{width: 32, height: 21}}
                       />
                     ) : i18n.language == 'en' ? (
                       <Image
                         source={require('../../assets/images/flags/en.png')}
-                        style={{width: 32, height: 25}}
+                        style={{width: 32, height: 21}}
                       />
                     ) : (
                       <Image
                         source={require('../../assets/images/flags/ko.png')}
-                        style={{width: 32, height: 25}}
+                        style={{width: 32, height: 21}}
                       />
                     )}
                   </View>
                 ) : (
-                  <List.Icon {...props} color="black" icon={item[2]} />
+                  <List.Icon {...props} color="black"icon={item[2]} />
                 )
               }
             />
           ))}
         </ScrollView>
         {/* <View style={{height: 75}}></View> */}
-      </View>
+      </ScrollView>
     </>
   );
 };

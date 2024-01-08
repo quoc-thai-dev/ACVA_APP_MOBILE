@@ -176,7 +176,7 @@ const RegisterExam = ({navigation}) => {
       <Image
         style={{
           alignSelf: 'center',
-          height: 175,
+          height: 120,
         }}
         resizeMode="contain"
         source={images.acva_logo}

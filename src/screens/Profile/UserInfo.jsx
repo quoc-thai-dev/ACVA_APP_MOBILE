@@ -18,7 +18,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {TextInputMask} from 'react-native-masked-text';
 import {Avatar, Button, TextInput} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import AppLoader from '../../Components/AppLoader';
 import universityApi from '../../api/universityApi';
 import usersApi from '../../api/usersApi';
@@ -28,7 +28,8 @@ import {showError, showSuccess} from '../../utils/helperFunction';
 import {setItem} from '../../utils/untils';
 import {TextInputWithLabel} from '../../Components';
 import TextInputCustom from '../../Components/Common/TextInputCustom/TextInputCustom';
-const UserInfo = () => {
+import actions from '../../redux/actions';
+const UserInfo = ({navigation}) => {
   const {t, i18n} = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   // const refDate = createRef();
@@ -180,9 +181,8 @@ const UserInfo = () => {
   //   return year + '-' + month + '-' + day;
   // }
   function createDate(input) {
-    if (input == '' || input == null) return;
+    if (input == '' || input == null) return new Date();
     var dateParts = input.split('-');
-
     // month is 0-based, that's why we need dataParts[1] - 1
     return new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
   }
@@ -197,6 +197,7 @@ const UserInfo = () => {
       uni_id: formData.universities_id,
       email2: formData.email2,
     };
+    
     // console.log(data);
     await usersApi
       .updateUserInfo(data)
@@ -265,6 +266,46 @@ const UserInfo = () => {
       }
     });
   };
+  const onRemoveAccountAlert = () => {
+    Alert.alert(
+      t('danger'),
+      t('remove_msg'),
+      [
+        {text: t('no'), style: 'cancel'},
+        {text: t('remove_account'), style: 'destructive', onPress: removeAccount},
+      ],
+      {cancelable: true},
+    );
+  };
+  const dispatch = useDispatch();
+  const logout = () => {
+    dispatch(actions.logout());
+  };
+  const removeAccount=async()=>{
+    let data = {id:userData?.id};
+    await usersApi
+      .removeAccount(data)
+      .then(res => {
+        if (res.status == 200) {
+          Alert.alert(
+            t('notification'),
+            t('remove_account_success'),
+            [
+              {text: t('Ok'), style: 'cancel'},
+            ],
+            {cancelable: true},
+          );
+          navigation.navigate('Profile');
+        }
+      })
+      .catch(e => {
+        showError(e.message ? e.message : e);
+      })
+      .finally(() => {
+        console.log("Delete Done");
+        logout();
+      });
+  }
   return (
     <>
       <KeyboardAvoidingView
@@ -299,20 +340,21 @@ const UserInfo = () => {
               style={{margin: 0}}
             />
           )}
-          <View style={{flex:1}}>
-          <Button
-            style={{marginVertical: 10}}
-            icon="upload"
-            mode="contained"
-            onPress={openImagePicker}>
-            {t('upload_avatar')}
-          </Button>
+          <View style={{flex:1, flexDirection:'row',columnGap:5,marginBottom:10}}>
             <Button
-            style={{backgroundColor:'red'}}
+              icon="upload"
+              mode="contained"
+              onPress={openImagePicker}
+              compact={true}>
+              {t('upload_avatar')}
+            </Button>
+            <Button
+              buttonColor='red'
               icon="delete"
               mode="contained"
-              onPress={()=>alert("Xóa tài khoản và đăng xuất!")}>
-              {t('Delete')}
+              compact={true}
+              onPress={onRemoveAccountAlert}>
+              {t('remove_account')}
             </Button>
           </View>
 
@@ -646,5 +688,9 @@ const styles = StyleSheet.create({
   inputGroup: {
     width: '100%',
   },
+  placeholderStyle:{
+    fontSize:16,
+    marginLeft:5,
+  }
 });
 export default UserInfo;

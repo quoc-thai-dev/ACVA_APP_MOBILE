@@ -68,6 +68,9 @@ const HomeHeader = ({navigation}) => {
 
   const urlImage = avatarUrl;
   const fomatDate = dates => {
+    if(dates==""){
+      return t('waiting_update')
+    }
     const dateFormat = new Date(dates);
     const newCurrentdate = `${String(dateFormat.getDate()).padStart(
       2,

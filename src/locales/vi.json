@@ -123,6 +123,11 @@
         "cancel":"Hủy bỏ",
         "empty_notification":"Hiện tại chưa có thông báo nào!",
         "optional":"Không bắt buộc",
-        "required":"Bắt buộc"
+        "required":"Bắt buộc",
+        "remove_account":"Gỡ bỏ tài khoản",
+        "danger":"Cảnh báo",
+        "remove_msg":"Bạn có chắc chắn muốn gỡ bỏ tài khoản này? \n Toàn bộ thông tin liên quan sẽ bị gỡ bỏ hoàn toàn!",
+        "waiting_update":"Đang chờ cập nhật",
+        "remove_account_success":"Gỡ bỏ tài khoản thành công!"
     }
 }
