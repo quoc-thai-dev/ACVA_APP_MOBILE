@@ -16,7 +16,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {TextInputMask} from 'react-native-masked-text';
 import {Avatar, Button, TextInput} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useSelector,useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import AppLoader from '../../Components/AppLoader';
 import universityApi from '../../api/universityApi';
 import usersApi from '../../api/usersApi';
@@ -24,18 +24,18 @@ import {SHADOWS} from '../../constants';
 import {COLORS} from '../../constants/theme';
 import {showError, showSuccess} from '../../utils/helperFunction';
 import actions from '../../redux/actions';
-const extractName=(name)=>{
-  const words=name.split(' ');
-  if(words.length>=2){
-    const lastWord=words[words.length-1];
-    const secondLastWord=words[words.length-2];
+const extractName = name => {
+  const words = name.split(' ');
+  if (words.length >= 2) {
+    const lastWord = words[words.length - 1];
+    const secondLastWord = words[words.length - 2];
 
-    const result = secondLastWord+"+"+lastWord;
-    return result
-  }else{
+    const result = secondLastWord + '+' + lastWord;
+    return result;
+  } else {
     return name;
   }
-}
+};
 const UserInfo = ({navigation}) => {
   const {t, i18n} = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
@@ -44,7 +44,7 @@ const UserInfo = ({navigation}) => {
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
-  const [image, setImage] = useState('http://acva.vn/quiz/' +userData.image46);
+  const [image, setImage] = useState('http://acva.vn/quiz/' + userData.image46);
   const [loading, setLoading] = useState(true);
   const theme = Appearance.getColorScheme();
 
@@ -61,14 +61,14 @@ const UserInfo = ({navigation}) => {
     await usersApi
       .changeAvatar(data)
       .then(res => {
-        setImage('http://acva.vn/quiz/'+res.data.avatar_path);
+        setImage('http://acva.vn/quiz/' + res.data.avatar_path);
         let clone = {
-          token:token,
-          user:{
+          token: token,
+          user: {
             ...userData,
-            image46:res.data.avatar_path
-          }
-        }
+            image46: res.data.avatar_path,
+          },
+        };
         dispatch(actions.changeUserData(clone));
         showSuccess(t('change_avatar_success'));
       })
@@ -118,7 +118,6 @@ const UserInfo = ({navigation}) => {
   };
   const setUp = async () => {
     await getDataUniversity();
-
   };
   const handleInputChange = (f, v) => {
     setFormData(prevFormData => ({
@@ -155,22 +154,22 @@ const UserInfo = ({navigation}) => {
     };
     console.log(image);
     let clone = {
-      token:token,
-      user:{
+      token: token,
+      user: {
         ...userData,
-        full_name:formData.full_name,
-        birthday:formData.birthday,
-        email2:formData.email2,
-        universities_id:formData.universities_id,
-        gender:formData.gender,
-        address:formData.address,
-        phone:formData.phone,
-        image46:image.replace('http://acva.vn/quiz/','')
-      }
-    }
+        full_name: formData.full_name,
+        birthday: formData.birthday,
+        email2: formData.email2,
+        universities_id: formData.universities_id,
+        gender: formData.gender,
+        address: formData.address,
+        phone: formData.phone,
+        image46: image.replace('http://acva.vn/quiz/', ''),
+      },
+    };
     console.log(clone);
     dispatch(actions.changeUserData(clone));
-    
+
     // console.log(data);
     await usersApi
       .updateUserInfo(data)
@@ -245,7 +244,11 @@ const UserInfo = ({navigation}) => {
       t('remove_msg'),
       [
         {text: t('no'), style: 'cancel'},
-        {text: t('remove_account'), style: 'destructive', onPress: removeAccount},
+        {
+          text: t('remove_account'),
+          style: 'destructive',
+          onPress: removeAccount,
+        },
       ],
       {cancelable: true},
     );
@@ -254,8 +257,8 @@ const UserInfo = ({navigation}) => {
   const logout = () => {
     dispatch(actions.logout());
   };
-  const removeAccount=async()=>{
-    let data = {id:userData?.id};
+  const removeAccount = async () => {
+    let data = {id: userData?.id};
     await usersApi
       .removeAccount(data)
       .then(res => {
@@ -263,9 +266,7 @@ const UserInfo = ({navigation}) => {
           Alert.alert(
             t('notification'),
             t('remove_account_success'),
-            [
-              {text: t('Ok'), style: 'cancel'},
-            ],
+            [{text: t('Ok'), style: 'cancel'}],
             {cancelable: true},
           );
           navigation.navigate('Profile');
@@ -275,29 +276,33 @@ const UserInfo = ({navigation}) => {
         showError(e.message ? e.message : e);
       })
       .finally(() => {
-        console.log("Delete Done");
+        console.log('Delete Done');
         logout();
       });
-  }
-  let avatar=""
-  if(userData.image46){
-    avatar=<Avatar.Image
-    size={100}
-    source={{
-      uri: 'http://acva.vn/quiz/'+userData.image46,
-    }}
-    style={{margin: 0}}
-  />
-  }else{
-    avatar=<Avatar.Image
-    size={100}
-    source={{
-      uri:
-        'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
-        extractName(userData.full_name),
-    }}
-    style={{margin: 0}}
-  />
+  };
+  let avatar = '';
+  if (userData.image46) {
+    avatar = (
+      <Avatar.Image
+        size={100}
+        source={{
+          uri: 'http://acva.vn/quiz/' + userData.image46,
+        }}
+        style={{margin: 0}}
+      />
+    );
+  } else {
+    avatar = (
+      <Avatar.Image
+        size={100}
+        source={{
+          uri:
+            'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
+            extractName(userData.full_name),
+        }}
+        style={{margin: 0}}
+      />
+    );
   }
   return (
     <>
@@ -314,7 +319,8 @@ const UserInfo = ({navigation}) => {
             {backgroundColor: 'white'},
           ]}>
           {avatar}
-          <View style={{flex:1, flexDirection:'row',columnGap:5,marginBottom:10}}>
+          <View
+            style={{flexDirection: 'row', columnGap: 5, marginVertical: 15}}>
             <Button
               icon="upload"
               mode="contained"
@@ -323,7 +329,7 @@ const UserInfo = ({navigation}) => {
               {t('upload_avatar')}
             </Button>
             <Button
-              buttonColor='red'
+              buttonColor="red"
               icon="delete"
               mode="contained"
               compact={true}
@@ -337,7 +343,7 @@ const UserInfo = ({navigation}) => {
             open={unvOpen}
             setOpen={setUnvOpen}
             items={uni}
-            placeholder={t('select_school')+" *"}
+            placeholder={t('select_school') + ' *'}
             searchPlaceholder={t('type_school')}
             schema={{
               label: 'label',
@@ -406,7 +412,7 @@ const UserInfo = ({navigation}) => {
             value={formData.email}
             editable={false}
             textColor="gray"
-            label={t('email')+" *"}
+            label={t('email') + ' *'}
             autoCapitalize="none"
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
@@ -417,7 +423,7 @@ const UserInfo = ({navigation}) => {
             mode="outlined"
             value={formData.email2}
             onChangeText={v => handleInputChange('email2', v)}
-            label={t('backup_email')+" ("+t('optional')+")"}
+            label={t('backup_email') + ' (' + t('optional') + ')'}
             outlineColor="#E9EAEC"
             outlineStyle={{borderRadius: 10}}
             theme={styles.themeInput}
@@ -430,7 +436,7 @@ const UserInfo = ({navigation}) => {
             value={formData.full_name}
             onChangeText={v => handleInputChange('full_name', v)}
             mode="outlined"
-            label={t('full_name')+" *"}
+            label={t('full_name') + ' *'}
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
             outlineStyle={{borderRadius: 10}}
@@ -440,7 +446,7 @@ const UserInfo = ({navigation}) => {
             style={styles.inputStyle}
             value={formatDate(formData.birthday)}
             mode="outlined"
-            label={t('birthday')+" ("+t('optional')+")"}
+            label={t('birthday') + ' (' + t('optional') + ')'}
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
             outlineStyle={{borderRadius: 10}}
@@ -470,7 +476,7 @@ const UserInfo = ({navigation}) => {
           <DropDownPicker
             open={genderOpen}
             setOpen={setGenderOpen}
-            placeholder={t('gender')+" ("+t('optional')+")"}
+            placeholder={t('gender') + ' (' + t('optional') + ')'}
             items={genders}
             value={formData.gender}
             schema={{
@@ -505,7 +511,7 @@ const UserInfo = ({navigation}) => {
           <TextInput
             style={{...styles.inputStyle, marginTop: 10}}
             mode="outlined"
-            label={t('address')+" ("+t('optional')+")"}
+            label={t('address') + ' (' + t('optional') + ')'}
             value={formData.address}
             onChangeText={v => handleInputChange('address', v)}
             outlineColor="#E9EAEC"
@@ -518,7 +524,7 @@ const UserInfo = ({navigation}) => {
           <TextInput
             style={{...styles.inputStyle}}
             mode="outlined"
-            label={t('tel')+" ("+t('optional')+")"}
+            label={t('tel') + ' (' + t('optional') + ')'}
             value={formData.phone}
             onChangeText={v => handleInputChange('phone', v)}
             outlineColor="#E9EAEC"
@@ -662,9 +668,9 @@ const styles = StyleSheet.create({
   inputGroup: {
     width: '100%',
   },
-  placeholderStyle:{
-    fontSize:16,
-    marginLeft:5,
-  }
+  placeholderStyle: {
+    fontSize: 16,
+    marginLeft: 5,
+  },
 });
 export default UserInfo;
