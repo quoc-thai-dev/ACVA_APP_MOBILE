@@ -60,6 +60,12 @@ export default function(state = initial_state,action){
                 isRegisterSuccess: false,
                 message: action.payload,
             }
+        case types.CHANGE_USER_DATA:
+            return {
+                ...state,
+                isLoading:false,
+                userData:action.payload,
+            }
         default:
             return {...state};
     }

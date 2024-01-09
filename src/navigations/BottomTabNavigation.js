@@ -13,8 +13,22 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
+import DeviceInfo from 'react-native-device-info';
 const Tab = createBottomTabNavigator();
 const VideoStack = createNativeStackNavigator();
+const CheckHeight= ()=>{
+  Platform.OS === 'ios' ? 60 : 70
+  if(DeviceInfo.hasDynamicIsland()){
+    return 90;
+  }
+  if(DeviceInfo.hasNotch()){
+    return 70;
+  }
+  if(Platform.OS=="android"){
+    return 70;
+  }
+  return 60;
+}
 const screenOptions = {
   tabBarShowLabel: false,
   tabBarHideOnKeyboard: true,
@@ -28,7 +42,7 @@ const screenOptions = {
     // right: 10,
     // backgroundColor: '#F3F4F5',
     // borderRadius: 20,
-    height: Platform.OS === 'ios' ? 60 : 70,
+    height: CheckHeight(),
     // Add shadow based on the platform
     ...Platform.select({
       ios: {

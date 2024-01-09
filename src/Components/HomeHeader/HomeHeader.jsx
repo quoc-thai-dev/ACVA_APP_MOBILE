@@ -23,7 +23,18 @@ import {authSelector} from '../../redux/selectors';
 import usersApi from '../../api/usersApi';
 import {showError} from '../../utils/helperFunction';
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
+const extractName=(name)=>{
+  const words=name.split(' ');
+  if(words.length>=2){
+    const lastWord=words[words.length-1];
+    const secondLastWord=words[words.length-2];
 
+    const result = secondLastWord+"+"+lastWord;
+    return result
+  }else{
+    return name;
+  }
+}
 const HomeHeader = ({navigation}) => {
   const [t, i18n] = useTranslation();
   // const {userData} = useSelector(authSelector);
@@ -34,25 +45,9 @@ const HomeHeader = ({navigation}) => {
     userFullName: '',
     userImage: '',
   });
-  const [avatarUrl, setAvatarUrl] = useState(
-    'http://acva.vn/quiz/' + userData.user.image46,
-  );
   const {userBirthday, userEmail, userFullName, userImage} = state;
   const {birthday, email, full_name, image46} = userData.user;
   const updateState = data => setState({...state, ...data});
-  useFocusEffect(() => {
-    getAvatar();
-  });
-  const getAvatar = async () => {
-    try {
-      const storeAvatar = await AsyncStorage.getItem('avatarUrl');
-      if (storeAvatar) {
-        setAvatarUrl(storeAvatar);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   useEffect(() => {
     if (userData.user) {
@@ -63,10 +58,9 @@ const HomeHeader = ({navigation}) => {
         userImage: image46,
       });
     }
-    console.log('http://acva.vn/quiz/' + userData.user.image46);
   }, [userData]);
 
-  const urlImage = avatarUrl;
+  // const urlImage = avatarUrl;
   const fomatDate = dates => {
     if(dates==""){
       return t('waiting_update')
@@ -80,7 +74,27 @@ const HomeHeader = ({navigation}) => {
       '0',
     )}/${dateFormat.getFullYear()}`;
     return newCurrentdate;
-  };
+  };  
+  let avatar=""
+  if(userData.user.image46){
+    avatar=<Avatar.Image
+    size={45}
+    source={{
+      uri: 'http://acva.vn/quiz/'+userData.user.image46,
+    }}
+    style={{margin: 0}}
+  />
+  }else{
+    avatar=<Avatar.Image
+    size={45}
+    source={{
+      uri:
+        'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
+        extractName(userData.user.full_name),
+    }}
+    style={{margin: 0}}
+  />
+  }
   return (
     <>
       <View style={styles.homeContainer}>
@@ -91,12 +105,7 @@ const HomeHeader = ({navigation}) => {
 
         <View style={styles.headerTopContainer}>
           <Text style={styles.textTitle}>{t('home_page')}</Text>
-          <Avatar.Image
-            size={45}
-            source={{
-              uri: avatarUrl.replace(/['"]+/g, ''),
-            }}
-          />
+          {avatar}
         </View>
 
         <Text style={styles.textHeaderWelcome}>

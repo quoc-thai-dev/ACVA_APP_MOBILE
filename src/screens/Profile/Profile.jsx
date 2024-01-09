@@ -19,6 +19,19 @@ import {images} from '../../constants';
 import {COLORS, SIZES} from '../../constants/index';
 import actions from '../../redux/actions';
 import styles from './Profile.style.js';
+import { changeUserData } from '../../redux/actions/auth';
+const extractName=(name)=>{
+  const words=name.split(' ');
+  if(words.length>=2){
+    const lastWord=words[words.length-1];
+    const secondLastWord=words[words.length-2];
+
+    const result = secondLastWord+"+"+lastWord;
+    return result
+  }else{
+    return name;
+  }
+}
 const Profile = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -75,22 +88,6 @@ const Profile = ({navigation}) => {
     hideModal();
   };
   const [isLoading, setLoading] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState(
-    'http://acva.vn/quiz/' + userData.user.image46,
-  );
-  useFocusEffect(() => {
-    getAvatar();
-  });
-  const getAvatar = async () => {
-    try {
-      const storeAvatar = await AsyncStorage.getItem('avatarUrl');
-      if (storeAvatar) {
-        setAvatarUrl(storeAvatar);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
   const onLogoutAlert = () => {
     Alert.alert(
       t('notification'),
@@ -106,6 +103,7 @@ const Profile = ({navigation}) => {
   const logout = () => {
     dispatch(actions.logout());
   };
+
   const SelectAction = index => {
     switch (index) {
       case 0:
@@ -127,6 +125,26 @@ const Profile = ({navigation}) => {
         break;
     }
   };
+  let avatar=""
+  if(userData.user.image46){
+    avatar=<Avatar.Image
+    size={75}
+    source={{
+      uri: 'http://acva.vn/quiz/'+userData.user.image46,
+    }}
+    style={{margin: 0}}
+  />
+  }else{
+    avatar=<Avatar.Image
+    size={75}
+    source={{
+      uri:
+        'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
+        extractName(userData.user.full_name),
+    }}
+    style={{margin: 0}}
+  />
+  }
   return (
     <>
       <Portal>
@@ -191,31 +209,16 @@ const Profile = ({navigation}) => {
         // iconHeader={'user'}
         // textWelcome={t('welcome')}
       />
+      {console.log('https://ui-avatars.com/api/?name=' +
+                  userData.user.full_name.split(' ').pop() +
+                  '&length=1')}
       <ScrollView style={styles.container}>
         {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}/> */}
         <View style={styles.blockAvatar}>
           <Text style={styles.title}>{t('setting')}</Text>
-          {userData.user.image46 != '' ? (
-            <Avatar.Image
-              size={84}
-              source={{
-                uri: avatarUrl.replace(/['"]+/g, ''),
-              }}
-              style={{margin: 0}}
-            />
-          ) : (
-            <Avatar.Image
-              size={75}
-              source={{
-                uri:
-                  'https://ui-avatars.com/api/?name=' +
-                  userData.user.full_name.split(' ').pop() +
-                  '&length=1',
-              }}
-              style={{margin: 0}}
-            />
-          )}
+          {avatar}
           <Text style={styles.name}>{userData.user.full_name}</Text>
+          {/* <Button onPress={handleChangeName}>Change Name</Button> */}
         </View>
         {/* </ImageBackground> */}
         <ScrollView

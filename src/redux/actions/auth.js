@@ -91,3 +91,9 @@ export function logout() {
     type: types.CLEAR_REDUX_STATE,
   };
 }
+export const changeUserData=data=>{
+  return{
+    type:types.CHANGE_USER_DATA,
+    payload:data,
+  }
+}

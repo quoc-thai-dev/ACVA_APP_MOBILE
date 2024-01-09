@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import * as ImagePicker from 'expo-image-picker';
 import React, {createRef, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -25,38 +23,31 @@ import usersApi from '../../api/usersApi';
 import {SHADOWS} from '../../constants';
 import {COLORS} from '../../constants/theme';
 import {showError, showSuccess} from '../../utils/helperFunction';
-import {setItem} from '../../utils/untils';
-import {TextInputWithLabel} from '../../Components';
-import TextInputCustom from '../../Components/Common/TextInputCustom/TextInputCustom';
 import actions from '../../redux/actions';
+const extractName=(name)=>{
+  const words=name.split(' ');
+  if(words.length>=2){
+    const lastWord=words[words.length-1];
+    const secondLastWord=words[words.length-2];
+
+    const result = secondLastWord+"+"+lastWord;
+    return result
+  }else{
+    return name;
+  }
+}
 const UserInfo = ({navigation}) => {
   const {t, i18n} = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
-  // const refDate = createRef();
   const refPhone = createRef();
   const userData = useSelector(state => state.auth.userData.user);
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('http://acva.vn/quiz/' +userData.image46);
   const [loading, setLoading] = useState(true);
-  const [birthday, setBirthday] = useState(formatDate(formData.birthday));
   const theme = Appearance.getColorScheme();
-  // const pickImage = async () => {
-  //   // No permissions request is necessary for launching the image library
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //     allowsEditing: true,
-  //     aspect: [1, 1],
-  //     quality: 1,
-  //     base64: true,
-  //   });
 
-  //   if (!result.canceled && !result.cancelled) {
-  //     updateAvatar(result.assets[0].base64);
-  //   }
-  // };
-  // const [universities, setUniversities] = useState([]);
   const [unvOpen, setUnvOpen] = useState(false);
 
   const [genderOpen, setGenderOpen] = useState(false);
@@ -70,24 +61,21 @@ const UserInfo = ({navigation}) => {
     await usersApi
       .changeAvatar(data)
       .then(res => {
-        setImage(res.data.avatar_path);
+        setImage('http://acva.vn/quiz/'+res.data.avatar_path);
+        let clone = {
+          token:token,
+          user:{
+            ...userData,
+            image46:res.data.avatar_path
+          }
+        }
+        dispatch(actions.changeUserData(clone));
         showSuccess(t('change_avatar_success'));
-        setItem('avatarUrl', 'http://acva.vn/quiz/' + res.data.avatar_path);
       })
       .then(() => {
         setLoading(false);
       })
       .catch(error => console.log(error));
-  };
-  const getAvatar = async () => {
-    try {
-      const storeAvatar = await AsyncStorage.getItem('avatarUrl');
-      if (storeAvatar) {
-        setImage(storeAvatar.replace(/['"]+/g, ''));
-      }
-    } catch (e) {
-      console.log(e);
-    }
   };
   useEffect(() => {
     setUp();
@@ -128,42 +116,17 @@ const UserInfo = ({navigation}) => {
         setLoading(false);
       });
   };
-  const getUserInfo = async () => {
-    usersApi
-      .getUserById(userData.id)
-      .then(res => {
-        setFormData(res.data);
-        setImage(res.data.image46);
-      })
-      .catch(e => {
-        showError(e.message ? e.message : e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
   const setUp = async () => {
-    await getAvatar();
     await getDataUniversity();
-    await getUserInfo();
+
   };
   const handleInputChange = (f, v) => {
     setFormData(prevFormData => ({
       ...prevFormData,
       [f]: v,
     }));
-    // if (f === 'universities') {
-    //   setSelected(v);
-    // }
   };
-  // function formatDate(input) {
-  //   if (input == '') return;
-  //   var datePart = input.match(/\d+/g),
-  //     year = datePart[0], // get only two digits
-  //     month = datePart[1],
-  //     day = datePart[2];
-  //   return day + '/' + month + '/' + year;
-  // }
+
   function formatDate(input) {
     if (input == '' || input == null) return;
     var datePart = input.match(/\d+/g),
@@ -172,14 +135,7 @@ const UserInfo = ({navigation}) => {
       day = datePart[2];
     return day + '-' + month + '-' + year;
   }
-  // function formatDateSubmit(input) {
-  //   if (input == '' || input == null) return;
-  //   var datePart = input.match(/\d+/g),
-  //     year = datePart[2], // get only two digits
-  //     month = datePart[1],
-  //     day = datePart[0];
-  //   return year + '-' + month + '-' + day;
-  // }
+
   function createDate(input) {
     if (input == '' || input == null) return new Date();
     var dateParts = input.split('-');
@@ -197,6 +153,23 @@ const UserInfo = ({navigation}) => {
       uni_id: formData.universities_id,
       email2: formData.email2,
     };
+    console.log(image);
+    let clone = {
+      token:token,
+      user:{
+        ...userData,
+        full_name:formData.full_name,
+        birthday:formData.birthday,
+        email2:formData.email2,
+        universities_id:formData.universities_id,
+        gender:formData.gender,
+        address:formData.address,
+        phone:formData.phone,
+        image46:image.replace('http://acva.vn/quiz/','')
+      }
+    }
+    console.log(clone);
+    dispatch(actions.changeUserData(clone));
     
     // console.log(data);
     await usersApi
@@ -306,6 +279,26 @@ const UserInfo = ({navigation}) => {
         logout();
       });
   }
+  let avatar=""
+  if(userData.image46){
+    avatar=<Avatar.Image
+    size={100}
+    source={{
+      uri: 'http://acva.vn/quiz/'+userData.image46,
+    }}
+    style={{margin: 0}}
+  />
+  }else{
+    avatar=<Avatar.Image
+    size={100}
+    source={{
+      uri:
+        'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
+        extractName(userData.full_name),
+    }}
+    style={{margin: 0}}
+  />
+  }
   return (
     <>
       <KeyboardAvoidingView
@@ -320,26 +313,7 @@ const UserInfo = ({navigation}) => {
             styles.container,
             {backgroundColor: 'white'},
           ]}>
-          {image != '' ? (
-            <Avatar.Image
-              size={100}
-              source={{
-                uri: 'http://acva.vn/quiz/' + image,
-              }}
-              style={{margin: 10}}
-            />
-          ) : (
-            <Avatar.Image
-              size={100}
-              source={{
-                uri:
-                  'https://ui-avatars.com/api/?name=' +
-                  formData.user.full_name.split(' ').pop() +
-                  '&length=1',
-              }}
-              style={{margin: 0}}
-            />
-          )}
+          {avatar}
           <View style={{flex:1, flexDirection:'row',columnGap:5,marginBottom:10}}>
             <Button
               icon="upload"
@@ -427,7 +401,7 @@ const UserInfo = ({navigation}) => {
             placeholderStyle={styles.placeholderStyle}
           />
           <TextInput
-            style={{...styles.inputStyle, marginTop: 20}}
+            style={{...styles.inputStyle, marginTop: 15}}
             mode="outlined"
             value={formData.email}
             editable={false}
@@ -529,7 +503,7 @@ const UserInfo = ({navigation}) => {
             listMode="SCROLLVIEW"
           />
           <TextInput
-            style={{...styles.inputStyle, marginTop: 20}}
+            style={{...styles.inputStyle, marginTop: 10}}
             mode="outlined"
             label={t('address')+" ("+t('optional')+")"}
             value={formData.address}
@@ -599,7 +573,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 10,
     color: 'black',
   },
   saveButton: {
