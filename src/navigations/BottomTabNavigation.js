@@ -16,19 +16,19 @@ import {useTranslation} from 'react-i18next';
 import DeviceInfo from 'react-native-device-info';
 const Tab = createBottomTabNavigator();
 const VideoStack = createNativeStackNavigator();
-const CheckHeight= ()=>{
-  Platform.OS === 'ios' ? 60 : 70
-  if(DeviceInfo.hasDynamicIsland()){
+const CheckHeight = () => {
+  Platform.OS === 'ios' ? 60 : 70;
+  if (DeviceInfo.hasDynamicIsland()) {
     return 90;
   }
-  if(DeviceInfo.hasNotch()){
+  if (DeviceInfo.hasNotch()) {
     return 70;
   }
-  if(Platform.OS=="android"){
+  if (Platform.OS == 'android') {
     return 70;
   }
   return 60;
-}
+};
 const screenOptions = {
   tabBarShowLabel: false,
   tabBarHideOnKeyboard: true,

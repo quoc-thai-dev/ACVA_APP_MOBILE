@@ -5,7 +5,7 @@ import AuthStack from './AuthStack';
 import MainStack from './MainStack';
 import {useSelector} from 'react-redux';
 
-import { isLoginSelector } from '../redux/selectors';
+import {isLoginSelector} from '../redux/selectors';
 import SubStack from './SubStack';
 
 const Stack = createNativeStackNavigator();
@@ -13,7 +13,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: 'white'
+    background: 'white',
   },
 };
 
@@ -21,7 +21,9 @@ function Router() {
   const isLogin = useSelector(isLoginSelector);
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator initialRouteName='Login'>
+      <Stack.Navigator
+        screenOptions={{headerShown: false}}
+        initialRouteName="Login">
         {isLogin ? MainStack(Stack) : AuthStack(Stack)}
         {SubStack(Stack)}
       </Stack.Navigator>
