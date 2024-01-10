@@ -13,6 +13,19 @@ import {useTranslation} from 'react-i18next';
 import api from '../api/axiosClient';
 import {COLORS, SIZES} from '../constants';
 import {Modal, Portal, List, Button, Text} from 'react-native-paper';
+import DeviceInfo from 'react-native-device-info';
+const checkTop=()=>{
+  if(DeviceInfo.hasDynamicIsland()){
+    return 80;
+  }
+  if(DeviceInfo.hasNotch()){
+    return 70;
+  }
+  if(Platform.OS=="android"){
+    return 20;
+  }
+  return 45;
+}
 function LanguageChangeHandler() {
   const [t, i18n] = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -124,7 +137,7 @@ function LanguageChangeHandler() {
         style={{
           position: 'absolute',
           backgroundColor: 'transparent',
-          top: Platform.OS=="ios"?40:20,
+          top: checkTop(),
           right: 30,
           zIndex: 999,
           paddingHorizontal: 10,

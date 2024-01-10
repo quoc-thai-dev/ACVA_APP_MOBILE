@@ -8,8 +8,7 @@ function AuthStack(Stack) {
         name="Login"
         component={Login}
         options={{
-          headerTransparent: true,
-          headerTitle: '',
+          headerShown:false,
         }}
         
       />

@@ -22,7 +22,6 @@ function Router() {
   return (
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator
-        screenOptions={{headerShown: false}}
         initialRouteName="Login">
         {isLogin ? MainStack(Stack) : AuthStack(Stack)}
         {SubStack(Stack)}

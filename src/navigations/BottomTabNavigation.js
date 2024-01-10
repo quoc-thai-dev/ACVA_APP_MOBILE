@@ -3,26 +3,20 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home, Profile, QA, QRCode, Video} from '../screens/index';
 import {COLORS, SIZES} from '../constants/index';
-import {ScreenContainer} from 'react-native-screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {BlurView} from 'expo-blur';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
 import DeviceInfo from 'react-native-device-info';
 const Tab = createBottomTabNavigator();
-const VideoStack = createNativeStackNavigator();
 const CheckHeight = () => {
   Platform.OS === 'ios' ? 60 : 70;
   if (DeviceInfo.hasDynamicIsland()) {
     return 90;
   }
   if (DeviceInfo.hasNotch()) {
-    return 70;
+    return 80;
   }
   if (Platform.OS == 'android') {
     return 70;

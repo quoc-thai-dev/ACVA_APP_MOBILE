@@ -209,9 +209,6 @@ const Profile = ({navigation}) => {
         // iconHeader={'user'}
         // textWelcome={t('welcome')}
       />
-      {console.log('https://ui-avatars.com/api/?name=' +
-                  userData.user.full_name.split(' ').pop() +
-                  '&length=1')}
       <ScrollView style={styles.container}>
         {/* <ImageBackground source={require('../../assets/images/ACVA/ACVA_Header.png')} resizeMode="contain" style={{flex:1,justifyContent:'center'}}/> */}
         <View style={styles.blockAvatar}>
