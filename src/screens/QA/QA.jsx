@@ -168,17 +168,18 @@ const QA = () => {
                     fontWeight: 'bold',
                     textAlign: 'center',
                     marginBottom: 20,
+                    color:'black'
                   }}>
                   {t('make_question')}
                 </Text>
-                <Text>{t('full_name')}</Text>
+                <Text style={{color:'black'}}>{t('full_name')}</Text>
                 <TextInputWithLabel
                   placeHolder={t('type_full_name')}
                   style={{width: '100%', marginVertical: 10}}
                   onChangeText={t =>
                     handleQuestion('fullname', t)
                   }></TextInputWithLabel>
-                <Text>{t('question')}</Text>
+                <Text style={{color:'black'}}>{t('question')}</Text>
                 <TextInputWithLabel
                   placeHolder={t('type_question')}
                   style={{width: '100%', marginTop: 10}}
@@ -247,10 +248,11 @@ const QA = () => {
               renderItem={({item, index}) => (
                 <List.Accordion
                   style={{
-                    borderTopColor: '#D42E2E',
-                    borderTopWidth: 2,
-                    borderRadius: 20,
+                    // borderTopColor: '#D42E2E',
+                    // borderTopWidth: 2,
+                    // borderRadius: idExpand === index ?20 : 0,
                     backgroundColor: idExpand === index ? '#D42E2E' : 'white',
+                    // overflow:'hidden'
                   }}
                   title={item.title}
                   titleNumberOfLines={5}
