@@ -3,9 +3,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import React from 'react';
 import styles from './HeaderAuth.style';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import LanguageChangeHandler from '../../locales/LanguageChangeHandler';
+import { useRoute } from '@react-navigation/native';
 const {width} = Dimensions.get('window');
-
 const HeaderAuth = ({
   urlBackground,
   urlLogo,
@@ -13,6 +13,8 @@ const HeaderAuth = ({
   iconHeader,
   textWelcome,
 }) => {
+  const route = useRoute();
+  const changeLanguage = route.name=="Login"? <LanguageChangeHandler />:null;
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -27,6 +29,9 @@ const HeaderAuth = ({
           <Text style={styles.textWelcome}>{textWelcome}</Text>
         </SafeAreaView>
       </ImageBackground>
+      {
+      changeLanguage
+      }
 
       <View style={styles.imageLogo}>
         {urlLogo ? (

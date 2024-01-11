@@ -248,8 +248,8 @@ const QA = () => {
               renderItem={({item, index}) => (
                 <List.Accordion
                   style={{
-                    // borderTopColor: '#D42E2E',
-                    // borderTopWidth: 2,
+                    borderTopColor: '#D42E2E',
+                    borderTopWidth: 2,
                     // borderRadius: idExpand === index ?20 : 0,
                     backgroundColor: idExpand === index ? '#D42E2E' : 'white',
                     // overflow:'hidden'
@@ -287,7 +287,7 @@ const QA = () => {
                           source={{html: item.content}}
                         />
                       ) : (
-                        <Text>{t('waiting_answer')}</Text>
+                        <Text style={{color:'black'}}>{t('waiting_answer')}</Text>
                       )
                     }
                     titleNumberOfLines={5}

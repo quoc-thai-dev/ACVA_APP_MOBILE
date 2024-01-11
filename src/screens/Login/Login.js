@@ -34,7 +34,6 @@ import authApi from '../../api/authApi';
 import {changeStatusActived} from '../../redux/actions/auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useTranslation} from 'react-i18next';
-import LanguageChangeHandler from '../../locales/LanguageChangeHandler';
 
 const Login = ({navigation}) => {
   const [t, i18n] = useTranslation();
@@ -247,7 +246,6 @@ const Login = ({navigation}) => {
   return (
     <>
       <View style={styles.container}>
-        <LanguageChangeHandler />
         <KeyboardAwareScrollView
           bounces={false}
           showsVerticalScrollIndicator={false}

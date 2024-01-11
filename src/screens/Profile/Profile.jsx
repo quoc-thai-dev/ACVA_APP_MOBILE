@@ -231,7 +231,7 @@ const Profile = ({navigation}) => {
                 backgroundColor: 'white',
                 borderRadius: 16,
                 marginBottom: 10,
-                height:45,
+                height:50,
                 // Add shadow based on the platform
                 ...Platform.select({
                   ios: {
@@ -271,7 +271,7 @@ const Profile = ({navigation}) => {
                       fontWeight: 'bold',
                       color: 'black',
                       fontSize: SIZES.small,
-                      lineHeight: 17,
+                      lineHeight: 20,
                     }}>
                     {item[2]}
                   </Text>

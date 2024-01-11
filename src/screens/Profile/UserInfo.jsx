@@ -21,7 +21,7 @@ import AppLoader from '../../Components/AppLoader';
 import universityApi from '../../api/universityApi';
 import usersApi from '../../api/usersApi';
 import {SHADOWS} from '../../constants';
-import {COLORS} from '../../constants/theme';
+import {COLORS, SIZES} from '../../constants/theme';
 import {showError, showSuccess} from '../../utils/helperFunction';
 import actions from '../../redux/actions';
 const extractName = name => {
@@ -325,7 +325,8 @@ const UserInfo = ({navigation}) => {
               icon="upload"
               mode="contained"
               onPress={openImagePicker}
-              compact={true}>
+              compact={true}
+              >
               {t('upload_avatar')}
             </Button>
             <Button
@@ -333,7 +334,8 @@ const UserInfo = ({navigation}) => {
               icon="delete"
               mode="contained"
               compact={true}
-              onPress={onRemoveAccountAlert}>
+              onPress={onRemoveAccountAlert}
+              textColor='white'>
               {t('remove_account')}
             </Button>
           </View>
@@ -548,6 +550,8 @@ const UserInfo = ({navigation}) => {
           <Button
             style={styles.saveButton}
             mode="contained"
+            textColor='white'
+            labelStyle={{fontWeight:'bold',fontSize:SIZES.medium}}
             onPress={saveProfile}>
             {t('save')}
           </Button>

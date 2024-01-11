@@ -82,7 +82,8 @@ function LanguageChangeHandler() {
         <Modal
           visible={visible}
           onDismiss={hideModal}
-          contentContainerStyle={styles.containerStyle}>
+          contentContainerStyle={styles.containerStyle}
+          >
           <View>
             <List.Section>
               <List.Subheader
@@ -141,7 +142,8 @@ function LanguageChangeHandler() {
           right: 30,
           zIndex: 999,
           paddingHorizontal: 10,
-        }}>
+        }}
+        >
         <TouchableOpacity activeOpacity={0.7} onPress={() => showModal()}>
           {i18n.language == 'vi' ? (
             <Image
