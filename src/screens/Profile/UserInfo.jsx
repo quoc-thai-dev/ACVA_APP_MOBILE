@@ -551,7 +551,7 @@ const UserInfo = ({navigation}) => {
             style={styles.saveButton}
             mode="contained"
             textColor='white'
-            labelStyle={{fontWeight:'bold',fontSize:SIZES.medium}}
+            labelStyle={{fontWeight:'bold',fontSize:SIZES.medium,textTransform:'uppercase'}}
             onPress={saveProfile}>
             {t('save')}
           </Button>
