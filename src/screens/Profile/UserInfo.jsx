@@ -47,14 +47,11 @@ const UserInfo = ({ route, navigation }) => {
   const [image, setImage] = useState('http://acva.vn/quiz/' + userData.image46);
   const [loading, setLoading] = useState(true);
   const theme = Appearance.getColorScheme();
-  // navigation.setOptions({
-  //   headerRight:()=>(
-  //     <Button icon="pencil" textColor={'blue'} compact={true} mode="text" onPress={()=>setIsEdit(true)}>
-  //       {t('edit')}
-  //     </Button>
-  //   )
-  // })
   const [isEdit,setIsEdit] = useState(false);
+  const email2Ref=useRef();
+  const fullnameRef=useRef();
+  const addressRef=useRef();
+  const birthdayRef=useRef();
   const updateHeaderButton = () => {
     if(isEdit){
       navigation.setOptions({
@@ -78,15 +75,9 @@ const UserInfo = ({ route, navigation }) => {
   }
   updateHeaderButton();
 
-  // if (params) {
-  //   isEdit = params.isEdit
-  //   updateHeaderButton('isEdit');
-  // }
-
   const [unvOpen, setUnvOpen] = useState(false);
 
   const [genderOpen, setGenderOpen] = useState(false);
-  console.log('UserInfo rerender');
   const updateAvatar = async b64 => {
     let data = {
       id: userData.id,
@@ -177,6 +168,21 @@ const UserInfo = ({ route, navigation }) => {
     return new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
   }
   const saveProfile = async () => {
+    if(addressRef.current){
+      addressRef.current.blur();
+    }
+    if(email2Ref.current){
+      email2Ref.current.blur();
+    }
+    if(fullnameRef.current){
+      fullnameRef.current.blur();
+    }
+    if(birthdayRef.current){
+      birthdayRef.current.blur();
+    }
+    if(refPhone.current){
+      refPhone.current.blur();
+    }
     let data = {
       id: userData.id,
       fullname: formData.full_name,
@@ -214,6 +220,7 @@ const UserInfo = ({ route, navigation }) => {
         setIsEdit(false)
         setUnvOpen(false);
         setGenderOpen(false);
+        Keyboard.dismiss();
       })
       .catch(e => {
         showError(e.message ? e.message : e);
@@ -334,6 +341,22 @@ const UserInfo = ({ route, navigation }) => {
       />
     );
   }
+  // themeInput: {
+  //   colors: {
+  //     placeholder: COLORS.tertiary,
+  //     text: COLORS.tertiary,
+  //     primary: COLORS.tertiary,
+  //     underlineColor: COLORS.tertiary,
+  //     background: 'white',
+  //     onSurfaceVariant: '#98989D',
+  //   },
+  // },
+  const themeInputTest={
+      colors:{
+        ...styles.themeInput.colors,
+        onSurfaceVariant: isEdit?'black':'#98989D',
+      }
+  }
   return (
     <>
       <KeyboardAvoidingView
@@ -375,7 +398,7 @@ const UserInfo = ({ route, navigation }) => {
           <DropDownPicker
             loading={loading}
             open={unvOpen}
-            setOpen={isEdit?()=>setUnvOpen(true):()=>setUnvOpen(false)}
+            setOpen={isEdit?setUnvOpen:()=>setUnvOpen(false)}
             items={uni}
             labelStyle={isEdit ? { color: 'black' } : { color: '#98989D' }}
             placeholder={t('select_school') + ' *'}
@@ -454,6 +477,7 @@ const UserInfo = ({ route, navigation }) => {
             theme={styles.themeInput}
           />
           <TextInput
+          ref={email2Ref}
             style={styles.inputStyle}
             mode="outlined"
             value={formData.email2}
@@ -463,10 +487,11 @@ const UserInfo = ({ route, navigation }) => {
             label={t('backup_email') + ' (' + t('optional') + ')'}
             outlineColor="#E9EAEC"
             outlineStyle={{ borderRadius: 10 }}
-            theme={styles.themeInput}
+            theme={themeInputTest}
             autoCapitalize="none"
           />
           <TextInput
+          ref={fullnameRef}
             style={styles.inputStyle}
             value={formData.full_name}
             editable={isEdit}
@@ -475,17 +500,18 @@ const UserInfo = ({ route, navigation }) => {
             mode="outlined"
             label={t('full_name') + ' *'}
             outlineColor="#E9EAEC"
-            theme={styles.themeInput}
+            theme={themeInputTest}
             outlineStyle={{ borderRadius: 10 }}
           />
           <TextInput
+          ref={birthdayRef}
             style={styles.inputStyle}
             value={formatDate(formData.birthday)}
             mode="outlined"
             label={t('birthday') + ' (' + t('optional') + ')'}
             outlineColor="#E9EAEC"
-            theme={styles.themeInput}
-            outlineStyle={{ borderRadius: 10 }}
+            theme={themeInputTest}
+            outlineStyle={{ borderRadius: 10}}
             editable={isEdit}
             textColor={isEdit ? 'black' : '#98989D'}
             onPressIn={() => isEdit ? setOpen(true) : setOpen(false)}
@@ -511,7 +537,7 @@ const UserInfo = ({ route, navigation }) => {
           </View>
           <DropDownPicker
             open={genderOpen}
-            setOpen={isEdit?()=>setGenderOpen(true):()=>setGenderOpen(false)}
+            setOpen={isEdit?setGenderOpen:()=>setGenderOpen(false)}
             placeholder={t('gender') + ' (' + t('optional') + ')'}
             labelStyle={isEdit ? { color: 'black' } : { color: '#98989D' }}
 
@@ -547,6 +573,7 @@ const UserInfo = ({ route, navigation }) => {
             listMode="SCROLLVIEW"
           />
           <TextInput
+          ref={addressRef}
             style={{ ...styles.inputStyle, marginTop: 10 }}
             mode="outlined"
             label={t('address') + ' (' + t('optional') + ')'}
@@ -554,7 +581,7 @@ const UserInfo = ({ route, navigation }) => {
             onChangeText={v => handleInputChange('address', v)}
             outlineColor="#E9EAEC"
             outlineStyle={{ borderRadius: 10 }}
-            theme={styles.themeInput}
+            theme={themeInputTest}
             autoCapitalize="none"
             editable={isEdit}
             textColor={isEdit ? 'black' : '#98989D'}
@@ -568,7 +595,7 @@ const UserInfo = ({ route, navigation }) => {
             onChangeText={v => handleInputChange('phone', v)}
             outlineColor="#E9EAEC"
             outlineStyle={{ borderRadius: 10 }}
-            theme={styles.themeInput}
+            theme={themeInputTest}
             editable={isEdit}
             textColor={isEdit ? 'black' : '#98989D'}
             ref={refPhone}
@@ -609,7 +636,7 @@ const styles = StyleSheet.create({
       primary: COLORS.tertiary,
       underlineColor: COLORS.tertiary,
       background: 'white',
-      onSurfaceVariant: 'black',
+      onSurfaceVariant: '#98989D',
     },
   },
   themeDark: {
@@ -624,7 +651,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: '100%',
     marginBottom: 10,
-    color: 'black',
   },
   saveButton: {
     width: '100%',

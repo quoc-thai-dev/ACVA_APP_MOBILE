@@ -23,21 +23,12 @@ function SubStack(Stack) {
   return (
     <>
       <Stack.Screen name="UserInfo"
-        options={({ navigation }) => ({
-          // headerBackVisible: true,
-          title: t('UserInfo'),
-          // title: 'Aligned Center',
-          // headerTitleAlign: 'center',
-          // headerRight: () => (
-          //   // isEditting ?
-
-          //   //   :
-          //     <Button icon="pencil" textColor={'blue'} compact={true} mode="text" onPress={()=>navigation.navigate('UserInfo',{isEdit:true})}>
-          //       {t('edit')}
-          //     </Button>
-          // )
-          })
-        }
+        options={{
+          headerBackVisible: true,
+          headerTitle: t('UserInfo'),
+          title: 'Aligned Center',
+          headerTitleAlign: 'center',
+        }}
         component={UserInfo} />
       <Stack.Screen
         name="VideoDetail"
