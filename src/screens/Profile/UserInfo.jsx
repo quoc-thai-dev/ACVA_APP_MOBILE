@@ -56,7 +56,7 @@ const UserInfo = ({ route, navigation }) => {
     if(isEdit){
       navigation.setOptions({
         headerRight: () => (
-            <Button icon="content-save-check-outline" compact={true} textColor={COLORS.secondary} mode="text" onPress={saveProfile}>
+            <Button icon="check" compact={true} textColor={'#3DC65E'} mode="text" onPress={saveProfile}>
               {t('save')}
             </Button>
         )
