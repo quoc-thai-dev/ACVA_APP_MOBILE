@@ -1,5 +1,5 @@
-import React, {createRef, useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import React, { createRef, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Appearance,
@@ -12,17 +12,17 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {TextInputMask} from 'react-native-masked-text';
-import {Avatar, Button, TextInput} from 'react-native-paper';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { TextInputMask } from 'react-native-masked-text';
+import { Avatar, Button, TextInput, Divider } from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AppLoader from '../../Components/AppLoader';
 import universityApi from '../../api/universityApi';
 import usersApi from '../../api/usersApi';
-import {SHADOWS} from '../../constants';
-import {COLORS, SIZES} from '../../constants/theme';
-import {showError, showSuccess} from '../../utils/helperFunction';
+import { SHADOWS } from '../../constants';
+import { COLORS, SIZES } from '../../constants/theme';
+import { showError, showSuccess } from '../../utils/helperFunction';
 import actions from '../../redux/actions';
 const extractName = name => {
   const words = name.split(' ');
@@ -36,8 +36,8 @@ const extractName = name => {
     return name;
   }
 };
-const UserInfo = ({navigation}) => {
-  const {t, i18n} = useTranslation();
+const UserInfo = ({ route, navigation }) => {
+  const { t, i18n } = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const refPhone = createRef();
   const userData = useSelector(state => state.auth.userData.user);
@@ -47,11 +47,46 @@ const UserInfo = ({navigation}) => {
   const [image, setImage] = useState('http://acva.vn/quiz/' + userData.image46);
   const [loading, setLoading] = useState(true);
   const theme = Appearance.getColorScheme();
+  // navigation.setOptions({
+  //   headerRight:()=>(
+  //     <Button icon="pencil" textColor={'blue'} compact={true} mode="text" onPress={()=>setIsEdit(true)}>
+  //       {t('edit')}
+  //     </Button>
+  //   )
+  // })
+  const [isEdit,setIsEdit] = useState(false);
+  const updateHeaderButton = () => {
+    if(isEdit){
+      navigation.setOptions({
+        headerRight: () => (
+            <Button icon="content-save-check-outline" compact={true} textColor={COLORS.secondary} mode="text" onPress={saveProfile}>
+              {t('save')}
+            </Button>
+        )
+      });
+
+    }
+    else{
+      navigation.setOptions({
+        headerRight:()=>(
+          <Button icon="pencil" textColor={'#0B47DA'} compact={true} mode="text" onPress={()=>setIsEdit(true)}>
+            {t('edit')}
+          </Button>
+        )
+      })
+    }
+  }
+  updateHeaderButton();
+
+  // if (params) {
+  //   isEdit = params.isEdit
+  //   updateHeaderButton('isEdit');
+  // }
 
   const [unvOpen, setUnvOpen] = useState(false);
 
   const [genderOpen, setGenderOpen] = useState(false);
-
+  console.log('UserInfo rerender');
   const updateAvatar = async b64 => {
     let data = {
       id: userData.id,
@@ -104,7 +139,7 @@ const UserInfo = ({navigation}) => {
       .then(res => {
         if (res.status == 200) {
           let uniSelect = res.data.map(u => {
-            return {value: u.id, label: u.name};
+            return { value: u.id, label: u.name };
           });
           setUni(uniSelect);
         }
@@ -175,6 +210,10 @@ const UserInfo = ({navigation}) => {
       .updateUserInfo(data)
       .then(res => {
         showSuccess(res.message);
+        // updateHeaderButton();
+        setIsEdit(false)
+        setUnvOpen(false);
+        setGenderOpen(false);
       })
       .catch(e => {
         showError(e.message ? e.message : e);
@@ -184,8 +223,8 @@ const UserInfo = ({navigation}) => {
       });
   };
   const genderData = [
-    {key: 0, value: t('male')},
-    {key: 1, value: t('female')},
+    { key: 0, value: t('male') },
+    { key: 1, value: t('female') },
   ];
   const genders = [
     {
@@ -204,19 +243,10 @@ const UserInfo = ({navigation}) => {
     const newCurrentdate = `${dateFormat.getFullYear()}-${String(
       dateFormat.getMonth() + 1,
     ).padStart(2, '0')}-${String(dateFormat.getDate()).padStart(2, '0')}`;
-    // const newCurrentdate = `${String(dateFormat.getDate()).padStart(
-    //   2,
-    //   '0',
-    // )}-${String(dateFormat.getMonth() + 1).padStart(
-    //   2,
-    //   '0',
-    // )}-${dateFormat.getFullYear()}`;
     setFormData(prevFormData => ({
       ...prevFormData,
       birthday: newCurrentdate,
     }));
-    // alert(newCurrentdate);
-    // setBirthday(newCurrentdate);
   };
   const openImagePicker = () => {
     const options = {
@@ -243,14 +273,14 @@ const UserInfo = ({navigation}) => {
       t('danger'),
       t('remove_msg'),
       [
-        {text: t('no'), style: 'cancel'},
+        { text: t('no'), style: 'cancel' },
         {
           text: t('remove_account'),
           style: 'destructive',
           onPress: removeAccount,
         },
       ],
-      {cancelable: true},
+      { cancelable: true },
     );
   };
   const dispatch = useDispatch();
@@ -258,7 +288,7 @@ const UserInfo = ({navigation}) => {
     dispatch(actions.logout());
   };
   const removeAccount = async () => {
-    let data = {id: userData?.id};
+    let data = { id: userData?.id };
     await usersApi
       .removeAccount(data)
       .then(res => {
@@ -266,8 +296,8 @@ const UserInfo = ({navigation}) => {
           Alert.alert(
             t('notification'),
             t('remove_account_success'),
-            [{text: t('Ok'), style: 'cancel'}],
-            {cancelable: true},
+            [{ text: t('Ok'), style: 'cancel' }],
+            { cancelable: true },
           );
           navigation.navigate('Profile');
         }
@@ -288,7 +318,7 @@ const UserInfo = ({navigation}) => {
         source={{
           uri: 'http://acva.vn/quiz/' + userData.image46,
         }}
-        style={{margin: 0}}
+        style={{ margin: 0 }}
       />
     );
   } else {
@@ -300,14 +330,14 @@ const UserInfo = ({navigation}) => {
             'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
             extractName(userData.full_name),
         }}
-        style={{margin: 0}}
+        style={{ margin: 0 }}
       />
     );
   }
   return (
     <>
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null} // Android doesn't need 'padding' behavior
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 30} // Adjust as needed
       >
@@ -316,35 +346,38 @@ const UserInfo = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[
             styles.container,
-            {backgroundColor: 'white'},
+            { backgroundColor: 'white' },
           ]}>
           {avatar}
           <View
-            style={{flexDirection: 'row', columnGap: 5, marginVertical: 15}}>
+            style={{ flexDirection: 'row', columnGap: 5, marginVertical: 15 }}>
             <Button
               icon="upload"
               mode="contained"
               onPress={openImagePicker}
               compact={true}
-              >
+              // disabled={!isEdit}
+            >
               {t('upload_avatar')}
             </Button>
-            <Button
+            {/* <Button
               buttonColor="red"
               icon="delete"
               mode="contained"
               compact={true}
+              disabled={!isEdit}
               onPress={onRemoveAccountAlert}
               textColor='white'>
               {t('remove_account')}
-            </Button>
+            </Button> */}
           </View>
 
           <DropDownPicker
             loading={loading}
             open={unvOpen}
-            setOpen={setUnvOpen}
+            setOpen={isEdit?()=>setUnvOpen(true):()=>setUnvOpen(false)}
             items={uni}
+            labelStyle={isEdit ? { color: 'black' } : { color: '#98989D' }}
             placeholder={t('select_school') + ' *'}
             searchPlaceholder={t('type_school')}
             schema={{
@@ -374,7 +407,7 @@ const UserInfo = ({navigation}) => {
               loading,
               message,
             }) => (
-              <View style={{...listMessageContainerStyle, zIndex: 0}}>
+              <View style={{ ...listMessageContainerStyle, zIndex: 0 }}>
                 {loading ? (
                   <ActivityIndicatorComponent />
                 ) : (
@@ -391,7 +424,7 @@ const UserInfo = ({navigation}) => {
             ArrowUpIconComponent={() => (
               <AntDesign name="caretup" size={12} color="#333" />
             )}
-            TickIconComponent={({style}) => (
+            TickIconComponent={({ style }) => (
               <AntDesign
                 style={style}
                 name="checkcircle"
@@ -409,40 +442,41 @@ const UserInfo = ({navigation}) => {
             placeholderStyle={styles.placeholderStyle}
           />
           <TextInput
-            style={{...styles.inputStyle, marginTop: 15}}
+            style={{ ...styles.inputStyle, marginTop: 15 }}
             mode="outlined"
             value={formData.email}
             editable={false}
-            textColor="gray"
+            textColor="#98989D"
             label={t('email') + ' *'}
             autoCapitalize="none"
             outlineColor="#E9EAEC"
-            outlineStyle={{borderRadius: 10}}
+            outlineStyle={{ borderRadius: 10 }}
             theme={styles.themeInput}
           />
           <TextInput
             style={styles.inputStyle}
             mode="outlined"
             value={formData.email2}
+            editable={isEdit}
+            textColor={isEdit ? 'black' : '#98989D'}
             onChangeText={v => handleInputChange('email2', v)}
             label={t('backup_email') + ' (' + t('optional') + ')'}
             outlineColor="#E9EAEC"
-            outlineStyle={{borderRadius: 10}}
+            outlineStyle={{ borderRadius: 10 }}
             theme={styles.themeInput}
             autoCapitalize="none"
-            // ref={refDate}
-            contentStyle={{color: 'black'}}
           />
           <TextInput
             style={styles.inputStyle}
             value={formData.full_name}
+            editable={isEdit}
+            textColor={isEdit ? 'black' : '#98989D'}
             onChangeText={v => handleInputChange('full_name', v)}
             mode="outlined"
             label={t('full_name') + ' *'}
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
-            outlineStyle={{borderRadius: 10}}
-            contentStyle={{color: 'black'}}
+            outlineStyle={{ borderRadius: 10 }}
           />
           <TextInput
             style={styles.inputStyle}
@@ -451,10 +485,10 @@ const UserInfo = ({navigation}) => {
             label={t('birthday') + ' (' + t('optional') + ')'}
             outlineColor="#E9EAEC"
             theme={styles.themeInput}
-            outlineStyle={{borderRadius: 10}}
-            contentStyle={{color: 'black'}}
-            editable={false}
-            onPressIn={() => setOpen(true)}
+            outlineStyle={{ borderRadius: 10 }}
+            editable={isEdit}
+            textColor={isEdit ? 'black' : '#98989D'}
+            onPressIn={() => isEdit ? setOpen(true) : setOpen(false)}
           />
           <View style={styles.inputGroup}>
             <DatePicker
@@ -477,8 +511,10 @@ const UserInfo = ({navigation}) => {
           </View>
           <DropDownPicker
             open={genderOpen}
-            setOpen={setGenderOpen}
+            setOpen={isEdit?()=>setGenderOpen(true):()=>setGenderOpen(false)}
             placeholder={t('gender') + ' (' + t('optional') + ')'}
+            labelStyle={isEdit ? { color: 'black' } : { color: '#98989D' }}
+
             items={genders}
             value={formData.gender}
             schema={{
@@ -494,7 +530,7 @@ const UserInfo = ({navigation}) => {
             ArrowUpIconComponent={() => (
               <AntDesign name="caretup" size={12} color="#333" />
             )}
-            TickIconComponent={({style}) => (
+            TickIconComponent={({ style }) => (
               <AntDesign
                 style={style}
                 name="checkcircle"
@@ -511,28 +547,30 @@ const UserInfo = ({navigation}) => {
             listMode="SCROLLVIEW"
           />
           <TextInput
-            style={{...styles.inputStyle, marginTop: 10}}
+            style={{ ...styles.inputStyle, marginTop: 10 }}
             mode="outlined"
             label={t('address') + ' (' + t('optional') + ')'}
             value={formData.address}
             onChangeText={v => handleInputChange('address', v)}
             outlineColor="#E9EAEC"
-            outlineStyle={{borderRadius: 10}}
+            outlineStyle={{ borderRadius: 10 }}
             theme={styles.themeInput}
             autoCapitalize="none"
-            contentStyle={{color: 'black'}}
+            editable={isEdit}
+            textColor={isEdit ? 'black' : '#98989D'}
           />
 
           <TextInput
-            style={{...styles.inputStyle}}
+            style={{ ...styles.inputStyle }}
             mode="outlined"
             label={t('tel') + ' (' + t('optional') + ')'}
             value={formData.phone}
             onChangeText={v => handleInputChange('phone', v)}
             outlineColor="#E9EAEC"
-            outlineStyle={{borderRadius: 10}}
+            outlineStyle={{ borderRadius: 10 }}
             theme={styles.themeInput}
-            contentStyle={{color: 'black'}}
+            editable={isEdit}
+            textColor={isEdit ? 'black' : '#98989D'}
             ref={refPhone}
             render={props => (
               <TextInputMask
@@ -547,14 +585,16 @@ const UserInfo = ({navigation}) => {
               />
             )}
           />
-          <Button
-            style={styles.saveButton}
-            mode="contained"
-            textColor='white'
-            labelStyle={{fontWeight:'bold',fontSize:SIZES.medium,textTransform:'uppercase'}}
-            onPress={saveProfile}>
-            {t('save')}
-          </Button>
+          <View style={{width:'100%'}}>
+            <Divider style={{marginVertical:20}} />
+            <Button
+              mode="text"
+              textColor={'#F43732'}
+              labelStyle={{ fontWeight: 'bold', fontSize: SIZES.medium, textTransform: 'uppercase' }}
+              onPress={onRemoveAccountAlert}>
+              {t('remove_account')}
+            </Button>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
       {loading ? <AppLoader /> : ''}
@@ -647,7 +687,7 @@ const styles = StyleSheet.create({
   genderDropDownContainerStyle: {
     marginTop: 6,
     backgroundColor: '#fff',
-    borderColor: 'gray',
+    borderColor: '#98989D',
     ...SHADOWS.medium,
     borderWidth: 0,
     padding: 6,

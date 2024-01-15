@@ -128,6 +128,8 @@
         "danger":"Cảnh báo",
         "remove_msg":"Bạn có chắc chắn muốn gỡ bỏ tài khoản này? \n Toàn bộ thông tin liên quan sẽ bị gỡ bỏ hoàn toàn!",
         "waiting_update":"Đang chờ cập nhật",
-        "remove_account_success":"Gỡ bỏ tài khoản thành công!"
+        "remove_account_success":"Gỡ bỏ tài khoản thành công!",
+        "processing":"Đang xử lý",
+        "edit":"Chỉnh sửa"
     }
 }

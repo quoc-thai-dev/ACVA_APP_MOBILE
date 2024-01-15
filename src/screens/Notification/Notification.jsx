@@ -1,15 +1,11 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {
-  StyleSheet,
   RefreshControl,
   Text,
   FlatList,
   View,
   Image,
-  ImageBackground,
 } from 'react-native';
-import {Card, Avatar} from 'react-native-paper';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import styles from './Notification.style';
 import notificationApi from '../../api/notificationApi';
 import AppLoader from '../../Components/AppLoader';

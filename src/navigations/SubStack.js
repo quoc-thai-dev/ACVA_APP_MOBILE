@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UserInfo from '../screens/Profile/UserInfo';
 import VideoDetail from '../screens/Video/VideoDetail';
-import {ChangePassword, DetailExam} from '../screens';
-import {Text, Button} from 'react-native';
+import { ChangePassword, DetailExam } from '../screens';
+import { Text } from 'react-native';
+import { Button } from 'react-native-paper';
 import RegisterExam from '../screens/RegisterExam/RegisterExam';
 import Notification from '../screens/Notification/Notification';
 import { useTranslation } from 'react-i18next';
 
 function SubStack(Stack) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  // const [isEditting, setIsEditting] = useState(false);
+  // function handleEdit(){
+  //   setIsEditting(true);
+  //   alert('edit');
+  // }
+  // function handleSave(){
+  //   setIsEditting(false);
+  //   alert('save');
+  // }
+  console.log('SubStack rerender')
   return (
     <>
-      <Stack.Screen name="UserInfo" 
+      <Stack.Screen name="UserInfo"
+        options={({ navigation }) => ({
+          // headerBackVisible: true,
+          title: t('UserInfo'),
+          // title: 'Aligned Center',
+          // headerTitleAlign: 'center',
+          // headerRight: () => (
+          //   // isEditting ?
 
-      options={{
-        headerBackVisible: true,
-        headerTitle: t('UserInfo'),
-        title: 'Aligned Center',
-        headerTitleAlign: 'center',
-        
-      }}
-      
-      component={UserInfo} />
+          //   //   :
+          //     <Button icon="pencil" textColor={'blue'} compact={true} mode="text" onPress={()=>navigation.navigate('UserInfo',{isEdit:true})}>
+          //       {t('edit')}
+          //     </Button>
+          // )
+          })
+        }
+        component={UserInfo} />
       <Stack.Screen
         name="VideoDetail"
         component={VideoDetail}

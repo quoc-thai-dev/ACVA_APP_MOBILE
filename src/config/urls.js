@@ -4,6 +4,10 @@
 export const API_BASE_URL = 'http://acva.vn/quiz/public/api';
 
 /*===============================Endpoint=============================*/
+/*=================================NotificationURL==============================*/
+
+export const API_NOTIFICATION_URL = 'https://onesignal.com/api/v1/notifications';
+/*===============================Endpoint=============================*/
 
 //auth
 export const LOGIN = '/login-api';
