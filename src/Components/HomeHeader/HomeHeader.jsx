@@ -24,6 +24,9 @@ import usersApi from '../../api/usersApi';
 import {showError} from '../../utils/helperFunction';
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 const extractName=(name)=>{
+  if(name+""=="" || name+""=="null" || name+""=="undefined"){
+    return "";
+  }
   const words=name.split(' ');
   if(words.length>=2){
     const lastWord=words[words.length-1];
@@ -40,25 +43,24 @@ const HomeHeader = ({navigation}) => {
   // const {userData} = useSelector(authSelector);
   const userData = useSelector(state => state.auth.userData);
   const [state, setState] = useState({
-    userBirthday: '',
-    userEmail: '',
-    userFullName: '',
-    userImage: '',
+    userBirthday: userData.user?.birthday,
+    userEmail: userData.user?.email,
+    userFullName: userData.user?.full_name,
+    userImage: userData.user?.image46,
   });
   const {userBirthday, userEmail, userFullName, userImage} = state;
-  const {birthday, email, full_name, image46} = userData.user;
   const updateState = data => setState({...state, ...data});
 
-  useEffect(() => {
-    if (userData.user) {
-      updateState({
-        userBirthday: birthday ? birthday : '',
-        userEmail: email ? email : '',
-        userFullName: full_name ? full_name : '',
-        userImage: image46,
-      });
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData.user) {
+  //     updateState({
+  //       userBirthday: birthday ? birthday : '',
+  //       userEmail: email ? email : '',
+  //       userFullName: full_name ? full_name : '',
+  //       userImage: image46,
+  //     });
+  //   }
+  // }, [userData]);
 
   // const urlImage = avatarUrl;
   const fomatDate = dates => {
@@ -76,11 +78,11 @@ const HomeHeader = ({navigation}) => {
     return newCurrentdate;
   };  
   let avatar=""
-  if(userData.user.image46){
+  if(userData.user?.image46){
     avatar=<Avatar.Image
     size={45}
     source={{
-      uri: 'http://acva.vn/quiz/'+userData.user.image46,
+      uri: 'http://acva.vn/quiz/'+userData.user?.image46,
     }}
     style={{margin: 0}}
   />
@@ -90,7 +92,7 @@ const HomeHeader = ({navigation}) => {
     source={{
       uri:
         'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
-        extractName(userData.user.full_name),
+        extractName(userData.user?.full_name),
     }}
     style={{margin: 0}}
   />

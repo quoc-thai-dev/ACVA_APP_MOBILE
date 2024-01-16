@@ -24,18 +24,21 @@ import { SHADOWS } from '../../constants';
 import { COLORS, SIZES } from '../../constants/theme';
 import { showError, showSuccess } from '../../utils/helperFunction';
 import actions from '../../redux/actions';
-const extractName = name => {
-  const words = name.split(' ');
-  if (words.length >= 2) {
-    const lastWord = words[words.length - 1];
-    const secondLastWord = words[words.length - 2];
+const extractName=(name)=>{
+  if(name+""=="" || name+""=="null" || name+""=="undefined"){
+    return "";
+  }
+  const words=name.split(' ');
+  if(words.length>=2){
+    const lastWord=words[words.length-1];
+    const secondLastWord=words[words.length-2];
 
-    const result = secondLastWord + '+' + lastWord;
-    return result;
-  } else {
+    const result = secondLastWord+"+"+lastWord;
+    return result
+  }else{
     return name;
   }
-};
+}
 const UserInfo = ({ route, navigation }) => {
   const { t, i18n } = useTranslation();
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
@@ -44,7 +47,7 @@ const UserInfo = ({ route, navigation }) => {
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
-  const [image, setImage] = useState('http://acva.vn/quiz/' + userData.image46);
+  const [image, setImage] = useState('http://acva.vn/quiz/' + userData?.image46);
   const [loading, setLoading] = useState(true);
   const theme = Appearance.getColorScheme();
   const [isEdit,setIsEdit] = useState(false);
@@ -112,7 +115,7 @@ const UserInfo = ({ route, navigation }) => {
       },
     );
 
-    const keyboardDidHideListener = Keyboard.addListener(
+    const keyboardDidHideListener = Keyboard.addListener( 
       'keyboardDidHide',
       () => {
         setKeyboardIsOpen(false);
@@ -185,7 +188,7 @@ const UserInfo = ({ route, navigation }) => {
     }
     let data = {
       id: userData.id,
-      fullname: formData.full_name,
+      fullname: formData?.full_name,
       birthday: formData.birthday,
       gender: formData.gender,
       address: formData.address,
@@ -198,7 +201,7 @@ const UserInfo = ({ route, navigation }) => {
       token: token,
       user: {
         ...userData,
-        full_name: formData.full_name,
+        full_name: formData?.full_name,
         birthday: formData.birthday,
         email2: formData.email2,
         universities_id: formData.universities_id,
@@ -318,12 +321,12 @@ const UserInfo = ({ route, navigation }) => {
       });
   };
   let avatar = '';
-  if (userData.image46) {
+  if (userData?.image46) {
     avatar = (
       <Avatar.Image
         size={100}
         source={{
-          uri: 'http://acva.vn/quiz/' + userData.image46,
+          uri: 'http://acva.vn/quiz/' + userData?.image46,
         }}
         style={{ margin: 0 }}
       />
@@ -335,7 +338,7 @@ const UserInfo = ({ route, navigation }) => {
         source={{
           uri:
             'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
-            extractName(userData.full_name),
+            extractName(userData?.full_name),
         }}
         style={{ margin: 0 }}
       />
@@ -493,7 +496,7 @@ const UserInfo = ({ route, navigation }) => {
           <TextInput
           ref={fullnameRef}
             style={styles.inputStyle}
-            value={formData.full_name}
+            value={formData?.full_name}
             editable={isEdit}
             textColor={isEdit ? 'black' : '#98989D'}
             onChangeText={v => handleInputChange('full_name', v)}

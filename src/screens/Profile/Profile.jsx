@@ -21,6 +21,9 @@ import actions from '../../redux/actions';
 import styles from './Profile.style.js';
 import { changeUserData } from '../../redux/actions/auth';
 const extractName=(name)=>{
+  if(name+""=="" || name+""=="null" || name+""=="undefined"){
+    return "";
+  }
   const words=name.split(' ');
   if(words.length>=2){
     const lastWord=words[words.length-1];
@@ -126,11 +129,11 @@ const Profile = ({navigation}) => {
     }
   };
   let avatar=""
-  if(userData.user.image46){
+  if(userData.user?.image46){
     avatar=<Avatar.Image
     size={75}
     source={{
-      uri: 'http://acva.vn/quiz/'+userData.user.image46,
+      uri: 'http://acva.vn/quiz/'+userData.user?.image46,
     }}
     style={{margin: 0}}
   />
@@ -140,7 +143,7 @@ const Profile = ({navigation}) => {
     source={{
       uri:
         'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
-        extractName(userData.user.full_name),
+        extractName(userData.user?.full_name),
     }}
     style={{margin: 0}}
   />
@@ -214,7 +217,7 @@ const Profile = ({navigation}) => {
         <View style={styles.blockAvatar}>
           <Text style={styles.title}>{t('setting')}</Text>
           {avatar}
-          <Text style={styles.name}>{userData.user.full_name}</Text>
+          <Text style={styles.name}>{userData.user?.full_name}</Text>
           {/* <Button onPress={handleChangeName}>Change Name</Button> */}
         </View>
         {/* </ImageBackground> */}
