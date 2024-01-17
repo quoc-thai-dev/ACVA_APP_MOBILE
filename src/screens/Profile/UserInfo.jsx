@@ -321,7 +321,8 @@ const UserInfo = ({ route, navigation }) => {
       });
   };
   let avatar = '';
-  if (userData?.image46) {
+
+  if (userData?.image46 && userData?.image46+"" !== "null") {
     avatar = (
       <Avatar.Image
         size={100}
@@ -344,6 +345,7 @@ const UserInfo = ({ route, navigation }) => {
       />
     );
   }
+  console.log(avatar)
   // themeInput: {
   //   colors: {
   //     placeholder: COLORS.tertiary,
