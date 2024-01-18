@@ -19,7 +19,6 @@ import {images} from '../../constants';
 import {COLORS, SIZES} from '../../constants/index';
 import actions from '../../redux/actions';
 import styles from './Profile.style.js';
-import {OneSignal} from 'react-native-onesignal';
 import {changeUserData} from '../../redux/actions/auth';
 const extractName = name => {
   if (name + '' == '' || name + '' == 'null' || name + '' == 'undefined') {
@@ -106,7 +105,6 @@ const Profile = ({navigation}) => {
   const dispatch = useDispatch();
   const logout = () => {
     dispatch(actions.logout());
-    OneSignal.logout();
   };
 
   const SelectAction = index => {
