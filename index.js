@@ -9,7 +9,6 @@ import {LogLevel, OneSignal} from 'react-native-onesignal';
 
 // Remove this method to stop OneSignal Debugging
 OneSignal.Debug.setLogLevel(LogLevel.Verbose);
-
 // OneSignal Initialization
 OneSignal.initialize('43e8a7f1-aaa7-4fef-8eaa-8f39011fef01');
 

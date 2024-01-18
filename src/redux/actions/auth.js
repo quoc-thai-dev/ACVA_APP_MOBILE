@@ -46,8 +46,9 @@ export const login = data => {
         dispatch(loginSuccess(res.data));
         setUserData(res.data);
         OneSignal.initialize('43e8a7f1-aaa7-4fef-8eaa-8f39011fef01');
-        if(res.data.token){
+        if (res.data.token) {
           OneSignal.login(res.data.token);
+          console.log(OneSignal.User.pushSubscription.getPushSubscriptionId());
         }
       } else {
         const message = '';
@@ -95,9 +96,9 @@ export function logout() {
     type: types.CLEAR_REDUX_STATE,
   };
 }
-export const changeUserData=data=>{
-  return{
-    type:types.CHANGE_USER_DATA,
-    payload:data,
-  }
-}
+export const changeUserData = data => {
+  return {
+    type: types.CHANGE_USER_DATA,
+    payload: data,
+  };
+};

@@ -14,7 +14,6 @@ import com.onesignal.debug.LogLevel;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
-    private static final String ONESIGNAL_APP_ID = "76a1b2da-bc39-496b-914a-1f97dc52d7af";
   private final ReactNativeHost mReactNativeHost =
       new DefaultReactNativeHost(this) {
         @Override
@@ -55,27 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-      // Verbose Logging set to help debug issues, remove before releasing your app.
-      OneSignal.getDebug().setLogLevel(LogLevel.VERBOSE);
 
-      // OneSignal Initialization
-      OneSignal.initWithContext(this, ONESIGNAL_APP_ID);
-
-      // requestPermission will show the native Android notification permission prompt.
-      // NOTE: It's recommended to use a OneSignal In-App Message to prompt instead.
-      OneSignal.getNotifications().requestPermission(true, Continue.with(r -> {
-          if (r.isSuccess()) {
-              if (r.getData()) {
-                  // `requestPermission` completed successfully and the user has accepted permission
-              }
-              else {
-                  // `requestPermission` completed successfully but the user has rejected permission
-              }
-          }
-          else {
-              // `requestPermission` completed unsuccessfully, check `r.getThrowable()` for more info on the failure reason
-          }
-      }));
     SoLoader.init(this, /* native exopackage */ false);
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.

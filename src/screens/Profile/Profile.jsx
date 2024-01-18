@@ -19,22 +19,23 @@ import {images} from '../../constants';
 import {COLORS, SIZES} from '../../constants/index';
 import actions from '../../redux/actions';
 import styles from './Profile.style.js';
-import { changeUserData } from '../../redux/actions/auth';
-const extractName=(name)=>{
-  if(name+""=="" || name+""=="null" || name+""=="undefined"){
-    return "";
+import {OneSignal} from 'react-native-onesignal';
+import {changeUserData} from '../../redux/actions/auth';
+const extractName = name => {
+  if (name + '' == '' || name + '' == 'null' || name + '' == 'undefined') {
+    return '';
   }
-  const words=name.split(' ');
-  if(words.length>=2){
-    const lastWord=words[words.length-1];
-    const secondLastWord=words[words.length-2];
+  const words = name.split(' ');
+  if (words.length >= 2) {
+    const lastWord = words[words.length - 1];
+    const secondLastWord = words[words.length - 2];
 
-    const result = secondLastWord+"+"+lastWord;
-    return result
-  }else{
+    const result = secondLastWord + '+' + lastWord;
+    return result;
+  } else {
     return name;
   }
-}
+};
 const Profile = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -105,6 +106,7 @@ const Profile = ({navigation}) => {
   const dispatch = useDispatch();
   const logout = () => {
     dispatch(actions.logout());
+    OneSignal.logout();
   };
 
   const SelectAction = index => {
@@ -128,25 +130,29 @@ const Profile = ({navigation}) => {
         break;
     }
   };
-  let avatar=""
-  if(userData.user?.image46){
-    avatar=<Avatar.Image
-    size={75}
-    source={{
-      uri: 'http://acva.vn/quiz/'+userData.user?.image46,
-    }}
-    style={{margin: 0}}
-  />
-  }else{
-    avatar=<Avatar.Image
-    size={75}
-    source={{
-      uri:
-        'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
-        extractName(userData.user?.full_name),
-    }}
-    style={{margin: 0}}
-  />
+  let avatar = '';
+  if (userData.user?.image46) {
+    avatar = (
+      <Avatar.Image
+        size={75}
+        source={{
+          uri: 'http://acva.vn/quiz/' + userData.user?.image46,
+        }}
+        style={{margin: 0}}
+      />
+    );
+  } else {
+    avatar = (
+      <Avatar.Image
+        size={75}
+        source={{
+          uri:
+            'https://ui-avatars.com/api/?background=00d1b2&color=fff&name=' +
+            extractName(userData.user?.full_name),
+        }}
+        style={{margin: 0}}
+      />
+    );
   }
   return (
     <>
@@ -234,7 +240,7 @@ const Profile = ({navigation}) => {
                 backgroundColor: 'white',
                 borderRadius: 16,
                 marginBottom: 10,
-                height:50,
+                height: 50,
                 // Add shadow based on the platform
                 ...Platform.select({
                   ios: {
@@ -299,7 +305,7 @@ const Profile = ({navigation}) => {
                     )}
                   </View>
                 ) : (
-                  <List.Icon {...props} color="black"icon={item[2]} />
+                  <List.Icon {...props} color="black" icon={item[2]} />
                 )
               }
             />
