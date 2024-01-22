@@ -22,7 +22,7 @@ import {COLORS, images} from '../../constants';
 import SocialIcon from '../../Components/SocialIcon/SocialIcon';
 import icons from '../../constants/icons';
 
-import {Modal} from 'react-native-paper';
+import {Button, Modal} from 'react-native-paper';
 
 // Import vector icons
 import Feather from 'react-native-vector-icons/Feather';
@@ -34,6 +34,7 @@ import authApi from '../../api/authApi';
 import {changeStatusActived} from '../../redux/actions/auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useTranslation} from 'react-i18next';
+import  ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
 
 const Login = ({navigation}) => {
   const [t, i18n] = useTranslation();
@@ -48,8 +49,10 @@ const Login = ({navigation}) => {
     email: '',
     password: '',
     titleModal: '',
-  });
 
+  });
+  const rnBiometrics = new ReactNativeBiometrics()
+  const [imageBiometrics,setImageBiometrics]= useState();
   const {
     //info
     email,
@@ -123,7 +126,9 @@ const Login = ({navigation}) => {
       {cancelable: true},
     );
   };
-
+  useEffect(()=>{
+    checkBiometrics()
+  },[])
   useEffect(() => {
     if (isAlertActived) onActiveAlert(t('message_active'));
   }, [isAlertActived]);
@@ -243,6 +248,32 @@ const Login = ({navigation}) => {
     //scrollRef.current.memoizedProps.scrollToFocusedInput(reactNode)
   };
 
+  const checkBiometrics= async()=>{
+    rnBiometrics.isSensorAvailable()
+    .then((resultObject) => {
+      const { available, biometryType } = resultObject
+      if (available && biometryType === BiometryTypes.TouchID) {
+        console.log('TouchID is supported')
+        setImageBiometrics(<Image
+        source={require('../../assets/touch_id.png')}
+        style={{width: 48, height: 48}}
+      />)
+      } else if (available && biometryType === BiometryTypes.FaceID) {
+
+        console.log('FaceID is supported')
+        setImageBiometrics(<Image
+        source={require('../../assets/face_id.png')}
+        style={{width: 56, height: 56}}
+      />);
+
+      } else if (available && biometryType === BiometryTypes.Biometrics) {
+        console.log('Biometrics is supported')
+      } else {
+        console.log('Biometrics not supported')
+        setImageBiometrics(null);
+      }
+    })
+  }
   return (
     <>
       <View style={styles.container}>
@@ -304,12 +335,29 @@ const Login = ({navigation}) => {
                 {t('forgot_password')}!
               </Text>
             </View>
-            <ButtonWithLoader
-              text={t('login')}
-              onPress={onLogin}
-              isLoading={isLoading}
-              style={{marginTop: 10}}
-            />
+            <View></View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex: 9}}>
+                <ButtonWithLoader
+                  text={t('login')}
+                  onPress={onLogin}
+                  isLoading={isLoading}
+                  style={{marginTop: 12}}
+                />
+              </View>
+              {
+                imageBiometrics?
+                <View>
+                <Button onPress={() => alert(1)}>
+                  <View
+                    style={{alignItems: 'center', justifyContent: 'center'}}>
+                      {imageBiometrics}
+                  </View>
+                </Button>
+              </View>:null
+              }
+              
+            </View>
           </View>
 
           <View style={styles.footerLogin}>
@@ -326,7 +374,6 @@ const Login = ({navigation}) => {
             <SocialIcon source={icons.social_fb}/>
             <SocialIcon source={icons.social_apple}/>
         </View> */}
-
             <View style={styles.footerRegister}>
               <Text onPress={onRegister}>
                 {t('not_have_account')}{' '}

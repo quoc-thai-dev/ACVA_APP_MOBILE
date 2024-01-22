@@ -7,11 +7,14 @@ import {
   Image,
 } from 'react-native';
 import styles from './Notification.style';
-import notificationApi from '../../api/notificationApi';
 import AppLoader from '../../Components/AppLoader';
 import {useTranslation} from 'react-i18next';
+import { useSelector } from 'react-redux';
+import notificationApi from '../../api/notificationApi';
 const Notification = () => {
   const {t, i18n} = useTranslation();
+  const token = useSelector(state => state.auth.userData.token);
+  console.log(token)
   const [notifications, setNotification] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -31,9 +34,10 @@ const Notification = () => {
     await notificationApi
       .getAll()
       .then(res => {
-        if (res.status == 200) {
+        console.log(res);
+        // if (res.status == 200) {
           setNotification(res);
-        }
+        // }
       })
       .catch(e => {
         console.log(e);
@@ -42,13 +46,17 @@ const Notification = () => {
         setLoading(false);
       });
   };
+  const renderLimitedMessage = (message,limit) => {
+    if (message.length > limit) {
+      return message.slice(0, limit) + '...';
+    }
+    return message;
+  };
   return (
     <>
-        <View style={styles.container}>
           {notifications.length != 0 ? (
             <FlatList
               data={notifications}
-              style={{paddingHorizontal: 20}}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
@@ -61,7 +69,7 @@ const Notification = () => {
                   />
                   <View style={styles.textBlock}>
                     <Text style={styles.textTitle}>{item.title}</Text>
-                    <Text style={styles.textSubTitle}>{item.contents}</Text>
+                    <Text style={styles.textSubTitle}>{renderLimitedMessage(item.contents,28)}</Text>
                     <Text style={styles.textDate}>{item.date}</Text>
                   </View>
                 </View>
@@ -78,7 +86,6 @@ const Notification = () => {
                 <Text style={{color: '#A1a1a1'}}>{t('empty_notification')}</Text>
               </View>
           )}
-        </View>
       {loading ? <AppLoader /> : ''}
     </>
   );

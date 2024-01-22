@@ -39,8 +39,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Máy ảnh của bạn được dùng để quét mã QR điểm danh tại lớp học.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Kích hoạt Face ID cho phép bạn đăng nhập nhanh vào ứng dụng ACVA</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your message to user when the microphone is accessed for the first time</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

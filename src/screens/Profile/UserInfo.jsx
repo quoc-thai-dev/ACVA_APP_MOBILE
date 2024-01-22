@@ -24,6 +24,7 @@ import { SHADOWS } from '../../constants';
 import { COLORS, SIZES } from '../../constants/theme';
 import { showError, showSuccess } from '../../utils/helperFunction';
 import actions from '../../redux/actions';
+
 const extractName=(name)=>{
   if(name+""=="" || name+""=="null" || name+""=="undefined"){
     return "";
@@ -44,6 +45,7 @@ const UserInfo = ({ route, navigation }) => {
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
   const refPhone = createRef();
   const userData = useSelector(state => state.auth.userData.user);
+  console.log(userData);
   const token = useSelector(state => state.auth.userData.token);
   const [formData, setFormData] = useState(userData);
   const [uni, setUni] = useState([]);
@@ -121,7 +123,7 @@ const UserInfo = ({ route, navigation }) => {
         setKeyboardIsOpen(false);
       },
     );
-
+    updateHeaderButton();
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -196,7 +198,6 @@ const UserInfo = ({ route, navigation }) => {
       uni_id: formData.universities_id,
       email2: formData.email2,
     };
-    console.log(image);
     let clone = {
       token: token,
       user: {
