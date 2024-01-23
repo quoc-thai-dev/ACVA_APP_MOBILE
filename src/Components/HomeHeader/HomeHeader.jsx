@@ -42,6 +42,7 @@ const HomeHeader = ({navigation}) => {
   const [t, i18n] = useTranslation();
   // const {userData} = useSelector(authSelector);
   const userData = useSelector(state => state.auth.userData);
+  console.log("User: ",userData)
   const [state, setState] = useState({
     userBirthday: userData.user?.birthday,
     userEmail: userData.user?.email,
@@ -51,16 +52,17 @@ const HomeHeader = ({navigation}) => {
   const {userBirthday, userEmail, userFullName, userImage} = state;
   const updateState = data => setState({...state, ...data});
 
-  // useEffect(() => {
-  //   if (userData.user) {
-  //     updateState({
-  //       userBirthday: birthday ? birthday : '',
-  //       userEmail: email ? email : '',
-  //       userFullName: full_name ? full_name : '',
-  //       userImage: image46,
-  //     });
-  //   }
-  // }, [userData]);
+  useEffect(() => {
+    
+    if (userData.user) {
+      updateState({
+        userBirthday: userData.user?.birthday,
+        userEmail: userData.user?.email,
+        userFullName: userData.user?.full_name,
+        userImage: userData.user?.image46,
+      });
+    }
+  }, [userData]);
 
   // const urlImage = avatarUrl;
   const fomatDate = dates => {

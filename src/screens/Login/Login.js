@@ -18,10 +18,7 @@ import validator from '../../utils/validations';
 import {showError} from '../../utils/helperFunction';
 import actions from '../../redux/actions';
 import HeaderAuth from '../../Components/HearderAuth/HeaderAuth';
-import {COLORS, images} from '../../constants';
-import SocialIcon from '../../Components/SocialIcon/SocialIcon';
-import icons from '../../constants/icons';
-
+import {images} from '../../constants';
 import {Button, Modal} from 'react-native-paper';
 
 // Import vector icons
@@ -35,7 +32,7 @@ import {changeStatusActived} from '../../redux/actions/auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useTranslation} from 'react-i18next';
 import  ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
 const Login = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [state, setState] = useState({
@@ -51,6 +48,7 @@ const Login = ({navigation}) => {
     titleModal: '',
 
   });
+  const userData = useSelector(state => state.auth.userData.user);
   const rnBiometrics = new ReactNativeBiometrics()
   const [imageBiometrics,setImageBiometrics]= useState();
   const {
@@ -253,14 +251,14 @@ const Login = ({navigation}) => {
     .then((resultObject) => {
       const { available, biometryType } = resultObject
       if (available && biometryType === BiometryTypes.TouchID) {
-        console.log('TouchID is supported')
+        console.log('TouchID is supported', biometryType)
         setImageBiometrics(<Image
         source={require('../../assets/touch_id.png')}
         style={{width: 48, height: 48}}
       />)
       } else if (available && biometryType === BiometryTypes.FaceID) {
 
-        console.log('FaceID is supported')
+        console.log('FaceID is supported', biometryType)
         setImageBiometrics(<Image
         source={require('../../assets/face_id.png')}
         style={{width: 56, height: 56}}
@@ -274,6 +272,29 @@ const Login = ({navigation}) => {
       }
     })
   }
+  const handleOpenDetect = async () => {
+    try{
+      // rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'});
+      const {success, error} = await rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'});
+      if (success) {
+        console.log('Biometric authentication successful');
+        dispatch(
+          actions.login({
+            email:'069@amnote.com.vn',
+            password:'quocthai123',
+          }),
+        );
+        // Handle successful authentication
+      } else {
+        console.error('Biometric authentication failed:', error);
+        // Handle authentication failure
+      }
+    }catch(error){
+      console.log(error)
+    }
+
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -348,7 +369,7 @@ const Login = ({navigation}) => {
               {
                 imageBiometrics?
                 <View>
-                <Button onPress={() => alert(1)}>
+                <Button onPress={handleOpenDetect}>
                   <View
                     style={{alignItems: 'center', justifyContent: 'center'}}>
                       {imageBiometrics}

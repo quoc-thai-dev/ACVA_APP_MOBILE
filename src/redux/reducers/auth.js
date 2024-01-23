@@ -1,5 +1,5 @@
 import types from "../types";
-
+import {REHYDRATE} from 'redux-persist';
 const initial_state = {
     isLoading: false,
     isLogin: false,
@@ -11,7 +11,14 @@ const initial_state = {
 
 export default function(state = initial_state,action){
     switch (action.type) {
-
+        case REHYDRATE:
+            console.log('REHYDRATE payload:', action.payload?.auth?.userData);
+            let userData = action.payload?.auth?.userData== undefined ? [] : action.payload?.auth?.userData;
+            return { 
+                ...state,
+                 userData: userData,
+                 isLogin: userData.length == 0 ? false : true,
+            };
         case types.LOGIN_START: 
             return {
                 ...state,

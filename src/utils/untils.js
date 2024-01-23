@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import store from '../redux/store';
+import {store} from '../redux/store';
 import types from '../redux/types';
 
 const { dispatch, getState } = store;

@@ -1,2 +1,3 @@
 NSCameraUsageDescription="Your camera is used to scan the attendance QR code in class.";
 NSUserNotificationsUsageDescription="We use this to send you course announcements";
+NSFaceIDUsageDescription="Enabling Face ID allows you to quickly log in to the ACVA app";

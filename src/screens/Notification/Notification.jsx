@@ -14,7 +14,6 @@ import notificationApi from '../../api/notificationApi';
 const Notification = () => {
   const {t, i18n} = useTranslation();
   const token = useSelector(state => state.auth.userData.token);
-  console.log(token)
   const [notifications, setNotification] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
