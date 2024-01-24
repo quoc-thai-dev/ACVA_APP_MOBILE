@@ -4,6 +4,7 @@ import authApi from '../../api/authApi';
 import {clearUserData, setUserData} from '../../utils/untils';
 import {Alert} from 'react-native';
 import {OneSignal} from 'react-native-onesignal';
+import * as Keychain from 'react-native-keychain';
 export function register(data) {
   return async (dispatch, getState) => {
     dispatch(registerStart());
@@ -45,6 +46,9 @@ export const login = data => {
       if (res && res.data.user.active == 1) {
         dispatch(loginSuccess(res.data));
         setUserData(res.data);
+        console.log(data.email);
+        await Keychain.setGenericPassword(data.email,data.password);
+        console.log('Credentials saved successfully');
         OneSignal.initialize('43e8a7f1-aaa7-4fef-8eaa-8f39011fef01');
         if (res.data.token) {
           OneSignal.login(res.data.token);

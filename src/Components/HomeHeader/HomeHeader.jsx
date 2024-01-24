@@ -42,7 +42,6 @@ const HomeHeader = ({navigation}) => {
   const [t, i18n] = useTranslation();
   // const {userData} = useSelector(authSelector);
   const userData = useSelector(state => state.auth.userData);
-  console.log("User: ",userData)
   const [state, setState] = useState({
     userBirthday: userData.user?.birthday,
     userEmail: userData.user?.email,

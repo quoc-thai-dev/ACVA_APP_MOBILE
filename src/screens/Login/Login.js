@@ -33,6 +33,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useTranslation} from 'react-i18next';
 import  ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as Keychain from 'react-native-keychain';
 const Login = ({navigation}) => {
   const [t, i18n] = useTranslation();
   const [state, setState] = useState({
@@ -51,6 +52,7 @@ const Login = ({navigation}) => {
   const userData = useSelector(state => state.auth.userData.user);
   const rnBiometrics = new ReactNativeBiometrics()
   const [imageBiometrics,setImageBiometrics]= useState();
+  const [biometryType, setBiometryType] = useState(null);
   const {
     //info
     email,
@@ -127,6 +129,7 @@ const Login = ({navigation}) => {
   useEffect(()=>{
     checkBiometrics()
   },[])
+
   useEffect(() => {
     if (isAlertActived) onActiveAlert(t('message_active'));
   }, [isAlertActived]);
@@ -249,19 +252,19 @@ const Login = ({navigation}) => {
   const checkBiometrics= async()=>{
     rnBiometrics.isSensorAvailable()
     .then((resultObject) => {
-      const { available, biometryType } = resultObject
+      const { available, biometryType } = resultObject;
       if (available && biometryType === BiometryTypes.TouchID) {
         console.log('TouchID is supported', biometryType)
         setImageBiometrics(<Image
         source={require('../../assets/touch_id.png')}
-        style={{width: 48, height: 48}}
+        style={{width: 48, height: 48,marginTop:12,marginHorizontal:12}}
       />)
       } else if (available && biometryType === BiometryTypes.FaceID) {
 
         console.log('FaceID is supported', biometryType)
         setImageBiometrics(<Image
         source={require('../../assets/face_id.png')}
-        style={{width: 56, height: 56}}
+        style={{width: 56, height: 56,marginTop:8,marginHorizontal:12}}
       />);
 
       } else if (available && biometryType === BiometryTypes.Biometrics) {
@@ -270,24 +273,24 @@ const Login = ({navigation}) => {
         console.log('Biometrics not supported')
         setImageBiometrics(null);
       }
+      setBiometryType(biometryType)
     })
   }
   const handleOpenDetect = async () => {
     try{
       // rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'});
-      const {success, error} = await rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'});
+      const {success, error} = await rnBiometrics.simplePrompt({promptMessage:  `Please confirm your ${biometryType==BiometryTypes.FaceID?"Face ID":"finger print"} to authenticate`});
       if (success) {
         console.log('Biometric authentication successful');
-        dispatch(
-          actions.login({
-            email:'069@amnote.com.vn',
-            password:'quocthai123',
-          }),
-        );
-        // Handle successful authentication
+
+        const credentials = await Keychain.getGenericPassword();
+        if(credentials){
+          const {username, password} = credentials;
+          console.log(username,password);
+          dispatch(actions.login({email:username,password}))
+        }
       } else {
         console.error('Biometric authentication failed:', error);
-        // Handle authentication failure
       }
     }catch(error){
       console.log(error)
@@ -369,12 +372,12 @@ const Login = ({navigation}) => {
               {
                 imageBiometrics?
                 <View>
-                <Button onPress={handleOpenDetect}>
+                <TouchableOpacity onPress={handleOpenDetect}>
                   <View
                     style={{alignItems: 'center', justifyContent: 'center'}}>
                       {imageBiometrics}
                   </View>
-                </Button>
+                </TouchableOpacity>
               </View>:null
               }
               
