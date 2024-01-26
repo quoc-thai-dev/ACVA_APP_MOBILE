@@ -65,7 +65,7 @@ const HomeHeader = ({navigation}) => {
 
   // const urlImage = avatarUrl;
   const fomatDate = dates => {
-    if(dates==""){
+    if(dates=="" || dates+"" =="null"){
       return t('waiting_update')
     }
     const dateFormat = new Date(dates);

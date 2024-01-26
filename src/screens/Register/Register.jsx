@@ -157,6 +157,7 @@ const Register = ({navigation}) => {
 
   //const format date
   const formatDate = date => {
+    if(!date) return null;
     const dateFormat = new Date(date);
     const newDate = `${dateFormat.getFullYear()}-${String(
       dateFormat.getMonth() + 1,
