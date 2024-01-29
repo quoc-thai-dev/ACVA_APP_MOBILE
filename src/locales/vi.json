@@ -130,6 +130,8 @@
         "waiting_update":"Đang chờ cập nhật",
         "remove_account_success":"Gỡ bỏ tài khoản thành công!",
         "processing":"Đang xử lý",
-        "edit":"Chỉnh sửa"
+        "edit":"Chỉnh sửa",
+        "faceid_auth":"Vui lòng xác nhận khuôn mặt của bạn để đăng nhập",
+        "finger_auth":"Vui lòng xác nhận vân tay của bạn để đăng nhập"
     }
 }

@@ -133,7 +133,8 @@
         "waiting_update":"Waiting for update",
         "remove_account_success":"Account removed successfully",
         "processing":"Processing",
-        "edit":"Edit"
-
+        "edit":"Edit",
+        "faceid_auth":"Please confirm your Face ID to log in",
+        "finger_auth":"Please confirm your Fingerprint to log in"
     }
 }

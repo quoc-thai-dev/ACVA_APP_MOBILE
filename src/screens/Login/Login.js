@@ -279,7 +279,7 @@ const Login = ({navigation}) => {
   const handleOpenDetect = async () => {
     try{
       // rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'});
-      const {success, error} = await rnBiometrics.simplePrompt({promptMessage:  `Please confirm your ${biometryType==BiometryTypes.FaceID?"Face ID":"finger print"} to authenticate`});
+      const {success, error} = await rnBiometrics.simplePrompt({promptMessage:`${biometryType==BiometryTypes.FaceID?t('faceid_auth'):t('finger_auth')}`});
       if (success) {
         console.log('Biometric authentication successful');
 

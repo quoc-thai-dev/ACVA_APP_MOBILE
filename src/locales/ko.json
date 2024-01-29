@@ -133,6 +133,8 @@
         "waiting_update":"업데이트를 기다리는 중!",
         "remove_account_success":"계정이 성공적으로 삭제되었습니다",
         "processing":"처리",
-        "edit":"편집하다"
+        "edit":"편집하다",
+        "faceid_auth":"로그인하려면 Face ID를 확인하세요.",
+        "finger_auth":"로그인하려면 지문을 확인하세요."
     }
 }
